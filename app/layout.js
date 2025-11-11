@@ -1,6 +1,11 @@
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import { AuthProvider } from '@/contexts/AuthContext';
+import './globals.css';
+import { Poppins } from 'next/font/google';
+
+// Import Inter font
+const poppins = Poppins({ subsets: ['latin'], weight: ['300', '400', '500', '600'], });
 
 export const metadata = {
   title: 'MediCare Clinic - Your Health Partner',
@@ -10,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body className={poppins.className}>
         <AuthProvider>
           <Navbar />
           <main className="min-h-screen">{children}</main>
