@@ -101,7 +101,7 @@ export default function BookingForm() {
             value={formData.serviceType}
             onChange={handleChange}
             required
-            className="w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300"
+            className="w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-gray-700 duration-300"
           >
             <option value="">Select a service</option>
             {serviceOptions.map(option => (
@@ -126,7 +126,7 @@ export default function BookingForm() {
               onChange={handleChange}
               min={today}
               required
-              className="w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300"
+              className="w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700 transition duration-300"
             />
           </div>
 
@@ -140,7 +140,7 @@ export default function BookingForm() {
               value={formData.preferredTime}
               onChange={handleChange}
               required
-              className="w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300"
+              className="w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700 transition duration-300"
             >
               <option value="">Select a time</option>
               {timeSlots.map(time => (
@@ -163,13 +163,13 @@ export default function BookingForm() {
             rows="4"
             value={formData.message}
             onChange={handleChange}
-            className="w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300"
+            className="w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 focus:border-blue-500 transition duration-300"
             placeholder="Any specific concerns or notes for the doctor..."
           />
         </div>
 
         {/* Patient Information Summary */}
-        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+        <div className="bg-blue-50 p-4 rounded-lg border  border-blue-200">
           <h3 className="font-medium text-blue-900 mb-2">Patient Information</h3>
           <p className="text-sm text-blue-700">
             <strong>Name:</strong> {user?.firstName} {user?.lastName}
