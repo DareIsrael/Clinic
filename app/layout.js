@@ -8,7 +8,7 @@ import { Poppins } from 'next/font/google';
 const poppins = Poppins({ subsets: ['latin'], weight: ['300', '400', '500', '600'], });
 
 export const metadata = {
-  title: 'MediCare Clinic - Your Health Partner',
+  title: 'St Mary Rideau - Your Health Partner',
   description: 'Book appointments with healthcare professionals easily',
 };
 
