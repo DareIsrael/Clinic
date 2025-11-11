@@ -57,7 +57,7 @@ export async function GET(request) {
     const page = parseInt(searchParams.get('page')) || 1;
 
     const users = await User.find({ role: 'patient' })
-      .select('firstName lastName email createdAt')
+      .select('firstName lastName email cellPhone  createdAt')
       .sort({ createdAt: -1 })
       .limit(limit)
       .skip((page - 1) * limit);

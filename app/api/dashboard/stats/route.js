@@ -15,26 +15,26 @@ export async function GET(req) {
       const completedAppointments = await Appointment.countDocuments({ status: 'completed' });
 
       // Calculate revenue (simplified)
-      const revenueData = await Appointment.aggregate([
-        { $match: { status: 'completed' } },
-        {
-          $group: {
-            _id: null,
-            totalRevenue: { $sum: { $cond: [
-              { $eq: ['$serviceType', 'Dental Care'] }, 150,
-              { $cond: [
-                { $eq: ['$serviceType', 'Eye Care'] }, 200,
-                { $cond: [
-                  { $eq: ['$serviceType', 'General Checkup'] }, 100,
-                  80
-                ]}
-              ]}
-            ]}}
-          }
-        }
-      ]);
+      // const revenueData = await Appointment.aggregate([
+      //   { $match: { status: 'completed' } },
+      //   {
+      //     $group: {
+      //       _id: null,
+      //       totalRevenue: { $sum: { $cond: [
+      //         { $eq: ['$serviceType', 'Dental Care'] }, 150,
+      //         { $cond: [
+      //           { $eq: ['$serviceType', 'Eye Care'] }, 200,
+      //           { $cond: [
+      //             { $eq: ['$serviceType', 'General Checkup'] }, 100,
+      //             80
+      //           ]}
+      //         ]}
+      //       ]}}
+      //     }
+      //   }
+      // ]);
 
-      const revenue = revenueData[0]?.totalRevenue || 0;
+      // const revenue = revenueData[0]?.totalRevenue || 0;
 
       return NextResponse.json({
         success: true,
@@ -42,8 +42,8 @@ export async function GET(req) {
           totalAppointments,
           totalUsers,
           pendingAppointments,
-          completedAppointments,
-          revenue
+          completedAppointments
+          // revenue
         }
       });
     } else {

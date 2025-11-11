@@ -74,7 +74,7 @@ export default function ContactPage() {
         </svg>
       ),
       title: 'Opening Hours',
-      details: ['Monday - Friday: 8:00 AM - 6:00 PM', 'Saturday: 9:00 AM - 2:00 PM', 'Sunday: Closed'],
+      details: ['Monday - Friday: 9:00 AM - 5:00 PM', 'Saturday: 9:00 AM - 2:00 PM', 'Sunday: Closed'],
       description: 'Extended hours by appointment'
     }
   ];
@@ -246,7 +246,7 @@ export default function ContactPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                     </svg>
                     <p className="font-medium">Interactive Map</p>
-                    <p className="text-sm mt-1">123 Rideau Street, Ottawa, ON</p>
+                    <p className="text-sm mt-1">158 Rideau Street Ottawa, K1N5X6</p>
                   </div>
                 </div>
                 <div className="mt-4 text-center">
@@ -276,7 +276,7 @@ export default function ContactPage() {
               <div className="bg-blue-50 rounded-2xl p-6">
                 <h3 className="text-lg font-semibold text-gray-800 mb-3">Quick Contact</h3>
                 <div className="space-y-2 text-sm text-gray-600">
-                  <p>📞 <span className="font-medium">Appointments:</span> (613) 555-0124</p>
+                  <p>📞 <span className="font-medium">Appointments:</span> (613) 301-8805</p>
                   <p>📠 <span className="font-medium">Fax:</span> (613) 301-8805</p>
                   <p>📧 <span className="font-medium">Email:</span> appointments@stmaryrideau.ca</p>
                 </div>

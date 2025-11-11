@@ -508,6 +508,7 @@ export default function AdminDashboard() {
         dashboardService.getUsers({ limit: 10 })
       ]);
       
+      console.log('Users Response:', usersResponse); 
       // Fix: Your backend returns { success: true, stats: { ... } } for stats
       setStats(statsResponse.stats || {});
       
@@ -515,7 +516,7 @@ export default function AdminDashboard() {
       setRecentAppointments(appointmentsResponse.appointments || []);
       
       // Fix: Your backend returns { success: true, data: [...] } for users
-      setUsers(usersResponse.data || []);
+      setUsers(usersResponse.users || []);
     } catch (error) {
       console.error('Error fetching admin data:', error);
       setError(error.response?.data?.message || 'Failed to load dashboard data');
@@ -695,7 +696,7 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
-                <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+                {/* <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
                   <div className="flex items-center">
                     <div className="p-2 bg-purple-100 rounded-lg">
                       <span className="text-purple-600 text-xl">💰</span>
@@ -705,7 +706,7 @@ export default function AdminDashboard() {
                       <p className="text-2xl font-bold text-gray-900">${calculatedStats.revenue || 0}</p>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -734,7 +735,7 @@ export default function AdminDashboard() {
                             <select
                               value={appointment.status}
                               onChange={(e) => updateAppointmentStatus(appointment._id, e.target.value)}
-                              className="text-xs border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                              className="text-xs border border-gray-300 text-gray-500 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500"
                             >
                               <option value="pending">Pending</option>
                               <option value="confirmed">Confirmed</option>
@@ -778,14 +779,14 @@ export default function AdminDashboard() {
                           ).length}
                         </span>
                       </div>
-                      <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                      {/* <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                         <span className="text-sm text-gray-600">Avg. Revenue/Visit</span>
                         <span className="font-semibold text-purple-600">
                           ${calculatedStats.completedAppointments ? 
                             Math.round(calculatedStats.revenue / calculatedStats.completedAppointments) : 0
                           }
                         </span>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
