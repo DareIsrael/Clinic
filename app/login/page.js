@@ -226,7 +226,7 @@ export default function LoginPage() {
                   </Link>
                 </div>
 
-                <div className="mt-6 bg-sky-50 rounded-lg p-4 border border-sky-200 text-sm">
+                {/* <div className="mt-6 bg-sky-50 rounded-lg p-4 border border-sky-200 text-sm">
                   <div className="text-center mb-3">
                     <h3 className="font-semibold text-sky-800">Demo Access</h3>
                     <p className="text-sky-600">Use these credentials to test</p>
@@ -235,7 +235,7 @@ export default function LoginPage() {
                     <p>Email: demo@gmail.com</p>
                     <p>Password: demo1234</p>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

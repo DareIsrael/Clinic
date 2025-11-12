@@ -227,10 +227,10 @@ export default function AdminDashboard() {
                     <div className="p-2 bg-purple-100 rounded-lg">
                       <span className="text-purple-600 text-xl">💰</span>
                     </div>
-                    <div className="ml-4">
+                    {/* <div className="ml-4">
                       <p className="text-sm font-medium text-gray-600">Revenue</p>
                       <p className="text-2xl font-bold text-gray-900">${calculatedStats.revenue || 0}</p>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
