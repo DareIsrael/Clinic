@@ -1,4 +1,5 @@
-import api from '@/utils/axiosConfig';
+// services/dashboardService.js
+import api from '@/utils/axiosConfig'; // Make sure this path is correct
 
 export const dashboardService = {
   // Get dashboard stats (works for both admin and regular users)
@@ -24,6 +25,12 @@ export const dashboardService = {
   // Get all users (admin only)
   getUsers: async (params = {}) => {
     const response = await api.get('/admin/users', { params });
+    return response.data;
+  },
+
+  // Get all appointments with pagination
+  getAllAppointments: async (params = {}) => {
+    const response = await api.get('/dashboard/appointments', { params });
     return response.data;
   }
 };

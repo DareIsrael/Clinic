@@ -33,9 +33,9 @@
 
 import './globals.css';
 import Navbar from '@/components/Navbar';
-import { AuthProvider } from '@/contexts/AuthContext';
+// import { AuthProvider } from '@/contexts/AuthContext';
 import { Poppins } from 'next/font/google';
-
+import SessionProvider from '@/components/SessionProvider';
 // Import Poppins font
 const poppins = Poppins({
   subsets: ['latin'],
@@ -56,7 +56,7 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/logo1.png" />
       </head>
       <body className={poppins.className}>
-        <AuthProvider>
+        <SessionProvider>
           <Navbar />
           <main className="min-h-screen">{children}</main>
           <footer className="bg-gray-800 text-white py-8">
@@ -64,7 +64,7 @@ export default function RootLayout({ children }) {
               <p>&copy; 2025 St Mary Rideau. All rights reserved.</p>
             </div>
           </footer>
-        </AuthProvider>
+        </SessionProvider>
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 import { appointmentService } from '@/services/appointmentService';
 
 export default function BookingForm() {
@@ -169,7 +169,7 @@ export default function BookingForm() {
         </div>
 
         {/* Patient Information Summary */}
-        <div className="bg-sky-50 p-4 rounded-lg border  border-sky-200">
+        <div className="bg-sky-50 p-4 rounded-lg border border-sky-200">
           <h3 className="font-medium text-sky-900 mb-2">Patient Information</h3>
           <p className="text-sm text-sky-700">
             <strong>Name:</strong> {user?.firstName} {user?.lastName}

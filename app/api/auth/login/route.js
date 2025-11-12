@@ -13,11 +13,11 @@ import { signToken } from '@/utils/auth';
 
 export async function POST(request) {
   try {
-    console.log('🔐 Login API route called');
+    // console.log('🔐 Login API route called');
     await dbConnect();
     
     const { email, password } = await request.json();
-    console.log('📧 Login attempt for:', email);
+    // console.log('📧 Login attempt for:', email);
 
     // Validation
     if (!email || !password) {

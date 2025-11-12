@@ -14,7 +14,7 @@ import { signToken } from '@/utils/auth';
 
 export async function POST(request) {
   try {
-    console.log('📝 Register API route called');
+    // console.log('📝 Register API route called');
     await dbConnect();
     
     const body = await request.json();

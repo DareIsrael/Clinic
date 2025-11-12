@@ -1,92 +1,48 @@
-// import { protectRoute, requireAdmin } from '@/utils/auth';
-// import Appointment from '@/models/Appointment';
-// import User from '@/models/User';
-
-// export async function GET(req) {
-//   try {
-//     const user = await protectRoute(req);
-//     const url = new URL(req.url);
-//     const limit = parseInt(url.searchParams.get('limit')) || 10;
-//     const page = parseInt(url.searchParams.get('page')) || 1;
-
-//     let appointments;
-//     let total;
-
-//     if (user.role === 'admin') {
-//       // Admin gets all appointments
-//       appointments = await Appointment.find()
-//         .populate('user', 'firstName lastName email')
-//         .sort({ preferredDate: -1 })
-//         .limit(limit)
-//         .skip((page - 1) * limit);
-
-//       total = await Appointment.countDocuments();
-//     } else {
-//       // Patient gets only their appointments
-//       appointments = await Appointment.find({ user: user._id })
-//         .populate('user', 'firstName lastName email')
-//         .sort({ preferredDate: -1 })
-//         .limit(limit)
-//         .skip((page - 1) * limit);
-
-//       total = await Appointment.countDocuments({ user: user._id });
-//     }
-
-//     return Response.json({
-//       success: true,
-//       appointments,
-//       pagination: {
-//         page,
-//         limit,
-//         total,
-//         pages: Math.ceil(total / limit)
-//       }
-//     });
-
-//   } catch (error) {
-//     console.error('Dashboard appointments error:', error);
-//     return Response.json(
-//       { success: false, message: 'Failed to fetch appointments' },
-//       { status: 500 }
-//     );
-//   }
-// }
-
-
-
-import { protectRoute } from '@/utils/auth';
+// /app/api/dashboard/appointments/route.js
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import dbConnect from '@/utils/db';
 import Appointment from '@/models/Appointment';
-import User from '@/models/User';
 import { NextResponse } from 'next/server';
 
-export async function GET(request) {
+export async function GET(req) {
   try {
-    const user = await protectRoute(request);
-    const { searchParams } = new URL(request.url);
+    const session = await getServerSession(authOptions);
+    
+    if (!session) {
+      return NextResponse.json(
+        { success: false, message: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    await dbConnect();
+
+    const { searchParams } = new URL(req.url);
     const limit = parseInt(searchParams.get('limit')) || 10;
     const page = parseInt(searchParams.get('page')) || 1;
 
     let appointments;
     let total;
 
-    if (user.role === 'admin') {
+    if (session.user.role === 'admin') {
       // Admin gets all appointments
       appointments = await Appointment.find()
         .populate('user', 'firstName lastName email')
-        .sort({ preferredDate: -1 })
+        .sort({ createdAt: -1 })
         .limit(limit)
         .skip((page - 1) * limit);
 
       total = await Appointment.countDocuments();
     } else {
       // Patient gets only their appointments
-      appointments = await Appointment.find({ user: user._id })
+      appointments = await Appointment.find({ user: session.user.id })
         .populate('user', 'firstName lastName email')
-        .sort({ preferredDate: -1 })
+        .sort({ createdAt: -1 })
         .limit(limit)
         .skip((page - 1) * limit);
 
-      total = await Appointment.countDocuments({ user: user._id });
+      total = await Appointment.countDocuments({ user: session.user.id });
     }
 
     return NextResponse.json({
