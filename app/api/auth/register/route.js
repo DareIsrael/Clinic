@@ -1,211 +1,182 @@
-// // import { register } from '@/controllers/authController';
+import { NextResponse } from 'next/server';
+import bcrypt from 'bcryptjs';
+import dbConnect from '@/utils/db';
+import User from '@/models/User';
+import { sendEmail } from '@/utils/emailService';
 
-// // export async function POST(request) {
-// //   return register(request);
-// // }
-
-
-
-// import { NextResponse } from 'next/server';
-// import validator from 'validator';
-// import dbConnect from '@/utils/db';
-// import User from '@/models/User';
-// import { signToken } from '@/utils/auth';
-
-// export async function POST(request) {
-//   try {
-//     // console.log('📝 Register API route called');
-//     await dbConnect();
+export async function POST(req) {
+  try {
+    await dbConnect();
     
-//     const body = await request.json();
+    const { 
+      firstName, 
+      lastName, 
+      email, 
+      password, 
+      cellPhone, 
+      dateOfBirth, 
+      gender, 
+      healthcareNumber, 
+      healthcareProvince, 
+      address, 
+      country, 
+      postalCode 
+    } = await req.json();
+
+    // Validation
+    if (!firstName || !lastName || !email || !password) {
+      return NextResponse.json(
+        { success: false, message: 'First name, last name, email, and password are required' },
+        { status: 400 }
+      );
+    }
+
+    if (password.length < 8) {
+      return NextResponse.json(
+        { success: false, message: 'Password must be at least 8 characters long' },
+        { status: 400 }
+      );
+    }
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email: email.trim().toLowerCase() });
+    if (existingUser) {
+      return NextResponse.json(
+        { success: false, message: 'User already exists with this email' },
+        { status: 400 }
+      );
+    }
+
+    // Calculate age from date of birth
+    const calculateAge = (birthDate) => {
+      if (!birthDate) return null;
+      const today = new Date();
+      const birth = new Date(birthDate);
+      let age = today.getFullYear() - birth.getFullYear();
+      const monthDiff = today.getMonth() - birth.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+        age--;
+      }
+      return age;
+    };
+
+    const age = calculateAge(dateOfBirth);
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    // Create user
+    const user = await User.create({
+      firstName,
+      lastName,
+      email: email.trim().toLowerCase(),
+      password: hashedPassword,
+      cellPhone,
+      dateOfBirth,
+      gender,
+      healthcareNumber,
+      healthcareProvince,
+      address,
+      country,
+      postalCode,
+      age,
+      role: 'patient'
+    });
+
+    // Send welcome email (don't await to avoid blocking response)
+    sendWelcomeEmail(user).catch(error => {
+      console.error('Failed to send welcome email:', error);
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: 'Registration successful! Welcome email sent.',
+      user: {
+        id: user._id.toString(),
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role
+      }
+    });
+
+  } catch (error) {
+    console.error('Registration error:', error);
+    return NextResponse.json(
+      { success: false, message: 'Server error during registration' },
+      { status: 500 }
+    );
+  }
+}
+
+// Welcome email function
+async function sendWelcomeEmail(user) {
+  try {
+    const welcomeEmailContent = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+        <div style="background: linear-gradient(135deg, #0369a1, #0ea5e9); padding: 30px; text-align: center;">
+          <h1 style="color: white; margin: 0; font-size: 28px;">Welcome to St Mary Rideau Clinic!</h1>
+        </div>
+        
+        <div style="padding: 30px; background: #f8fafc;">
+          <p>Dear <strong>${user.firstName} ${user.lastName}</strong>,</p>
+          
+          <p>Welcome to St Mary Rideau Clinic! We're thrilled to have you as our new patient.</p>
+          
+          <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #0369a1; margin: 20px 0;">
+            <h3 style="color: #0369a1; margin-top: 0;">Your Account Details:</h3>
+            <p><strong>Name:</strong> ${user.firstName} ${user.lastName}</p>
+            <p><strong>Email:</strong> ${user.email}</p>
+            <p><strong>Account Created:</strong> ${new Date().toLocaleDateString()}</p>
+          </div>
+          
+          <p>With your patient portal account, you can:</p>
+          <ul>
+            <li>Book appointments online</li>
+            <li>View your medical records</li>
+            <li>Communicate with healthcare providers</li>
+            <li>Access test results</li>
+            <li>Manage your prescriptions</li>
+          </ul>
+          
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${process.env.NEXTAUTH_URL}/login" 
+               style="background-color: #0369a1; color: white; padding: 14px 28px; 
+                      text-decoration: none; border-radius: 6px; display: inline-block;
+                      font-weight: bold; font-size: 16px;">
+              Login to Your Patient Portal
+            </a>
+          </div>
+          
+          <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
+          
+          <p>Best regards,<br>
+          <strong>The St Mary Rideau Clinic Team</strong></p>
+          
+          <hr style="border: none; border-top: 1px solid #e5e5e5; margin: 30px 0;">
+          
+          <div style="text-align: center; color: #666; font-size: 14px;">
+            <p>St Mary Rideau Clinic<br>
+            123 Healthcare Avenue, Medical District<br>
+            Phone: (555) 123-4567 | Email: support@stmaryrideau.com</p>
+            
+            <p style="font-size: 12px; color: #999;">
+              This is an automated message. Please do not reply to this email.
+            </p>
+          </div>
+        </div>
+      </div>
+    `;
+
+    await sendEmail({
+      to: user.email,
+      subject: `Welcome to St Mary Rideau Clinic, ${user.firstName}!`,
+      html: welcomeEmailContent,
+    });
     
-//     const {
-//       firstName,
-//       lastName,
-//       email,
-//       gender,
-//       healthcareProvince,
-//       healthcareNumber,
-//       age,
-//       dateOfBirth,
-//       cellPhone,
-//       address,
-//       country,
-//       postalCode,
-//       password,
-//       confirmPassword
-//     } = body;
-
-//     // Trim all string inputs
-//     const trimmedFirstName = firstName?.trim();
-//     const trimmedLastName = lastName?.trim();
-//     const trimmedEmail = email?.trim().toLowerCase();
-//     const trimmedHealthcareProvince = healthcareProvince?.trim();
-//     const trimmedHealthcareNumber = healthcareNumber?.trim();
-//     const trimmedCellPhone = cellPhone?.trim();
-//     const trimmedAddress = address?.trim();
-//     const trimmedCountry = country?.trim();
-//     const trimmedPostalCode = postalCode?.trim();
-
-//     // Validation - Check all required fields
-//     if (!trimmedFirstName || !trimmedLastName || !trimmedEmail || !gender || 
-//         !trimmedHealthcareProvince || !trimmedHealthcareNumber || !age || 
-//         !dateOfBirth || !trimmedCellPhone || !trimmedAddress || !trimmedCountry || 
-//         !trimmedPostalCode || !password || !confirmPassword) {
-//       return NextResponse.json(
-//         { success: false, message: 'All fields are required' },
-//         { status: 400 }
-//       );
-//     }
-
-//     // Email validation
-//     if (!validator.isEmail(trimmedEmail)) {
-//       return NextResponse.json(
-//         { success: false, message: 'Please provide a valid email address' },
-//         { status: 400 }
-//       );
-//     }
-
-//     // Password validation
-//     if (password.length < 8) {
-//       return NextResponse.json(
-//         { success: false, message: 'Password must be at least 8 characters long' },
-//         { status: 400 }
-//       );
-//     }
-
-//     if (password !== confirmPassword) {
-//       return NextResponse.json(
-//         { success: false, message: 'Passwords do not match' },
-//         { status: 400 }
-//       );
-//     }
-
-//     // Age validation
-//     const parsedAge = parseInt(age);
-//     if (isNaN(parsedAge) || parsedAge < 0 || parsedAge > 120) {
-//       return NextResponse.json(
-//         { success: false, message: 'Please provide a valid age between 0 and 120' },
-//         { status: 400 }
-//       );
-//     }
-
-//     // Date of birth validation
-//     const dob = new Date(dateOfBirth);
-//     if (isNaN(dob.getTime())) {
-//       return NextResponse.json(
-//         { success: false, message: 'Please provide a valid date of birth' },
-//         { status: 400 }
-//       );
-//     }
-
-//     // Check if date of birth is in the future
-//     const today = new Date();
-//     if (dob > today) {
-//       return NextResponse.json(
-//         { success: false, message: 'Date of birth cannot be in the future' },
-//         { status: 400 }
-//       );
-//     }
-
-//     // Gender validation
-//     if (!['Male', 'Female', 'Other'].includes(gender)) {
-//       return NextResponse.json(
-//         { success: false, message: 'Please select a valid gender' },
-//         { status: 400 }
-//       );
-//     }
-
-//     // Phone number validation (basic)
-//     if (!validator.isMobilePhone(trimmedCellPhone, 'any')) {
-//       return NextResponse.json(
-//         { success: false, message: 'Please provide a valid phone number' },
-//         { status: 400 }
-//       );
-//     }
-
-//     // Check if user already exists
-//     const existingUser = await User.findOne({ email: trimmedEmail });
-//     if (existingUser) {
-//       return NextResponse.json(
-//         { success: false, message: 'An account with this email already exists' },
-//         { status: 400 }
-//       );
-//     }
-
-//     // Create new user
-//     const user = await User.create({
-//       firstName: trimmedFirstName,
-//       lastName: trimmedLastName,
-//       email: trimmedEmail,
-//       gender,
-//       healthcareProvince: trimmedHealthcareProvince,
-//       healthcareNumber: trimmedHealthcareNumber,
-//       age: parsedAge,
-//       dateOfBirth: dob,
-//       cellPhone: trimmedCellPhone,
-//       address: trimmedAddress,
-//       country: trimmedCountry,
-//       postalCode: trimmedPostalCode,
-//       password
-//     });
-
-//     // Generate JWT token
-//     const token = signToken(user._id);
-
-//     // Return success response with user data (excluding password)
-//     return NextResponse.json({
-//       success: true,
-//       message: 'Registration successful!',
-//       token,
-//       user: {
-//         id: user._id,
-//         firstName: user.firstName,
-//         lastName: user.lastName,
-//         email: user.email,
-//         role: user.role,
-//         gender: user.gender,
-//         healthcareProvince: user.healthcareProvince,
-//         healthcareNumber: user.healthcareNumber,
-//         age: user.age,
-//         dateOfBirth: user.dateOfBirth,
-//         cellPhone: user.cellPhone,
-//         address: user.address,
-//         country: user.country,
-//         postalCode: user.postalCode,
-//         createdAt: user.createdAt
-//       }
-//     }, {
-//       status: 201
-//     });
-
-//   } catch (error) {
-//     console.error('💥 Registration error:', error);
-    
-//     // Handle specific MongoDB errors
-//     if (error.name === 'MongoServerError' && error.code === 11000) {
-//       return NextResponse.json(
-//         { success: false, message: 'Email already exists. Please use a different email.' },
-//         { status: 400 }
-//       );
-//     }
-    
-//     // Handle Mongoose validation errors
-//     if (error.name === 'ValidationError') {
-//       const errors = Object.values(error.errors).map(err => err.message);
-//       return NextResponse.json(
-//         { success: false, message: errors.join(', ') },
-//         { status: 400 }
-//       );
-//     }
-
-//     // Handle general errors
-//     return NextResponse.json(
-//       { 
-//         success: false, 
-//         message: 'An error occurred during registration. Please try again.' 
-//       },
-//       { status: 500 }
-//     );
-//   }
-// }
+    console.log('Welcome email sent successfully to:', user.email);
+  } catch (error) {
+    console.error('Error sending welcome email:', error);
+    throw error;
+  }
+}

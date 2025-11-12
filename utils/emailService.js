@@ -1,17 +1,19 @@
 import nodemailer from 'nodemailer';
 
-const transporter = nodemailer.createTransporter({
-  service: 'gmail',
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST, // e.g., smtp.hostinger.com
+  port: Number(process.env.SMTP_PORT) || 587, // 587 for TLS, 465 for SSL
+  secure: Number(process.env.SMTP_PORT) === 465, // true for SSL
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
+    user: process.env.EMAIL_USER, // e.g., info@yourdomain.com
+    pass: process.env.EMAIL_PASSWORD, // your email password
   },
 });
 
 export async function sendEmail({ to, subject, html }) {
   try {
     const mailOptions = {
-      from: process.env.EMAIL_FROM || 'St Mary Rideau Clinic <noreply@stmaryrideau.com>',
+      from: process.env.EMAIL_FROM || 'St Mary Rideau Clinic <info@yourdomain.com>',
       to,
       subject,
       html,
