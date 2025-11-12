@@ -717,7 +717,7 @@ export default function Home() {
               Our Medical Services
             </h2>
             <div className="w-12 h-0.5 bg-sky-500 rounded-full mx-auto mb-4"></div>
-            <p className="text-sky-700 max-w-3xl mx-auto text-lg leading-relaxed">
+            <p className="text-sky-700 max-w-3xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed">
               At St Mary Rideau Family Clinic, we know how important it is to get the care you need quickly. 
               We are pleased to offer comprehensive family medicine services to better serve you and your family.
             </p>
@@ -949,7 +949,7 @@ export default function Home() {
           </div>
 
           {/* Testimonial Slider */}
-          <div className="relative bg-white rounded-2xl shadow-lg p-8 md:p-12 border border-sky-200">
+          <div className="relative bg-white rounded-2xl shadow-lg p-8 md:p-12 border border-sky-200 ">
             <div className="text-center">
               {/* Stars */}
               <div className="flex justify-center mb-4">
@@ -959,7 +959,7 @@ export default function Home() {
               </div>
               
               {/* Testimonial Content */}
-              <blockquote className="text-lg text-sky-800 mb-6 leading-relaxed">
+              <blockquote className="text-lg text-sky-800 mb-6 text-sm sm:text-base md:text-lg leading-relaxed">
                 "{testimonials[currentTestimonial].content}"
               </blockquote>
               

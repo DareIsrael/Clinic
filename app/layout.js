@@ -60,7 +60,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <main className="min-h-screen">{children}</main>
           <footer className="bg-gray-800 text-white py-8">
-            <div className="max-w-7xl mx-auto px-4 text-center">
+            <div className="max-w-7xl mx-auto px-4 text-sm sm:text-base md:text-lg leading-relaxed text-center">
               <p>&copy; 2025 St Mary Rideau. All rights reserved.</p>
             </div>
           </footer>

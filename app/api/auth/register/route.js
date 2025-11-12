@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
 import dbConnect from '@/utils/db';
 import User from '@/models/User';
 import { sendEmail } from '@/utils/emailService';
@@ -62,15 +61,13 @@ export async function POST(req) {
 
     const age = calculateAge(dateOfBirth);
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 12);
-
-    // Create user
+    // FIX: Remove manual hashing - let the User model handle it
+    // Create user with plain password - the pre('save') hook will hash it
     const user = await User.create({
       firstName,
       lastName,
       email: email.trim().toLowerCase(),
-      password: hashedPassword,
+      password: password, // Pass plain password - model will hash it
       cellPhone,
       dateOfBirth,
       gender,
@@ -82,6 +79,10 @@ export async function POST(req) {
       age,
       role: 'patient'
     });
+
+    console.log('🆕 New user created - Password automatically hashed by model');
+    console.log('📧 Email:', user.email);
+    console.log('🔐 Hashed password stored:', user.password.substring(0, 20) + '...');
 
     // Send welcome email (don't await to avoid blocking response)
     sendWelcomeEmail(user).catch(error => {
@@ -109,7 +110,7 @@ export async function POST(req) {
   }
 }
 
-// Welcome email function
+// Welcome email function (keep your existing one)
 async function sendWelcomeEmail(user) {
   try {
     const welcomeEmailContent = `
@@ -133,10 +134,7 @@ async function sendWelcomeEmail(user) {
           <p>With your patient portal account, you can:</p>
           <ul>
             <li>Book appointments online</li>
-            <li>View your medical records</li>
-            <li>Communicate with healthcare providers</li>
-            <li>Access test results</li>
-            <li>Manage your prescriptions</li>
+            <li>Follow up your appointments</li>
           </ul>
           
           <div style="text-align: center; margin: 30px 0;">
@@ -157,8 +155,8 @@ async function sendWelcomeEmail(user) {
           
           <div style="text-align: center; color: #666; font-size: 14px;">
             <p>St Mary Rideau Clinic<br>
-            123 Healthcare Avenue, Medical District<br>
-            Phone: (555) 123-4567 | Email: support@stmaryrideau.com</p>
+             158 Rideau Street, Ottawa K1N5X6<br>
+            Phone: (613) 301-8805 | Email: contact@stmaryrideauclinic.com</p>
             
             <p style="font-size: 12px; color: #999;">
               This is an automated message. Please do not reply to this email.

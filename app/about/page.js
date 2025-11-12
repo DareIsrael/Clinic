@@ -169,12 +169,12 @@ export default function AboutPage() {
               <div className="mb-8">
                 <h3 className="text-xl font-bold text-sky-900 mb-4">Dr. Oluwaseun FAGBOLAGUN</h3>
                 <p className="text-lg text-sky-600 font-medium mb-6">Family Physician</p>
-                <p className="text-sky-700 leading-relaxed mb-6">
+                <p className="text-sky-700 text-sm sm:text-base md:text-lg leading-relaxed mb-6">
                   Dr. Fagbolagun brings over 15 years of experience in family medicine, certified by both Canadian 
                   and UK medical boards. With a commitment to excellence and a compassionate approach to patient care, 
                   Dr. Fagbolagun provides comprehensive medical services for patients of all ages.
                 </p>
-                <p className="text-sky-700 leading-relaxed">
+                <p className="text-sky-700 text-sm sm:text-base md:text-lg leading-relaxed">
                   Fluent in multiple languages and dedicated to ongoing medical education, Dr. Fagbolagun stays 
                   current with the latest advancements in family medicine to provide the highest standard of care 
                   to the Ottawa community.
@@ -182,7 +182,7 @@ export default function AboutPage() {
               </div>
 
               {/* Credentials */}
-              <div className="space-y-4">
+              <div className="space-y-4 text-sm sm:text-base md:text-lg leading-relaxed">
                 {credentials.map((credential, index) => (
                   <div key={index} className="flex items-start space-x-4">
                     <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
@@ -202,13 +202,13 @@ export default function AboutPage() {
               <h3 className="text-2xl font-bold text-sky-900 mb-6">Our Practice Philosophy</h3>
               <div className="space-y-6">
                 {values.map((value, index) => (
-                  <div key={index} className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-sky-50 rounded-lg flex items-center justify-center text-sky-600 border border-sky-200">
+                  <div key={index} className="flex items-start space-x-4 ">
+                    <div className="flex-shrink-0 w-12 h-12 bg-sky-50 rounded-lg flex items-center justify-center  text-sky-600 border border-sky-200">
                       {value.icon}
                     </div>
                     <div>
                       <h4 className="text-lg font-semibold text-sky-900 mb-2">{value.title}</h4>
-                      <p className="text-sky-700">{value.description}</p>
+                      <p className="text-sky-700 text-sm sm:text-base md:text-lg leading-relaxed">{value.description}</p>
                     </div>
                   </div>
                 ))}
@@ -250,14 +250,14 @@ export default function AboutPage() {
             <div>
               <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-6">Our Mission</h2>
               <div className="w-16 h-1 bg-sky-500 mb-6"></div>
-              <p className="text-sky-700 leading-relaxed mb-6">
+              <p className="text-sky-700 text-sm sm:text-base md:text-lg leading-relaxed mb-6">
                 To provide exceptional, patient-centered family medicine that enhances the health and well-being 
                 of individuals and families in our community. We are committed to delivering accessible, 
                 comprehensive healthcare with compassion, respect, and clinical excellence.
               </p>
               <div className="bg-sky-100 rounded-lg p-6 border border-sky-200">
                 <h3 className="font-semibold text-sky-800 mb-3">Our Commitment</h3>
-                <ul className="space-y-2 text-sky-700">
+                <ul className="space-y-2 text-sky-700 text-sm sm:text-base md:text-lg leading-relaxed">
                   <li className="flex items-center">
                     <svg className="w-4 h-4 mr-3 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -283,13 +283,13 @@ export default function AboutPage() {
             <div>
               <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-6">Our Vision</h2>
               <div className="w-16 h-1 bg-sky-500 mb-6"></div>
-              <p className="text-sky-700 leading-relaxed mb-6">
+              <p className="text-sky-700 text-sm sm:text-base md:text-lg leading-relaxed mb-6">
                 To be the trusted family medicine practice of choice in Ottawa, recognized for clinical excellence, 
                 compassionate care, and meaningful patient relationships. We envision a community where every family 
                 has access to comprehensive healthcare that supports their lifelong wellness journey.
               </p>
               <div className="border-l-4 border-sky-500 pl-6">
-                <p className="text-lg italic text-sky-800">
+                <p className="text-lg italic text-sky-800 text-sm sm:text-base md:text-lg leading-relaxed">
                   "Building healthier families through dedicated, personalized medical care."
                 </p>
               </div>
