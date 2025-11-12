@@ -10,7 +10,7 @@ export default function ServiceCard({ service, onClick }) {
         <p className="text-gray-600 mb-4">{service.description}</p>
         <div className="flex justify-between items-center text-sm text-gray-500">
           <span>{service.duration}</span>
-          <span className="font-semibold text-blue-600">{service.price}</span>
+          <span className="font-semibold text-sky-600">{service.price}</span>
         </div>
       </div>
     </div>

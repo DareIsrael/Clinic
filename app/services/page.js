@@ -42,7 +42,7 @@ export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-gray-50 pt-16 md:pt-0">
       {/* Hero Section */}
-      <section className="bg-blue-600 text-white py-12 md:py-20 px-4">
+      <section className="bg-sky-600 text-white py-12 md:py-20 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 leading-tight">
             Our Medical Services
@@ -77,9 +77,9 @@ export default function ServicesPage() {
                   <p className="text-gray-600 text-sm sm:text-base mb-4 leading-relaxed">{service.description}</p>
                   <div className="flex justify-between items-center text-xs sm:text-sm text-gray-500 mb-4">
                     <span>{service.duration}</span>
-                    <span className="font-semibold text-blue-600">{service.price}</span>
+                    <span className="font-semibold text-sky-600">{service.price}</span>
                   </div>
-                  <button className="w-full bg-blue-600 text-white py-2 px-4 rounded text-sm sm:text-base hover:bg-blue-700 transition-colors duration-300">
+                  <button className="w-full bg-sky-600 text-white py-2 px-4 rounded text-sm sm:text-base hover:bg-sky-700 transition-colors duration-300">
                     Learn More
                   </button>
                 </div>
@@ -122,7 +122,7 @@ export default function ServicesPage() {
                     ))}
                   </ul>
                 </div>
-                <div className="bg-blue-50 p-3 sm:p-4 rounded-lg">
+                <div className="bg-sky-50 p-3 sm:p-4 rounded-lg">
                   <h4 className="font-semibold text-gray-800 mb-2 text-sm sm:text-base">Service Details</h4>
                   <p className="text-xs sm:text-sm"><strong>Duration:</strong> {selectedService.duration}</p>
                   <p className="text-xs sm:text-sm"><strong>Price:</strong> {selectedService.price}</p>
@@ -133,7 +133,7 @@ export default function ServicesPage() {
               <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
                 <Link
                   href="appointments-Booking"
-                  className="flex-1 bg-blue-600 text-white text-center py-3 px-4 rounded text-sm sm:text-base hover:bg-blue-700 transition-colors duration-300"
+                  className="flex-1 bg-sky-600 text-white text-center py-3 px-4 rounded text-sm sm:text-base hover:bg-sky-700 transition-colors duration-300"
                   onClick={() => setSelectedService(null)}
                 >
                   Book Appointment

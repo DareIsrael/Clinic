@@ -59,14 +59,14 @@
 //         <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
 //           <div className="flex flex-col lg:flex-row">
 //             {/* Left Side - Image */}
-//             <div className="lg:w-1/2 bg-blue-600 relative">
+//             <div className="lg:w-1/2 bg-sky-600 relative">
 //               <div 
 //                 className="h-48 lg:h-full bg-cover bg-center bg-no-repeat"
 //                 style={{
 //                   backgroundImage: 'url("https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80")',
 //                 }}
 //               >
-//                 <div className="absolute inset-0 bg-blue-900/30"></div>
+//                 <div className="absolute inset-0 bg-sky-900/30"></div>
 //               </div>
               
 //               {/* Overlay Content */}
@@ -78,8 +78,8 @@
 //                     </svg>
 //                   </div>
 //                   <h2 className="text-2xl font-bold mb-2">St Mary Rideau Clinic</h2>
-//                   <p className="text-blue-100 text-sm">Secure Patient Portal</p>
-//                   <div className="mt-4 space-y-2 text-xs text-blue-200">
+//                   <p className="text-sky-100 text-sm">Secure Patient Portal</p>
+//                   <div className="mt-4 space-y-2 text-xs text-sky-200">
 //                     <div className="flex items-center justify-center">
 //                       <svg className="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 //                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -128,7 +128,7 @@
 //                       required
 //                       value={formData.email}
 //                       onChange={handleChange}
-//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition duration-200"
 //                       placeholder="Enter your email"
 //                     />
 //                   </div>
@@ -145,7 +145,7 @@
 //                       required
 //                       value={formData.password}
 //                       onChange={handleChange}
-//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition duration-200"
 //                       placeholder="Enter your password"
 //                     />
 //                   </div>
@@ -154,11 +154,11 @@
 //                     <label className="flex items-center">
 //                       <input
 //                         type="checkbox"
-//                         className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+//                         className="h-4 w-4 text-sky-600 focus:ring-sky-500 border-gray-300 rounded"
 //                       />
 //                       <span className="ml-2 text-gray-600">Remember me</span>
 //                     </label>
-//                     <a href="/forgot-password" className="text-blue-600 hover:text-blue-500 font-medium">
+//                     <a href="/forgot-password" className="text-sky-600 hover:text-sky-500 font-medium">
 //                       Forgot password?
 //                     </a>
 //                   </div>
@@ -166,7 +166,7 @@
 //                   <button
 //                     type="submit"
 //                     disabled={loading}
-//                     className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 transition duration-300 font-semibold"
+//                     className="w-full bg-sky-600 text-white py-3 px-4 rounded-lg hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-50 transition duration-300 font-semibold"
 //                   >
 //                     {loading ? (
 //                       <span className="flex items-center justify-center">
@@ -185,17 +185,17 @@
 //                 <div className="mt-6 text-center">
 //                   <p className="text-sm text-gray-600">
 //                     New patient?{' '}
-//                     <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-500">
+//                     <Link href="/signup" className="font-medium text-sky-600 hover:text-sky-500">
 //                       Create account
 //                     </Link>
 //                   </p>
 //                 </div>
 
 //                 {/* Demo Credentials */}
-//                 <div className="mt-6 bg-blue-50 rounded-lg p-4 border border-blue-200">
+//                 <div className="mt-6 bg-sky-50 rounded-lg p-4 border border-sky-200">
 //                   <div className="text-center mb-3">
-//                     <h3 className="text-sm font-semibold text-blue-800">Login Instruction</h3>
-//                     <p className="text-xs text-blue-600">login details Sample</p>
+//                     <h3 className="text-sm font-semibold text-sky-800">Login Instruction</h3>
+//                     <p className="text-xs text-sky-600">login details Sample</p>
 //                   </div>
 //                   <div className="space-y-1 text-sm">
 //                     <div className="flex justify-between">
@@ -329,14 +329,14 @@ export default function LoginPage() {
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
           <div className="flex flex-col lg:flex-row">
             {/* Left Side - Image */}
-            <div className="lg:w-1/2 bg-blue-600 relative">
+            <div className="lg:w-1/2 bg-sky-600 relative">
               <div 
                 className="h-48 lg:h-full bg-cover bg-center bg-no-repeat"
                 style={{
                   backgroundImage: 'url("https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80")',
                 }}
               >
-                <div className="absolute inset-0 bg-blue-900/30"></div>
+                <div className="absolute inset-0 bg-sky-900/30"></div>
               </div>
               
               {/* Overlay Content */}
@@ -348,8 +348,8 @@ export default function LoginPage() {
                     </svg>
                   </div>
                   <h2 className="text-2xl font-bold mb-2">St Mary Rideau Clinic</h2>
-                  <p className="text-blue-100 text-sm">Secure Patient Account</p>
-                  <div className="mt-4 space-y-2 text-xs text-blue-200">
+                  <p className="text-sky-100 text-sm">Secure Patient Account</p>
+                  <div className="mt-4 space-y-2 text-xs text-sky-200">
                     <div className="flex items-center justify-center">
                       <svg className="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -400,8 +400,8 @@ export default function LoginPage() {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 text-gray-900 placeholder-gray-400 ${
-                        validationErrors.email ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500'
+                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition duration-200 text-gray-900 placeholder-gray-400 ${
+                        validationErrors.email ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-sky-500'
                       }`}
                       placeholder="Enter your email address"
                     />
@@ -429,8 +429,8 @@ export default function LoginPage() {
                         required
                         value={formData.password}
                         onChange={handleChange}
-                        className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 pr-12 text-gray-900 placeholder-gray-400 ${
-                          validationErrors.password ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500'
+                        className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition duration-200 pr-12 text-gray-900 placeholder-gray-400 ${
+                          validationErrors.password ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-sky-500'
                         }`}
                         placeholder="Enter your password"
                       />
@@ -466,11 +466,11 @@ export default function LoginPage() {
                     <label className="flex items-center">
                       <input
                         type="checkbox"
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        className="h-4 w-4 text-sky-600 focus:ring-sky-500 border-gray-300 rounded"
                       />
                       <span className="ml-2 text-gray-600">Remember me</span>
                     </label>
-                    <Link href="/forgot-password" className="text-blue-600 hover:text-blue-500 font-medium transition duration-200">
+                    <Link href="/forgot-password" className="text-sky-600 hover:text-sky-500 font-medium transition duration-200">
                       Forgot password?
                     </Link>
                   </div>
@@ -479,7 +479,7 @@ export default function LoginPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 font-semibold shadow-sm"
+                    className="w-full bg-sky-600 text-white py-3 px-4 rounded-lg hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 font-semibold shadow-sm"
                   >
                     {loading ? (
                       <span className="flex items-center justify-center">
@@ -499,17 +499,17 @@ export default function LoginPage() {
                 <div className="mt-6 text-center">
                   <p className="text-sm text-gray-600">
                     New patient?{' '}
-                    <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-500 transition duration-200">
+                    <Link href="/signup" className="font-medium text-sky-600 hover:text-sky-500 transition duration-200">
                       Create account
                     </Link>
                   </p>
                 </div>
 
                 {/* Demo Credentials */}
-                <div className="mt-6 bg-blue-50 rounded-lg p-4 border border-blue-200">
+                <div className="mt-6 bg-sky-50 rounded-lg p-4 border border-sky-200">
                   <div className="text-center mb-3">
-                    <h3 className="text-sm font-semibold text-blue-800">Demo Access</h3>
-                    <p className="text-xs text-blue-600">Test the portal with these credentials</p>
+                    <h3 className="text-sm font-semibold text-sky-800">Demo Access</h3>
+                    <p className="text-xs text-sky-600">Test the portal with these credentials</p>
                   </div>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between items-center">

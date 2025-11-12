@@ -69,7 +69,7 @@ export default function ClientDashboard() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading your dashboard...</p>
         </div>
       </div>
@@ -97,7 +97,7 @@ export default function ClientDashboard() {
               </div>
               <Link
                 href="appointments-Booking"
-                className="bg-blue-600 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg hover:bg-blue-700 transition duration-300 text-sm sm:text-base"
+                className="bg-sky-600 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg hover:bg-sky-700 transition duration-300 text-sm sm:text-base"
               >
                 Book New Appointment
               </Link>
@@ -115,7 +115,7 @@ export default function ClientDashboard() {
                   onClick={() => setActiveTab(tab)}
                   className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
                     activeTab === tab
-                      ? 'border-blue-500 text-blue-600'
+                      ? 'border-sky-500 text-sky-600'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }`}
                 >
@@ -134,8 +134,8 @@ export default function ClientDashboard() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
                   <div className="flex items-center">
-                    <div className="p-2 bg-blue-100 rounded-lg">
-                      <span className="text-blue-600 text-xl">📅</span>
+                    <div className="p-2 bg-sky-100 rounded-lg">
+                      <span className="text-sky-600 text-xl">📅</span>
                     </div>
                     <div className="ml-4">
                       <p className="text-sm font-medium text-gray-600">Total Appointments</p>
@@ -222,7 +222,7 @@ export default function ClientDashboard() {
                         <p className="text-gray-500 mb-2">No upcoming appointments</p>
                         <Link
                           href="appointments-Booking"
-                          className="inline-block text-blue-600 hover:text-blue-700 font-medium"
+                          className="inline-block text-sky-600 hover:text-sky-700 font-medium"
                         >
                           Book your first appointment
                         </Link>
@@ -324,7 +324,7 @@ export default function ClientDashboard() {
                                 appointment.status === 'confirmed' ? 'bg-green-100 text-green-800' :
                                 appointment.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
                                 appointment.status === 'cancelled' ? 'bg-red-100 text-red-800' :
-                                'bg-blue-100 text-blue-800'
+                                'bg-sky-100 text-sky-800'
                               }`}>
                                 {appointment.status}
                               </span>
@@ -354,7 +354,7 @@ export default function ClientDashboard() {
                     <p className="text-gray-400 mb-6">You haven't booked any appointments yet.</p>
                     <Link
                       href="appointments-Booking"
-                      className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300"
+                      className="inline-block bg-sky-600 text-white px-6 py-3 rounded-lg hover:bg-sky-700 transition duration-300"
                     >
                       Book Your First Appointment
                     </Link>
@@ -419,7 +419,7 @@ export default function ClientDashboard() {
                   </div>
                 )}
                 <div className="mt-8 flex space-x-4">
-                  <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300">
+                  <button className="bg-sky-600 text-white px-6 py-3 rounded-lg hover:bg-sky-700 transition duration-300">
                     Edit Profile
                   </button>
                   <button className="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition duration-300">

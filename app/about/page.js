@@ -123,7 +123,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section with Background Image */}
-      <section className="relative min-h-[60vh] flex items-center justify-start bg-gray-900 overflow-hidden">
+      <section className="relative min-h-[60vh] flex items-center justify-start bg-sky-900 overflow-hidden">
         {/* Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -131,25 +131,25 @@ export default function AboutPage() {
             backgroundImage: 'url("https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")',
           }}
         >
-          <div className="absolute inset-0 bg-blue-900/70"></div>
+          <div className="absolute inset-0 bg-sky-900/70"></div>
         </div>
 
-        {/* Blue Text Box */}
-        <div className="relative z-10 max-w-md mx-4 lg:mx-16 xl:mx-24 bg-blue-800/80 backdrop-blur-sm rounded-2xl p-6 lg:p-8 border border-blue-400/30 shadow-xl">
+        {/* Sky Blue Text Box */}
+        <div className="relative z-10 max-w-md mx-4 lg:mx-16 xl:mx-24 bg-sky-700/90 backdrop-blur-sm rounded-2xl p-6 lg:p-8 border border-sky-400/40 shadow-xl">
           <h1 className="text-2xl lg:text-3xl font-bold text-white mb-4">
             About St Mary Rideau Family Clinic
           </h1>
-          <div className="w-12 h-0.5 bg-blue-300 rounded-full mb-4"></div>
-          <p className="text-lg text-blue-100 font-medium mb-2">
+          <div className="w-12 h-0.5 bg-sky-300 rounded-full mb-4"></div>
+          <p className="text-lg text-sky-50 font-medium mb-2">
             Dr. Oluwaseun FAGBOLAGUN
           </p>
-          <p className="text-sm text-blue-200/80 mb-4">
+          <p className="text-sm text-sky-200/90 mb-4">
             MD CCFP MRCGP • Family Physician
           </p>
           <p className="text-sm text-white leading-relaxed mb-4">
             Providing compassionate, comprehensive family medicine to the Ottawa community with personalized care from an experienced physician.
           </p>
-          <div className="p-3 bg-blue-700/50 rounded-lg border-l-2 border-blue-300">
+          <div className="p-3 bg-sky-600/60 rounded-lg border-l-2 border-sky-300">
             <p className="text-sm text-white font-light italic">
               "Building healthier families through dedicated, personalized medical care."
             </p>
@@ -158,23 +158,23 @@ export default function AboutPage() {
       </section>
 
       {/* Physician Profile */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-sky-50">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             {/* Physician Information */}
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Meet Your Family Physician</h2>
-              <div className="w-16 h-1 bg-blue-600 mb-6"></div>
+              <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-6">Meet Your Family Physician</h2>
+              <div className="w-16 h-1 bg-sky-500 mb-6"></div>
               
               <div className="mb-8">
-                <h3 className="text-xl font-bold text-gray-800 mb-4">Dr. Oluwaseun FAGBOLAGUN</h3>
-                <p className="text-lg text-blue-600 font-medium mb-6">Family Physician</p>
-                <p className="text-gray-600 leading-relaxed mb-6">
+                <h3 className="text-xl font-bold text-sky-900 mb-4">Dr. Oluwaseun FAGBOLAGUN</h3>
+                <p className="text-lg text-sky-600 font-medium mb-6">Family Physician</p>
+                <p className="text-sky-700 leading-relaxed mb-6">
                   Dr. Fagbolagun brings over 15 years of experience in family medicine, certified by both Canadian 
                   and UK medical boards. With a commitment to excellence and a compassionate approach to patient care, 
                   Dr. Fagbolagun provides comprehensive medical services for patients of all ages.
                 </p>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-sky-700 leading-relaxed">
                   Fluent in multiple languages and dedicated to ongoing medical education, Dr. Fagbolagun stays 
                   current with the latest advancements in family medicine to provide the highest standard of care 
                   to the Ottawa community.
@@ -185,12 +185,12 @@ export default function AboutPage() {
               <div className="space-y-4">
                 {credentials.map((credential, index) => (
                   <div key={index} className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
+                    <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
                       {credential.icon}
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-800 text-sm uppercase tracking-wide">{credential.title}</h4>
-                      <p className="text-gray-600">{credential.value}</p>
+                      <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">{credential.title}</h4>
+                      <p className="text-sky-700">{credential.value}</p>
                     </div>
                   </div>
                 ))}
@@ -198,17 +198,17 @@ export default function AboutPage() {
             </div>
 
             {/* Practice Philosophy */}
-            <div className="bg-blue-50 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-gray-800 mb-6">Our Practice Philosophy</h3>
+            <div className="bg-white rounded-2xl p-8 border border-sky-200 shadow-lg">
+              <h3 className="text-2xl font-bold text-sky-900 mb-6">Our Practice Philosophy</h3>
               <div className="space-y-6">
                 {values.map((value, index) => (
                   <div key={index} className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-white rounded-lg flex items-center justify-center text-blue-600 border border-blue-200">
+                    <div className="flex-shrink-0 w-12 h-12 bg-sky-50 rounded-lg flex items-center justify-center text-sky-600 border border-sky-200">
                       {value.icon}
                     </div>
                     <div>
-                      <h4 className="text-lg font-semibold text-gray-800 mb-2">{value.title}</h4>
-                      <p className="text-gray-600">{value.description}</p>
+                      <h4 className="text-lg font-semibold text-sky-900 mb-2">{value.title}</h4>
+                      <p className="text-sky-700">{value.description}</p>
                     </div>
                   </div>
                 ))}
@@ -219,24 +219,24 @@ export default function AboutPage() {
       </section>
 
       {/* Practice Features */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-sky-100">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Our Practice Features</h2>
-            <div className="w-16 h-1 bg-blue-600 mx-auto mb-6"></div>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-4">Our Practice Features</h2>
+            <div className="w-16 h-1 bg-sky-500 mx-auto mb-6"></div>
+            <p className="text-sky-700 max-w-2xl mx-auto">
               Designed with your comfort and convenience in mind
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {practiceFeatures.map((feature, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow duration-200">
-                <div className="text-blue-600 mb-4 flex justify-center">
+              <div key={index} className="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow duration-200 border border-sky-100">
+                <div className="text-sky-600 mb-4 flex justify-center">
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">{feature.title}</h3>
-                <p className="text-gray-600 text-sm">{feature.description}</p>
+                <h3 className="text-lg font-semibold text-sky-900 mb-2">{feature.title}</h3>
+                <p className="text-sky-700 text-sm">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -244,34 +244,34 @@ export default function AboutPage() {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-sky-50">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Our Mission</h2>
-              <div className="w-16 h-1 bg-blue-600 mb-6"></div>
-              <p className="text-gray-600 leading-relaxed mb-6">
+              <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-6">Our Mission</h2>
+              <div className="w-16 h-1 bg-sky-500 mb-6"></div>
+              <p className="text-sky-700 leading-relaxed mb-6">
                 To provide exceptional, patient-centered family medicine that enhances the health and well-being 
                 of individuals and families in our community. We are committed to delivering accessible, 
                 comprehensive healthcare with compassion, respect, and clinical excellence.
               </p>
-              <div className="bg-blue-50 rounded-lg p-6">
-                <h3 className="font-semibold text-blue-800 mb-3">Our Commitment</h3>
-                <ul className="space-y-2 text-blue-700">
+              <div className="bg-sky-100 rounded-lg p-6 border border-sky-200">
+                <h3 className="font-semibold text-sky-800 mb-3">Our Commitment</h3>
+                <ul className="space-y-2 text-sky-700">
                   <li className="flex items-center">
-                    <svg className="w-4 h-4 mr-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 mr-3 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                     Personalized care for every patient
                   </li>
                   <li className="flex items-center">
-                    <svg className="w-4 h-4 mr-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 mr-3 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                     Evidence-based medical practice
                   </li>
                   <li className="flex items-center">
-                    <svg className="w-4 h-4 mr-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 mr-3 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                     Continuity of care through long-term relationships
@@ -281,15 +281,15 @@ export default function AboutPage() {
             </div>
 
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Our Vision</h2>
-              <div className="w-16 h-1 bg-blue-600 mb-6"></div>
-              <p className="text-gray-600 leading-relaxed mb-6">
+              <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-6">Our Vision</h2>
+              <div className="w-16 h-1 bg-sky-500 mb-6"></div>
+              <p className="text-sky-700 leading-relaxed mb-6">
                 To be the trusted family medicine practice of choice in Ottawa, recognized for clinical excellence, 
                 compassionate care, and meaningful patient relationships. We envision a community where every family 
                 has access to comprehensive healthcare that supports their lifelong wellness journey.
               </p>
-              <div className="border-l-4 border-blue-500 pl-6">
-                <p className="text-lg italic text-gray-700">
+              <div className="border-l-4 border-sky-500 pl-6">
+                <p className="text-lg italic text-sky-800">
                   "Building healthier families through dedicated, personalized medical care."
                 </p>
               </div>

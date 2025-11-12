@@ -101,7 +101,7 @@ export default function BookingForm() {
             value={formData.serviceType}
             onChange={handleChange}
             required
-            className="w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-gray-700 duration-300"
+            className="w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition text-gray-700 duration-300"
           >
             <option value="">Select a service</option>
             {serviceOptions.map(option => (
@@ -126,7 +126,7 @@ export default function BookingForm() {
               onChange={handleChange}
               min={today}
               required
-              className="w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700 transition duration-300"
+              className="w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-gray-700 transition duration-300"
             />
           </div>
 
@@ -140,7 +140,7 @@ export default function BookingForm() {
               value={formData.preferredTime}
               onChange={handleChange}
               required
-              className="w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700 transition duration-300"
+              className="w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-gray-700 transition duration-300"
             >
               <option value="">Select a time</option>
               {timeSlots.map(time => (
@@ -163,21 +163,21 @@ export default function BookingForm() {
             rows="4"
             value={formData.message}
             onChange={handleChange}
-            className="w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 focus:border-blue-500 transition duration-300"
+            className="w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 text-gray-700 focus:border-sky-500 transition duration-300"
             placeholder="Any specific concerns or notes for the doctor..."
           />
         </div>
 
         {/* Patient Information Summary */}
-        <div className="bg-blue-50 p-4 rounded-lg border  border-blue-200">
-          <h3 className="font-medium text-blue-900 mb-2">Patient Information</h3>
-          <p className="text-sm text-blue-700">
+        <div className="bg-sky-50 p-4 rounded-lg border  border-sky-200">
+          <h3 className="font-medium text-sky-900 mb-2">Patient Information</h3>
+          <p className="text-sm text-sky-700">
             <strong>Name:</strong> {user?.firstName} {user?.lastName}
           </p>
-          <p className="text-sm text-blue-700">
+          <p className="text-sm text-sky-700">
             <strong>Email:</strong> {user?.email}
           </p>
-          <p className="text-sm text-blue-700">
+          <p className="text-sm text-sky-700">
             <strong>Phone:</strong> {user?.cellPhone}
           </p>
         </div>
@@ -185,7 +185,7 @@ export default function BookingForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 transition duration-300 transform hover:scale-105 font-medium"
+          className="w-full bg-sky-600 text-white py-3 px-4 rounded-lg hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-50 transition duration-300 transform hover:scale-105 font-medium"
         >
           {loading ? (
             <span className="flex items-center justify-center">
@@ -203,7 +203,7 @@ export default function BookingForm() {
 
       {/* Help Text */}
       <div className="mt-6 text-center text-sm text-gray-500">
-        <p>Need help? Contact us at <a href="tel:5551234567" className="text-blue-600 hover:text-blue-700">(555) 123-4567</a></p>
+        <p>Need help? Contact us at <a href="tel:5551234567" className="text-sky-600 hover:text-sky-700">(555) 123-4567</a></p>
         <p className="mt-1">Our team is available Monday - Friday, 8:00 AM - 8:00 PM</p>
       </div>
     </div>

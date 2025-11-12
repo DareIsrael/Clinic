@@ -87,7 +87,7 @@
 //     return (
 //       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
 //         <div className="text-center">
-//           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+//           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-600 mx-auto"></div>
 //           <p className="mt-4 text-gray-600">Loading admin dashboard...</p>
 //         </div>
 //       </div>
@@ -109,7 +109,7 @@
 //               </div>
 //               <div className="flex items-center space-x-4">
 //                 <span className="text-sm text-gray-600 hidden sm:block">Welcome, {user?.firstName}</span>
-//                 <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
+//                 <div className="w-10 h-10 bg-sky-600 rounded-full flex items-center justify-center text-white font-semibold">
 //                   {user?.firstName?.charAt(0)}
 //                 </div>
 //               </div>
@@ -127,7 +127,7 @@
 //                   onClick={() => setActiveTab(tab)}
 //                   className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
 //                     activeTab === tab
-//                       ? 'border-blue-500 text-blue-600'
+//                       ? 'border-sky-500 text-sky-600'
 //                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
 //                   }`}
 //                 >
@@ -146,8 +146,8 @@
 //               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
 //                 <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
 //                   <div className="flex items-center">
-//                     <div className="p-2 bg-blue-100 rounded-lg">
-//                       <span className="text-blue-600 text-xl">📊</span>
+//                     <div className="p-2 bg-sky-100 rounded-lg">
+//                       <span className="text-sky-600 text-xl">📊</span>
 //                     </div>
 //                     <div className="ml-4">
 //                       <p className="text-sm font-medium text-gray-600">Total Appointments</p>
@@ -216,7 +216,7 @@
 //                             <select
 //                               value={appointment.status}
 //                               onChange={(e) => updateAppointmentStatus(appointment._id, e.target.value)}
-//                               className="text-xs border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500"
+//                               className="text-xs border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-sky-500"
 //                             >
 //                               <option value="pending">Pending</option>
 //                               <option value="confirmed">Confirmed</option>
@@ -239,7 +239,7 @@
 //                     <div className="space-y-4">
 //                       <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
 //                         <span className="text-sm text-gray-600">Appointments Today</span>
-//                         <span className="font-semibold text-blue-600">
+//                         <span className="font-semibold text-sky-600">
 //                           {recentAppointments.filter(apt => 
 //                             new Date(apt.preferredDate).toDateString() === new Date().toDateString()
 //                           ).length}
@@ -277,7 +277,7 @@
 //             <div className="bg-white rounded-lg shadow-md">
 //               <div className="p-4 sm:p-6 border-b border-gray-200 flex justify-between items-center">
 //                 <h2 className="text-lg font-semibold text-gray-900">All Appointments</h2>
-//                 <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition duration-300">
+//                 <button className="bg-sky-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-sky-700 transition duration-300">
 //                   Export Report
 //                 </button>
 //               </div>
@@ -325,7 +325,7 @@
 //                             <select
 //                               value={appointment.status}
 //                               onChange={(e) => updateAppointmentStatus(appointment._id, e.target.value)}
-//                               className="text-sm border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500"
+//                               className="text-sm border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-1 focus:ring-sky-500"
 //                             >
 //                               <option value="pending">Pending</option>
 //                               <option value="confirmed">Confirmed</option>
@@ -334,7 +334,7 @@
 //                             </select>
 //                           </td>
 //                           <td className="px-4 py-4 whitespace-nowrap text-sm font-medium">
-//                             <button className="text-blue-600 hover:text-blue-900 mr-3">
+//                             <button className="text-sky-600 hover:text-sky-900 mr-3">
 //                               View
 //                             </button>
 //                             <button className="text-red-600 hover:text-red-900">
@@ -397,7 +397,7 @@
 //                             </div>
 //                           </td>
 //                           <td className="px-4 py-4 whitespace-nowrap text-sm font-medium">
-//                             <button className="text-blue-600 hover:text-blue-900 mr-3">
+//                             <button className="text-sky-600 hover:text-sky-900 mr-3">
 //                               View
 //                             </button>
 //                             <button className="text-green-600 hover:text-green-900 mr-3">
@@ -448,7 +448,7 @@
 //                 <div className="bg-gray-50 p-6 rounded-lg">
 //                   <h3 className="font-semibold text-gray-900 mb-4">Generate Reports</h3>
 //                   <div className="flex flex-wrap gap-4">
-//                     <button className="bg-blue-600 text-white px-6 py-3 rounded-lg text-sm hover:bg-blue-700 transition duration-300 flex items-center">
+//                     <button className="bg-sky-600 text-white px-6 py-3 rounded-lg text-sm hover:bg-sky-700 transition duration-300 flex items-center">
 //                       <span className="mr-2">📥</span>
 //                       Export Appointments
 //                     </button>
@@ -575,7 +575,7 @@ export default function AdminDashboard() {
       case 'confirmed': return 'bg-green-100 text-green-800';
       case 'pending': return 'bg-yellow-100 text-yellow-800';
       case 'cancelled': return 'bg-red-100 text-red-800';
-      case 'completed': return 'bg-blue-100 text-blue-800';
+      case 'completed': return 'bg-sky-100 text-sky-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
@@ -594,7 +594,7 @@ export default function AdminDashboard() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading admin dashboard...</p>
         </div>
       </div>
@@ -616,7 +616,7 @@ export default function AdminDashboard() {
               </div>
               <div className="flex items-center space-x-4">
                 <span className="text-sm text-gray-600 hidden sm:block">Welcome, {user?.firstName}</span>
-                <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
+                <div className="w-10 h-10 bg-sky-600 rounded-full flex items-center justify-center text-white font-semibold">
                   {user?.firstName?.charAt(0)}
                 </div>
               </div>
@@ -634,7 +634,7 @@ export default function AdminDashboard() {
                   onClick={() => setActiveTab(tab)}
                   className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
                     activeTab === tab
-                      ? 'border-blue-500 text-blue-600'
+                      ? 'border-sky-500 text-sky-600'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }`}
                 >
@@ -662,8 +662,8 @@ export default function AdminDashboard() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
                   <div className="flex items-center">
-                    <div className="p-2 bg-blue-100 rounded-lg">
-                      <span className="text-blue-600 text-xl">📊</span>
+                    <div className="p-2 bg-sky-100 rounded-lg">
+                      <span className="text-sky-600 text-xl">📊</span>
                     </div>
                     <div className="ml-4">
                       <p className="text-sm font-medium text-gray-600">Total Appointments</p>
@@ -735,7 +735,7 @@ export default function AdminDashboard() {
                             <select
                               value={appointment.status}
                               onChange={(e) => updateAppointmentStatus(appointment._id, e.target.value)}
-                              className="text-xs border border-gray-300 text-gray-500 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                              className="text-xs border border-gray-300 text-gray-500 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-sky-500"
                             >
                               <option value="pending">Pending</option>
                               <option value="confirmed">Confirmed</option>
@@ -773,7 +773,7 @@ export default function AdminDashboard() {
                       </div>
                       <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                         <span className="text-sm text-gray-600">Appointments Today</span>
-                        <span className="font-semibold text-blue-600">
+                        <span className="font-semibold text-sky-600">
                           {recentAppointments.filter(apt => 
                             new Date(apt.preferredDate).toDateString() === new Date().toDateString()
                           ).length}
@@ -800,7 +800,7 @@ export default function AdminDashboard() {
                 <h2 className="text-lg font-semibold text-gray-900">All Appointments</h2>
                 <button 
                   onClick={fetchDashboardData}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition duration-300"
+                  className="bg-sky-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-sky-700 transition duration-300"
                 >
                   Refresh
                 </button>
@@ -849,7 +849,7 @@ export default function AdminDashboard() {
                             <select
                               value={appointment.status}
                               onChange={(e) => updateAppointmentStatus(appointment._id, e.target.value)}
-                              className="text-sm border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                              className="text-sm border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-1 focus:ring-sky-500"
                             >
                               <option value="pending">Pending</option>
                               <option value="confirmed">Confirmed</option>
@@ -960,9 +960,9 @@ export default function AdminDashboard() {
                   <div className="border border-gray-200 rounded-lg p-6">
                     <h3 className="font-semibold text-gray-900 mb-4">Appointments Overview</h3>
                     <div className="space-y-4">
-                      <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
-                        <span className="text-sm font-medium text-blue-700">Total Appointments</span>
-                        <span className="text-lg font-bold text-blue-900">{calculatedStats.totalAppointments || 0}</span>
+                      <div className="flex justify-between items-center p-3 bg-sky-50 rounded-lg">
+                        <span className="text-sm font-medium text-sky-700">Total Appointments</span>
+                        <span className="text-lg font-bold text-sky-900">{calculatedStats.totalAppointments || 0}</span>
                       </div>
                       <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
                         <span className="text-sm font-medium text-green-700">Completed</span>
@@ -996,7 +996,7 @@ export default function AdminDashboard() {
                 <div className="bg-gray-50 p-6 rounded-lg">
                   <h3 className="font-semibold text-gray-900 mb-4">Export Reports</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <button className="bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center">
+                    <button className="bg-sky-600 text-white px-4 py-3 rounded-lg hover:bg-sky-700 transition duration-300 flex items-center justify-center">
                       <span className="mr-2">📥</span>
                       Export Appointments
                     </button>

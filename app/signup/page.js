@@ -295,7 +295,7 @@
 //               <button
 //                 type="submit"
 //                 disabled={loading}
-//                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 transition duration-300 transform hover:scale-105"
+//                 className="w-full bg-sky-600 hover:bg-sky-700 text-white font-medium py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-50 transition duration-300 transform hover:scale-105"
 //               >
 //                 {loading ? (
 //                   <span className="flex items-center justify-center">
@@ -314,7 +314,7 @@
 
 //           <p className="text-center text-gray-600 mt-6 text-sm">
 //             Already have an account?{' '}
-//             <Link href="/login" className="text-blue-600 hover:text-blue-700 font-medium transition duration-300">
+//             <Link href="/login" className="text-sky-600 hover:text-sky-700 font-medium transition duration-300">
 //               Sign in here
 //             </Link>
 //           </p>
@@ -510,7 +510,7 @@ export default function SignupPage() {
                 {/* Header */}
                 <div className="text-center mb-6">
                   <div className="flex justify-center mb-3">
-                    <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-sky-600 rounded-lg flex items-center justify-center">
                       <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
                       </svg>
@@ -710,8 +710,8 @@ export default function SignupPage() {
                           type={showPassword ? 'text' : 'password'}
                           value={formData.password}
                           onChange={handleChange}
-                          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition text-gray-700 duration-200 pr-10 ${
-                            errors.password ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500'
+                          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition text-gray-700 duration-200 pr-10 ${
+                            errors.password ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-sky-500'
                           }`}
                           placeholder="••••••••"
                           required
@@ -754,8 +754,8 @@ export default function SignupPage() {
                           type={showConfirmPassword ? 'text' : 'password'}
                           value={formData.confirmPassword}
                           onChange={handleChange}
-                          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 text-gray-700 pr-10 ${
-                            errors.confirmPassword ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500'
+                          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition duration-200 text-gray-700 pr-10 ${
+                            errors.confirmPassword ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-sky-500'
                           }`}
                           placeholder="••••••••"
                           required
@@ -789,29 +789,29 @@ export default function SignupPage() {
                   </div>
 
                   {/* Password Requirements */}
-                  <div className="bg-blue-50 rounded-lg p-3 border border-blue-200">
-                    <p className="text-xs text-blue-800 font-medium mb-1">Password Requirements:</p>
-                    <ul className="text-xs text-blue-600 space-y-1">
+                  <div className="bg-sky-50 rounded-lg p-3 border border-sky-200">
+                    <p className="text-xs text-sky-800 font-medium mb-1">Password Requirements:</p>
+                    <ul className="text-xs text-sky-600 space-y-1">
                       <li className={`flex items-center ${formData.password.length >= 8 ? 'text-green-600' : ''}`}>
-                        <svg className={`w-3 h-3 mr-1 ${formData.password.length >= 8 ? 'text-green-500' : 'text-blue-400'}`} fill="currentColor" viewBox="0 0 20 20">
+                        <svg className={`w-3 h-3 mr-1 ${formData.password.length >= 8 ? 'text-green-500' : 'text-sky-400'}`} fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                         At least 8 characters long
                       </li>
                       <li className={`flex items-center ${/(?=.*[a-z])/.test(formData.password) ? 'text-green-600' : ''}`}>
-                        <svg className={`w-3 h-3 mr-1 ${/(?=.*[a-z])/.test(formData.password) ? 'text-green-500' : 'text-blue-400'}`} fill="currentColor" viewBox="0 0 20 20">
+                        <svg className={`w-3 h-3 mr-1 ${/(?=.*[a-z])/.test(formData.password) ? 'text-green-500' : 'text-sky-400'}`} fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                         One lowercase letter
                       </li>
                       <li className={`flex items-center ${/(?=.*[A-Z])/.test(formData.password) ? 'text-green-600' : ''}`}>
-                        <svg className={`w-3 h-3 mr-1 ${/(?=.*[A-Z])/.test(formData.password) ? 'text-green-500' : 'text-blue-400'}`} fill="currentColor" viewBox="0 0 20 20">
+                        <svg className={`w-3 h-3 mr-1 ${/(?=.*[A-Z])/.test(formData.password) ? 'text-green-500' : 'text-sky-400'}`} fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                         One uppercase letter
                       </li>
                       <li className={`flex items-center ${/(?=.*\d)/.test(formData.password) ? 'text-green-600' : ''}`}>
-                        <svg className={`w-3 h-3 mr-1 ${/(?=.*\d)/.test(formData.password) ? 'text-green-500' : 'text-blue-400'}`} fill="currentColor" viewBox="0 0 20 20">
+                        <svg className={`w-3 h-3 mr-1 ${/(?=.*\d)/.test(formData.password) ? 'text-green-500' : 'text-sky-400'}`} fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                         One number
@@ -822,7 +822,7 @@ export default function SignupPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition duration-200 font-semibold text-sm mt-2"
+                    className="w-full bg-sky-600 text-white py-2 px-4 rounded-lg hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition duration-200 font-semibold text-sm mt-2"
                   >
                     {loading ? (
                       <span className="flex items-center justify-center">
@@ -841,7 +841,7 @@ export default function SignupPage() {
                 <div className="mt-4 text-center">
                   <p className="text-xs text-gray-600">
                     Already have an account?{' '}
-                    <Link href="/login" className="font-medium text-blue-600 hover:text-blue-500 transition duration-200">
+                    <Link href="/login" className="font-medium text-sky-600 hover:text-sky-500 transition duration-200">
                       Sign in here
                     </Link>
                   </p>
@@ -850,14 +850,14 @@ export default function SignupPage() {
             </div>
 
             {/* Right Side - Image */}
-            <div className="lg:w-1/2 bg-blue-600 relative">
+            <div className="lg:w-1/2 bg-sky-600 relative">
               <div 
                 className="h-48 lg:h-full bg-cover bg-center bg-no-repeat"
                 style={{
                   backgroundImage: 'url("https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80")',
                 }}
               >
-                <div className="absolute inset-0 bg-blue-900/30"></div>
+                <div className="absolute inset-0 bg-sky-900/30"></div>
               </div>
               
               {/* Overlay Content */}
@@ -869,8 +869,8 @@ export default function SignupPage() {
                     </svg>
                   </div>
                   <h2 className="text-lg font-bold mb-1">St Mary Rideau Clinic</h2>
-                  <p className="text-blue-100 text-xs mb-3">Patient Registration</p>
-                  <div className="space-y-2 text-xs text-blue-200 max-w-xs mx-auto">
+                  <p className="text-sky-100 text-xs mb-3">Patient Registration</p>
+                  <div className="space-y-2 text-xs text-sky-200 max-w-xs mx-auto">
                     <div className="flex items-center justify-center">
                       <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />

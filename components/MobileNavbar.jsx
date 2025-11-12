@@ -28,12 +28,12 @@ export default function MobileNavbar() {
       <div className="px-4">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex-shrink-0" onClick={() => setIsMenuOpen(false)}>
-            <h1 className="text-xl font-bold text-blue-600">MediCare</h1>
+            <h1 className="text-xl font-bold text-sky-600">MediCare</h1>
           </Link>
           
           <button
             onClick={toggleMenu}
-            className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+            className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-sky-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-500"
           >
             <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
               {isMenuOpen ? (
@@ -52,28 +52,28 @@ export default function MobileNavbar() {
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <Link
               href="/"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-sky-600 hover:bg-gray-50"
               onClick={() => setIsMenuOpen(false)}
             >
               Home
             </Link>
             <Link
               href="/about"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-sky-600 hover:bg-gray-50"
               onClick={() => setIsMenuOpen(false)}
             >
               About
             </Link>
             <Link
               href="/services"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-sky-600 hover:bg-gray-50"
               onClick={() => setIsMenuOpen(false)}
             >
               Services
             </Link>
             <Link
               href="/contact"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-sky-600 hover:bg-gray-50"
               onClick={() => setIsMenuOpen(false)}
             >
               Contact
@@ -83,21 +83,21 @@ export default function MobileNavbar() {
               <>
                 <Link
                   href="appointments-Booking"
-                  className="block px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white hover:bg-blue-700"
+                  className="block px-3 py-2 rounded-md text-base font-medium bg-sky-600 text-white hover:bg-sky-700"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Book Appointment
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-sky-600 hover:bg-gray-50"
                 >
                   Logout
                 </button>
 
                 <Link
       href="/dashboard"
-      className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+      className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-sky-600 hover:bg-gray-50"
       onClick={() => setIsMenuOpen(false)}
     >
       Dashboard
@@ -106,7 +106,7 @@ export default function MobileNavbar() {
     {user?.role === 'admin' && (
       <Link
         href="/admin"
-        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-sky-600 hover:bg-gray-50"
         onClick={() => setIsMenuOpen(false)}
       >
         Admin
@@ -117,14 +117,14 @@ export default function MobileNavbar() {
               <>
                 <Link
                   href="/login"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-sky-600 hover:bg-gray-50"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Login
                 </Link>
                 <Link
                   href="/signup"
-                  className="block px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white hover:bg-blue-700"
+                  className="block px-3 py-2 rounded-md text-base font-medium bg-sky-600 text-white hover:bg-sky-700"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Sign Up
