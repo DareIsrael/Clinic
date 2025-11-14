@@ -524,14 +524,14 @@ export default function SignupPage() {
                   </button>
                 </form>
 
-                <div className="mt-4 text-center">
+                {/* <div className="mt-4 text-center">
                   <p className="text-xs text-gray-600">
                     Already have an account?{' '}
                     <Link href="/login" className="font-medium text-sky-600 hover:text-sky-500 transition duration-200">
                       Sign in here
                     </Link>
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
 
