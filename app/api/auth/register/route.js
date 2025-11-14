@@ -47,19 +47,19 @@ export async function POST(req) {
     }
 
     // Calculate age from date of birth
-    const calculateAge = (birthDate) => {
-      if (!birthDate) return null;
-      const today = new Date();
-      const birth = new Date(birthDate);
-      let age = today.getFullYear() - birth.getFullYear();
-      const monthDiff = today.getMonth() - birth.getMonth();
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-        age--;
-      }
-      return age;
-    };
+    // const calculateAge = (birthDate) => {
+    //   if (!birthDate) return null;
+    //   const today = new Date();
+    //   const birth = new Date(birthDate);
+    //   let age = today.getFullYear() - birth.getFullYear();
+    //   const monthDiff = today.getMonth() - birth.getMonth();
+    //   if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+    //     age--;
+    //   }
+    //   return age;
+    // };
 
-    const age = calculateAge(dateOfBirth);
+    // const age = calculateAge(dateOfBirth);
 
     // FIX: Remove manual hashing - let the User model handle it
     // Create user with plain password - the pre('save') hook will hash it
@@ -76,7 +76,7 @@ export async function POST(req) {
       address,
       country,
       postalCode,
-      age,
+      // age,
       role: 'patient'
     });
 
@@ -122,7 +122,7 @@ async function sendWelcomeEmail(user) {
         <div style="padding: 30px; background: #f8fafc;">
           <p>Dear <strong>${user.firstName} ${user.lastName}</strong>,</p>
           
-          <p>Welcome to St Mary Rideau Clinic! We're thrilled to have you as our new patient.</p>
+          <p>Thank you for joining our waiting list. Our team will contact you shortly to schedule your appointment</p>
           
           <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #0369a1; margin: 20px 0;">
             <h3 style="color: #0369a1; margin-top: 0;">Your Account Details:</h3>
@@ -138,12 +138,12 @@ async function sendWelcomeEmail(user) {
           </ul>
           
           <div style="text-align: center; margin: 30px 0;">
-            <a href="${process.env.NEXTAUTH_URL}/login" 
-               style="background-color: #0369a1; color: white; padding: 14px 28px; 
-                      text-decoration: none; border-radius: 6px; display: inline-block;
-                      font-weight: bold; font-size: 16px;">
-              Login to Your Patient Portal
-            </a>
+            // <a href="${process.env.NEXTAUTH_URL}/login" 
+            //    style="background-color: #0369a1; color: white; padding: 14px 28px; 
+            //           text-decoration: none; border-radius: 6px; display: inline-block;
+            //           font-weight: bold; font-size: 16px;">
+            //   Login to Your Patient Portal
+            // </a>
           </div>
           
           <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>

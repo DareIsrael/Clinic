@@ -128,11 +128,11 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Healthcare number is required'],
     trim: true
   },
-  age: {
-    type: Number,
-    required: [true, 'Age is required'],
-    min: [0, 'Age cannot be negative']
-  },
+  // age: {
+  //   type: Number,
+  //   required: [false, 'Age is required'],
+  //   min: [0, 'Age cannot be negative']
+  // },
   dateOfBirth: {
     type: Date,
     required: [true, 'Date of birth is required']

@@ -131,17 +131,17 @@ export default function Navbar() {
               </>
             ) : (
               <div className="flex items-center space-x-2 ml-4">
-                <Link 
+                {/* <Link 
                   href="/login" 
                   className="text-gray-700 hover:text-sky-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
                 >
                   Login
-                </Link>
+                </Link> */}
                 <Link 
                   href="/signup" 
                   className="bg-sky-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-sky-700 transition duration-300"
                 >
-                  Sign Up
+                  Join the waitlist
                 </Link>
               </div>
             )}
@@ -229,19 +229,19 @@ export default function Navbar() {
                 </>
               ) : (
                 <>
-                  <Link
+                  {/* <Link
                     href="/login"
                     className={`block px-3 py-2 rounded-md text-base font-medium transition duration-300 ${isActiveLink('/login')}`}
                     onClick={closeMobileMenu}
                   >
                     Login
-                  </Link>
+                  </Link> */}
                   <Link
                     href="/signup"
                     className="block px-3 py-2 rounded-md text-base font-medium bg-sky-600 text-white hover:bg-sky-700 transition duration-300"
                     onClick={closeMobileMenu}
                   >
-                    Sign Up
+                    Join the waitlist
                   </Link>
                 </>
               )}

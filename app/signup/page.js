@@ -14,7 +14,7 @@ export default function SignupPage() {
     gender: '',
     healthcareProvince: '',
     healthcareNumber: '',
-    age: '',
+    // age: '',
     dateOfBirth: '',
     cellPhone: '',
     address: '',
@@ -73,62 +73,55 @@ export default function SignupPage() {
   };
 
   const validateForm = () => {
-    const newErrors = {};
+  const newErrors = {};
 
-    // Required field validations
-    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
-    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    if (!formData.gender) newErrors.gender = 'Gender is required';
-    if (!formData.healthcareProvince.trim()) newErrors.healthcareProvince = 'Healthcare province is required';
-    if (!formData.healthcareNumber.trim()) newErrors.healthcareNumber = 'Healthcare number is required';
-    if (!formData.age || formData.age < 0) newErrors.age = 'Valid age is required';
-    if (!formData.dateOfBirth) newErrors.dateOfBirth = 'Date of birth is required';
-    if (!formData.cellPhone.trim()) newErrors.cellPhone = 'Cell phone is required';
-    if (!formData.address.trim()) newErrors.address = 'Address is required';
-    if (!formData.country) newErrors.country = 'Country is required';
-    if (!formData.postalCode.trim()) newErrors.postalCode = 'Postal code is required';
-    if (!formData.password) newErrors.password = 'Password is required';
-    if (!formData.confirmPassword) newErrors.confirmPassword = 'Please confirm your password';
-    
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (formData.email && !emailRegex.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+  // Required field validations
+  if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
+  if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
+  if (!formData.email.trim()) newErrors.email = 'Email is required';
+  if (!formData.gender) newErrors.gender = 'Gender is required';
+  if (!formData.healthcareProvince.trim()) newErrors.healthcareProvince = 'Healthcare province is required';
+  if (!formData.healthcareNumber.trim()) newErrors.healthcareNumber = 'Healthcare number is required';
+  if (!formData.dateOfBirth) newErrors.dateOfBirth = 'Date of birth is required';
+  if (!formData.cellPhone.trim()) newErrors.cellPhone = 'Cell phone is required';
+  if (!formData.address.trim()) newErrors.address = 'Address is required';
+  if (!formData.country) newErrors.country = 'Country is required';
+  if (!formData.postalCode.trim()) newErrors.postalCode = 'Postal code is required';
+  if (!formData.password) newErrors.password = 'Password is required';
+  if (!formData.confirmPassword) newErrors.confirmPassword = 'Please confirm your password';
+  
+  // Email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (formData.email && !emailRegex.test(formData.email)) {
+    newErrors.email = 'Please enter a valid email address';
+  }
+
+  // Password validation
+  if (formData.password) {
+    if (formData.password.length < 8) {
+      newErrors.password = 'Password must be at least 8 characters long';
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
+      newErrors.password = 'Password must contain at least one uppercase letter, one lowercase letter, and one number';
     }
+  }
+  
+  // Confirm password validation
+  if (formData.password && formData.confirmPassword && formData.password !== formData.confirmPassword) {
+    newErrors.confirmPassword = 'Passwords do not match';
+  }
 
-    // Password validation
-    if (formData.password) {
-      if (formData.password.length < 8) {
-        newErrors.password = 'Password must be at least 8 characters long';
-      } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
-        newErrors.password = 'Password must contain at least one uppercase letter, one lowercase letter, and one number';
-      }
+  // Date of birth validation
+  if (formData.dateOfBirth) {
+    const dob = new Date(formData.dateOfBirth);
+    const today = new Date();
+    if (dob > today) {
+      newErrors.dateOfBirth = 'Date of birth cannot be in the future';
     }
-    
-    // Confirm password validation
-    if (formData.password && formData.confirmPassword && formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
-    }
+  }
 
-    // Age validation
-    if (formData.age && (formData.age < 0 || formData.age > 120)) {
-      newErrors.age = 'Please enter a valid age between 0 and 120';
-    }
-
-    // Date of birth validation
-    if (formData.dateOfBirth) {
-      const dob = new Date(formData.dateOfBirth);
-      const today = new Date();
-      if (dob > today) {
-        newErrors.dateOfBirth = 'Date of birth cannot be in the future';
-      }
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
+  setErrors(newErrors);
+  return Object.keys(newErrors).length === 0;
+};
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -148,22 +141,22 @@ export default function SignupPage() {
         try {
           const signInResult = await signIn(formData.email, formData.password);
           if (signInResult?.ok) {
-            setSuccessMessage('Account created successfully! Redirecting to dashboard...');
+            setSuccessMessage('loading...');
             setTimeout(() => {
-              router.push('/dashboard');
+              router.push('/waiting-list-confirmation');
             }, 1000);
           } else {
             // If auto-signin fails, redirect to login page
-            setSuccessMessage('Account created successfully! Please sign in to continue.');
+            setSuccessMessage('loading...');
             setTimeout(() => {
-              router.push('/login');
+              router.push('/waiting-list-confirmation');
             }, 2000);
           }
         } catch (signInError) {
           console.error('Auto sign-in error:', signInError);
-          setSuccessMessage('Account created successfully! Please sign in to continue.');
+          setSuccessMessage('loading...');
           setTimeout(() => {
-            router.push('/login');
+            router.push('/waiting-list-confirmation');
           }, 2000);
         }
       } else {
@@ -210,7 +203,7 @@ export default function SignupPage() {
                     </div>
                   </div>
                   <h1 className="text-xl font-bold text-gray-900 mb-1">Join Our Clinic</h1>
-                  <p className="text-gray-600 text-xs">Create your patient account</p>
+                  <p className="text-gray-600 text-xs">Join the waitlist</p>
                 </div>
 
                 {/* Success Message */}
@@ -286,7 +279,7 @@ export default function SignupPage() {
                       compact={true}
                     />
 
-                    <InputField
+                    {/* <InputField
                       label="Age"
                       type="number"
                       name="age"
@@ -298,7 +291,7 @@ export default function SignupPage() {
                       min="0"
                       max="120"
                       compact={true}
-                    />
+                    /> */}
                   </div>
 
                   <InputField
@@ -523,10 +516,10 @@ export default function SignupPage() {
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Creating Account...
+                        Joining...
                       </span>
                     ) : (
-                      'Create Patient Account'
+                      'Join Now'
                     )}
                   </button>
                 </form>

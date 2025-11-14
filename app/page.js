@@ -631,9 +631,9 @@ export default function Home() {
 
           {/* Physician */}
           <div className="mb-4">
-            <p className="text-lg text-sky-50 font-medium">
+            {/* <p className="text-lg text-sky-50 font-medium">
               Dr. Oluwaseun FAGBOLAGUN
-            </p>
+            </p> */}
             <p className="text-sm text-sky-200/90">
               MD CCFP MRCGP • Family Physician
             </p>
@@ -655,11 +655,18 @@ export default function Home() {
 
           {/* Call-to-Action Buttons */}
           <div className="flex flex-col gap-3">
-            <Link 
+            {/* <Link 
               href="/appointments-Booking" 
               className="bg-sky-500 text-white px-6 py-3 rounded-lg font-semibold text-center transition-all duration-200 hover:bg-sky-600 hover:shadow-lg"
             >
-              Book Appointment
+              Book Appointment. Join the waitlist
+            </Link> */}
+
+            <Link 
+              href="/signup" 
+              className="bg-sky-500 text-white px-6 py-3 rounded-lg font-semibold text-center transition-all duration-200 hover:bg-sky-600 hover:shadow-lg"
+            >
+            Join the waitlist
             </Link>
             
             <Link 
@@ -767,8 +774,8 @@ export default function Home() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                   </svg>
                 ),
-                title: 'Cryotherapy',
-                description: 'Effective cryotherapy for wart removal with liquid nitrogen'
+                title: 'STI Screening',
+                description: 'Confidential and accurate testing for sexually transmitted infections.'
               },
               {
                 icon: (
@@ -794,8 +801,8 @@ export default function Home() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                   </svg>
                 ),
-                title: 'Immunization',
-                description: 'Full range of immunizations for all ages'
+                title: 'Counselling',
+                description: 'Professional health counselling to support your physical and emotional wellbeing.'
               },
               {
                 icon: (
@@ -803,8 +810,8 @@ export default function Home() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
                   </svg>
                 ),
-                title: 'TB Testing',
-                description: 'Quick and reliable 1 or 2-step TB testing for work and school'
+                title: 'Treatments',
+                description: 'Comprehensive medical treatments tailored to your health needs.'
               }
             ].map((service, index) => (
               <div 
@@ -896,12 +903,12 @@ export default function Home() {
               <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 border border-sky-200">
                 <div className="space-y-4 mb-6">
                   {[
-                    { day: 'Monday', hours: '9:00 AM - 5:00 PM' },
-                    { day: 'Tuesday', hours: '9:00 AM - 5:00 PM' },
-                    { day: 'Wednesday', hours: '9:00 AM - 5:00 PM' },
-                    { day: 'Thursday', hours: '9:00 AM - 5:00 PM' },
-                    { day: 'Friday', hours: '9:00 AM - 5:00 PM' },
-                    { day: 'Saturday', hours: '10:00 AM - 2:00 PM' },
+                    { day: 'Monday', hours: '10:00 AM - 7:00 PM' },
+                    { day: 'Tuesday', hours: '10:00 AM - 7:00 PM' },
+                    { day: 'Wednesday', hours: '10:00 AM - 7:00 PM' },
+                    { day: 'Thursday', hours: '10:00 AM - 7:00 PM' },
+                    { day: 'Friday', hours: '10:00 AM - 7:00 PM' },
+                    { day: 'Saturday', hours: '10:00 AM - 3:00 PM' },
                     { day: 'Sunday', hours: 'Closed' }
                   ].map((schedule, index) => (
                     <div key={index} className="flex justify-between items-center py-2 border-b border-sky-100 last:border-b-0">
@@ -935,7 +942,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Testimonials Section
       <section className="py-16 bg-sky-50">
         <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-12">
@@ -948,22 +955,22 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Testimonial Slider */}
+          
           <div className="relative bg-white rounded-2xl shadow-lg p-8 md:p-12 border border-sky-200 ">
             <div className="text-center">
-              {/* Stars */}
+              
               <div className="flex justify-center mb-4">
                 <div className="flex space-x-1">
                   {renderStars(testimonials[currentTestimonial].rating)}
                 </div>
               </div>
               
-              {/* Testimonial Content */}
+              
               <blockquote className="text-lg text-sky-800 mb-6 text-sm sm:text-base md:text-lg leading-relaxed">
                 "{testimonials[currentTestimonial].content}"
               </blockquote>
               
-              {/* Author */}
+              
               <div className="mb-8">
                 <p className="font-semibold text-sky-900 text-lg">
                   {testimonials[currentTestimonial].name}
@@ -973,7 +980,7 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Navigation Dots */}
+              
               <div className="flex justify-center space-x-2 mb-4">
                 {testimonials.map((_, index) => (
                   <button
@@ -986,7 +993,7 @@ export default function Home() {
                 ))}
               </div>
 
-              {/* Navigation Arrows */}
+              
               <div className="flex justify-center space-x-4">
                 <button
                   onClick={prevTestimonial}
@@ -1010,7 +1017,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Features Section */}
       <section className="py-16 bg-sky-100">

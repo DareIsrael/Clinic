@@ -170,15 +170,17 @@ export default function AboutPage() {
                 <h3 className="text-xl font-bold text-sky-900 mb-4">Dr. Oluwaseun FAGBOLAGUN</h3>
                 <p className="text-lg text-sky-600 font-medium mb-6">Family Physician</p>
                 <p className="text-sky-700 text-sm sm:text-base md:text-lg leading-relaxed mb-6">
-                  Dr. Fagbolagun brings over 15 years of experience in family medicine, certified by both Canadian 
-                  and UK medical boards. With a commitment to excellence and a compassionate approach to patient care, 
-                  Dr. Fagbolagun provides comprehensive medical services for patients of all ages.
+                  Dr. Fagbolagun brings over a decade experience of medical practice. He is certified
+                  in family medicine by both Canadian and UK medical boards. With a commitment to excellence
+                  and a compassionate approach to patient care, Dr. Fagbolagun provides comprehensive medical
+                  services for patients of all ages.
+                  
                 </p>
-                <p className="text-sky-700 text-sm sm:text-base md:text-lg leading-relaxed">
-                  Fluent in multiple languages and dedicated to ongoing medical education, Dr. Fagbolagun stays 
-                  current with the latest advancements in family medicine to provide the highest standard of care 
-                  to the Ottawa community.
-                </p>
+                {/* <p className="text-sky-700 text-sm sm:text-base md:text-lg leading-relaxed">
+                  To provide compassionate, efficient, and high-quality family medical care in Ottawa- blending
+                  modern technology, premium service, and accessible care. We believe every family deserves care
+                  they can trust - care that grows with them and supports their health at every stage of life.
+                </p> */}
               </div>
 
               {/* Credentials */}
@@ -251,9 +253,10 @@ export default function AboutPage() {
               <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-6">Our Mission</h2>
               <div className="w-16 h-1 bg-sky-500 mb-6"></div>
               <p className="text-sky-700 text-sm sm:text-base md:text-lg leading-relaxed mb-6">
-                To provide exceptional, patient-centered family medicine that enhances the health and well-being 
-                of individuals and families in our community. We are committed to delivering accessible, 
-                comprehensive healthcare with compassion, respect, and clinical excellence.
+                To serve our patients, team, and community with excellence - grounded in integrity,
+                guided by professionalism, and driven by patient-centred innovation. We are committed
+                to delivering accessible, comprehensive healthcare that evolves with the needs of the families we serve.
+
               </p>
               <div className="bg-sky-100 rounded-lg p-6 border border-sky-200">
                 <h3 className="font-semibold text-sky-800 mb-3">Our Commitment</h3>
@@ -284,9 +287,10 @@ export default function AboutPage() {
               <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-6">Our Vision</h2>
               <div className="w-16 h-1 bg-sky-500 mb-6"></div>
               <p className="text-sky-700 text-sm sm:text-base md:text-lg leading-relaxed mb-6">
-                To be the trusted family medicine practice of choice in Ottawa, recognized for clinical excellence, 
-                compassionate care, and meaningful patient relationships. We envision a community where every family 
-                has access to comprehensive healthcare that supports their lifelong wellness journey.
+                To provide compassionate, efficient, and high-quality family medical care in Ottawa- blending
+                modern technology, premium service, and accessible care. We believe every family deserves care
+                they can trust - care that grows with them and supports their health at every stage of life.
+
               </p>
               <div className="border-l-4 border-sky-500 pl-6">
                 <p className="text-lg italic text-sky-800 text-sm sm:text-base md:text-lg leading-relaxed">

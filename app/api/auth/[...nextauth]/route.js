@@ -45,7 +45,7 @@ export const authOptions = {
           address: user.address,
           country: user.country,
           postalCode: user.postalCode,
-          age: user.age
+          // age: user.age
         };
       }
     })
@@ -67,7 +67,7 @@ export const authOptions = {
         token.address = user.address;
         token.country = user.country;
         token.postalCode = user.postalCode;
-        token.age = user.age;
+        // token.age = user.age;
       }
       return token;
     },
@@ -86,7 +86,7 @@ export const authOptions = {
       session.user.address = token.address;
       session.user.country = token.country;
       session.user.postalCode = token.postalCode;
-      session.user.age = token.age;
+      // session.user.age = token.age;
       return session;
     }
   },

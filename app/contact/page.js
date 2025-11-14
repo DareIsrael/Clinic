@@ -63,7 +63,7 @@ export default function ContactPage() {
       ),
       title: 'Visit Our Clinic',
       details: ['St Mary Rideau Family Clinic', '158 Rideau Street', 'Ottawa, K1N5X6'],
-      description: 'Free parking available onsite'
+      // description: 'Free parking available onsite'
     },
     {
       icon: (
@@ -82,7 +82,7 @@ export default function ContactPage() {
         </svg>
       ),
       title: 'Email Us',
-      details: ['contact@stmaryrideauclinic.com', 'appointments@stmaryrideauclinic.com'],
+      details: ['contact@stmaryrideauclinic.com'],
       description: 'We respond within 24 hours'
     },
     {
@@ -92,7 +92,7 @@ export default function ContactPage() {
         </svg>
       ),
       title: 'Opening Hours',
-      details: ['Monday - Friday: 9:00 AM - 5:00 PM', 'Saturday: 9:00 AM - 2:00 PM', 'Sunday: Closed'],
+      details: ['Monday - Friday: 10:00 AM - 7:00 PM', 'Saturday: 10:00 AM - 3:00 PM', 'Sunday: Closed'],
       description: 'Extended hours by appointment'
     }
   ];
@@ -117,9 +117,9 @@ export default function ContactPage() {
             Contact St Mary Rideau Clinic
           </h1>
           <div className="w-12 h-0.5 bg-sky-300 rounded-full mb-4"></div>
-          <p className="text-lg text-sky-50 font-medium mb-2">
+          {/* <p className="text-lg text-sky-50 font-medium mb-2">
             Dr. Oluwaseun FAGBOLAGUN
-          </p>
+          </p> */}
           <p className="text-sm text-sky-200/90 mb-4">
             MD CCFP MRCGP • Family Physician
           </p>
