@@ -630,14 +630,14 @@ export default function Home() {
           </div>
 
           {/* Physician */}
-          <div className="mb-4">
-            {/* <p className="text-lg text-sky-50 font-medium">
+          {/* <div className="mb-4">
+            <p className="text-lg text-sky-50 font-medium">
               Dr. Oluwaseun FAGBOLAGUN
-            </p> */}
+            </p>
             <p className="text-sm text-sky-200/90">
               MD CCFP MRCGP • Family Physician
             </p>
-          </div>
+          </div> */}
 
           {/* Welcome Message */}
           <div className="mb-4">

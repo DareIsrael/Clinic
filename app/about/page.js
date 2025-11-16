@@ -31,15 +31,15 @@ export default function AboutPage() {
         </svg>
       )
     },
-    { 
-      title: 'Clinical Experience', 
-      value: '15+ Years in Family Medicine',
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      )
-    }
+    // { 
+    //   title: 'Clinical Experience', 
+    //   value: '15+ Years in Family Medicine',
+    //   icon: (
+    //     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    //       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+    //     </svg>
+    //   )
+    // }
   ];
 
   const values = [
@@ -140,12 +140,12 @@ export default function AboutPage() {
             About St Mary Rideau Family Clinic
           </h1>
           <div className="w-12 h-0.5 bg-sky-300 rounded-full mb-4"></div>
-          <p className="text-lg text-sky-50 font-medium mb-2">
+          {/* <p className="text-lg text-sky-50 font-medium mb-2">
             Dr. Oluwaseun FAGBOLAGUN
           </p>
           <p className="text-sm text-sky-200/90 mb-4">
             MD CCFP MRCGP • Family Physician
-          </p>
+          </p> */}
           <p className="text-sm text-white leading-relaxed mb-4">
             Providing compassionate, comprehensive family medicine to the Ottawa community with personalized care from an experienced physician.
           </p>

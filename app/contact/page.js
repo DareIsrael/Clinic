@@ -120,9 +120,9 @@ export default function ContactPage() {
           {/* <p className="text-lg text-sky-50 font-medium mb-2">
             Dr. Oluwaseun FAGBOLAGUN
           </p> */}
-          <p className="text-sm text-sky-200/90 mb-4">
+          {/* <p className="text-sm text-sky-200/90 mb-4">
             MD CCFP MRCGP • Family Physician
-          </p>
+          </p> */}
           <p className="text-sm text-white leading-relaxed">
             We're here to help you with all your healthcare needs. Get in touch with us today for appointments, inquiries, or medical concerns.
           </p>
@@ -310,7 +310,7 @@ export default function ContactPage() {
                   </p>
                   <p className="flex items-center">
                     <span className="w-6">📧</span>
-                    <span><span className="font-medium">Email:</span> appointments@stmaryrideauclinic.com</span>
+                    <span><span className="font-medium">Email:</span>contact@stmaryrideauclinic.com</span>
                   </p>
                 </div>
               </div>

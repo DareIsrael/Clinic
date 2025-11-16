@@ -154,7 +154,7 @@ export default function AdminDashboard() {
         <div className="bg-white border-b">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <nav className="flex space-x-8 overflow-x-auto">
-              {['overview', 'appointments', 'users', 'reports'].map((tab) => (
+              {['overview', 'appointments', 'waitlist', 'reports'].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
@@ -222,17 +222,17 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
-                <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+                {/* <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
                   <div className="flex items-center">
                     <div className="p-2 bg-purple-100 rounded-lg">
                       <span className="text-purple-600 text-xl">💰</span>
                     </div>
-                    {/* <div className="ml-4">
+                    <div className="ml-4">
                       <p className="text-sm font-medium text-gray-600">Revenue</p>
                       <p className="text-2xl font-bold text-gray-900">${calculatedStats.revenue || 0}</p>
-                    </div> */}
+                    </div>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
