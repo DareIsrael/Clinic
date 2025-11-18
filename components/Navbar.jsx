@@ -32,7 +32,7 @@ export default function Navbar() {
             <div className="flex items-center">
               <Link href="/" className="flex-shrink-0">
                 <Image
-                  src="/logo3.png"
+                  src="/St.Mary Rideau.png"
                   alt="St Mary Rideau Clinic Logo"
                   width={160}
                   height={50}
@@ -57,9 +57,9 @@ export default function Navbar() {
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0 flex items-center space-x-2" onClick={closeMobileMenu}>
               <Image
-                src="/logo3.png"
+                src="/St.Mary Rideau.png"
                 alt="St Mary Rideau Clinic Logo"
-                width={200}
+                width={230}
                 height={150}
                 className="object-contain cursor-pointer"
               />
