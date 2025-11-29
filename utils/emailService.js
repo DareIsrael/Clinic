@@ -4,6 +4,7 @@ const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST, // e.g., smtp.hostinger.com
   port: Number(process.env.SMTP_PORT) || 587, // 587 for TLS, 465 for SSL
   secure: Number(process.env.SMTP_PORT) === 465, // true for SSL
+  // secure: false,
   auth: {
     user: process.env.EMAIL_USER, // e.g., info@yourdomain.com
     pass: process.env.EMAIL_PASSWORD, // your email password
