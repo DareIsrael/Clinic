@@ -34,11 +34,7 @@
 //     required: [true, 'Healthcare number is required'],
 //     trim: true
 //   },
-//   age: {
-//     type: Number,
-//     required: [true, 'Age is required'],
-//     min: [0, 'Age cannot be negative']
-//   },
+  
 //   dateOfBirth: {
 //     type: Date,
 //     required: [true, 'Date of birth is required']
@@ -72,7 +68,9 @@
 //     type: String,
 //     enum: ['patient', 'admin', 'doctor'],
 //     default: 'patient'
-//   }
+//   },
+//   resetPasswordToken: String,
+//   resetPasswordExpires: Date,
 // }, {
 //   timestamps: true
 // });
@@ -83,8 +81,8 @@
 //   next();
 // });
 
-// userSchema.methods.correctPassword = async function(candidatePassword, userPassword) {
-//   return await bcrypt.compare(candidatePassword, userPassword);
+// userSchema.methods.correctPassword = async function(candidatePassword) {
+//   return await bcrypt.compare(candidatePassword, this.password);
 // };
 
 // export default mongoose.models.User || mongoose.model('User', userSchema);
@@ -128,11 +126,6 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Healthcare number is required'],
     trim: true
   },
-  // age: {
-  //   type: Number,
-  //   required: [false, 'Age is required'],
-  //   min: [0, 'Age cannot be negative']
-  // },
   dateOfBirth: {
     type: Date,
     required: [true, 'Date of birth is required']
@@ -166,6 +159,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['patient', 'admin', 'doctor'],
     default: 'patient'
+  },
+  // Add status field with the desired options
+  status: {
+    type: String,
+    enum: ['Active', 'Booked', 'Accepted', 'Rejected'],
+    default: 'Active'
   },
   resetPasswordToken: String,
   resetPasswordExpires: Date,

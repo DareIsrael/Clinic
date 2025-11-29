@@ -1088,14 +1088,14 @@ export default function Home() {
           <h2 className="text-2xl font-bold text-white mb-4">
             Start Your Health Journey
           </h2>
-          <p className="text-sky-100 mb-6">
+          {/* <p className="text-sky-100 mb-6">
             Book your appointment with Dr. Fagbolagun today
-          </p>
+          </p> */}
           <Link 
-            href="/appointments-Booking" 
+            href="/signup" 
             className="inline-block bg-white text-sky-600 px-8 py-3 rounded-lg font-semibold hover:bg-sky-50 transition-all duration-200 hover:shadow-lg"
           >
-            Book Now
+            Join the waitlist
           </Link>
         </div>
       </section>

@@ -89,12 +89,12 @@ export default function Navbar() {
             
             {isAuthenticated ? (
               <>
-                <Link 
+                {/* <Link 
                   href="/dashboard" 
                   className={`px-3 py-2 rounded-md text-sm font-medium transition duration-300 ${isActiveLink('/dashboard')}`}
                 >
                   Dashboard
-                </Link>
+                </Link> */}
                 {user?.role === 'admin' && (
                   <Link 
                     href="/admin" 
@@ -103,12 +103,12 @@ export default function Navbar() {
                     Admin
                   </Link>
                 )}
-                <Link 
+                {/* <Link 
                   href="appointments-Booking" 
                   className="bg-sky-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-sky-700 transition duration-300 ml-2"
                 >
                   Book Appointment
-                </Link>
+                </Link> */}
                 <div className="relative group ml-2">
                   <button className="flex items-center space-x-2 text-gray-700 hover:text-sky-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300">
                     <div className="w-8 h-8 bg-sky-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
@@ -192,13 +192,13 @@ export default function Navbar() {
               
               {isAuthenticated ? (
                 <>
-                  <Link
+                  {/* <Link
                     href="/dashboard"
                     className={`block px-3 py-2 rounded-md text-base font-medium transition duration-300 ${isActiveLink('/dashboard')}`}
                     onClick={closeMobileMenu}
                   >
                     Dashboard
-                  </Link>
+                  </Link> */}
                   {user?.role === 'admin' && (
                     <Link
                       href="/admin"
@@ -208,13 +208,13 @@ export default function Navbar() {
                       Admin
                     </Link>
                   )}
-                  <Link
+                  {/* <Link
                     href="appointments-Booking"
                     className="block px-3 py-2 rounded-md text-base font-medium bg-sky-600 text-white hover:bg-sky-700 transition duration-300"
                     onClick={closeMobileMenu}
                   >
                     Book Appointment
-                  </Link>
+                  </Link> */}
                   <div className="border-t border-gray-200 pt-2">
                     <div className="px-3 py-2 text-sm text-gray-500">
                       Signed in as {user?.firstName} {user?.lastName}
