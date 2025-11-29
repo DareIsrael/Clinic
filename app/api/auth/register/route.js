@@ -137,14 +137,7 @@ async function sendWelcomeEmail(user) {
             <li>Follow up your appointments</li>
           </ul>
           
-          <div style="text-align: center; margin: 30px 0;">
-            // <a href="${process.env.NEXTAUTH_URL}/login" 
-            //    style="background-color: #0369a1; color: white; padding: 14px 28px; 
-            //           text-decoration: none; border-radius: 6px; display: inline-block;
-            //           font-weight: bold; font-size: 16px;">
-            //   Login to Your Patient Portal
-            // </a>
-          </div>
+      
           
           <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
           

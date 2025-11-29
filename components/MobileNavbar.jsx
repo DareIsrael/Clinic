@@ -95,13 +95,13 @@ export default function MobileNavbar() {
                   Logout
                 </button>
 
-                <Link
+                {/* <Link
       href="/dashboard"
       className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-sky-600 hover:bg-gray-50"
       onClick={() => setIsMenuOpen(false)}
     >
       Dashboard
-    </Link>
+    </Link> */}
     {/* Show Admin link only for admin users */}
     {user?.role === 'admin' && (
       <Link
