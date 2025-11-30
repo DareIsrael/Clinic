@@ -74,6 +74,6 @@ const waitlistSchema = new mongoose.Schema({
 // Add index for better query performance
 waitlistSchema.index({ createdAt: 1 });
 waitlistSchema.index({ status: 1 });
-waitlistSchema.index({ email: 1 });
+// waitlistSchema.index({ email: 1 });
 
 export default mongoose.models.Waitlist || mongoose.model('Waitlist', waitlistSchema);
