@@ -34,7 +34,7 @@ export async function GET(request) {
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 0, 23, 59, 59);
 
-    console.log('Fetching reports for:', { year, month, startDate, endDate });
+    // console.log('Fetching reports for:', { year, month, startDate, endDate });
 
     // Get user registrations for the month
     const newPatients = await User.countDocuments({

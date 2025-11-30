@@ -80,9 +80,9 @@ export async function POST(req) {
       role: 'patient'
     });
 
-    console.log('🆕 New user created - Password automatically hashed by model');
-    console.log('📧 Email:', user.email);
-    console.log('🔐 Hashed password stored:', user.password.substring(0, 20) + '...');
+    // console.log('🆕 New user created - Password automatically hashed by model');
+    // console.log('📧 Email:', user.email);
+    // console.log('🔐 Hashed password stored:', user.password.substring(0, 20) + '...');
 
     // Send welcome email (don't await to avoid blocking response)
     sendWelcomeEmail(user).catch(error => {

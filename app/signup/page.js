@@ -143,20 +143,20 @@ export default function SignupPage() {
           if (signInResult?.ok) {
             setSuccessMessage('loading...');
             setTimeout(() => {
-              router.push('/waiting-list-confirmation');
+              router.push('/login');
             }, 1000);
           } else {
             // If auto-signin fails, redirect to login page
             setSuccessMessage('loading...');
             setTimeout(() => {
-              router.push('/waiting-list-confirmation');
+              router.push('/login');
             }, 2000);
           }
         } catch (signInError) {
           console.error('Auto sign-in error:', signInError);
           setSuccessMessage('loading...');
           setTimeout(() => {
-            router.push('/waiting-list-confirmation');
+            router.push('/login');
           }, 2000);
         }
       } else {
@@ -203,7 +203,7 @@ export default function SignupPage() {
                     </div>
                   </div>
                   <h1 className="text-xl font-bold text-gray-900 mb-1">Join Our Clinic</h1>
-                  <p className="text-gray-600 text-xs">Join the waitlist</p>
+                  <p className="text-gray-600 text-xs">Register</p>
                 </div>
 
                 {/* Success Message */}
@@ -516,10 +516,10 @@ export default function SignupPage() {
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Joining...
+                        Registering...
                       </span>
                     ) : (
-                      'Join Now'
+                      'Register'
                     )}
                   </button>
                 </form>
@@ -556,20 +556,9 @@ export default function SignupPage() {
                     </svg>
                   </div>
                   <h2 className="text-lg font-bold mb-1">St Mary Rideau Clinic</h2>
-                  <p className="text-sky-100 text-xs mb-3">Patient Registration</p>
+                  <p className="text-sky-100 text-xs mb-3">Admin Registration</p>
                   <div className="space-y-2 text-xs text-sky-200 max-w-xs mx-auto">
-                    <div className="flex items-center justify-center">
-                      <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                      </svg>
-                      Secure Patient Account
-                    </div>
-                    <div className="flex items-center justify-center">
-                      <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                      </svg>
-                      Easy Appointment Booking
-                    </div>
+                  
                   </div>
                 </div>
               </div>

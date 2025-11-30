@@ -9,7 +9,7 @@ const api = axios.create({
 // Enhanced logging for debugging
 api.interceptors.request.use(
   (config) => {
-    console.log(`➡️ ${config.method?.toUpperCase()} ${config.url}`, config.params || '');
+    // console.log(`➡️ ${config.method?.toUpperCase()} ${config.url}`, config.params || '');
     return config;
   },
   (error) => Promise.reject(error)
@@ -17,7 +17,7 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (response) => {
-    console.log(`✅ ${response.status} ${response.config.url}`);
+    // console.log(`✅ ${response.status} ${response.config.url}`);
     return response;
   },
   (error) => {

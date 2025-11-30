@@ -663,7 +663,7 @@ export default function Home() {
             </Link> */}
 
             <Link 
-              href="/signup" 
+              href="/waitlist" 
               className="bg-sky-500 text-white px-6 py-3 rounded-lg font-semibold text-center transition-all duration-200 hover:bg-sky-600 hover:shadow-lg"
             >
             Join the waitlist
@@ -1092,7 +1092,7 @@ export default function Home() {
             Book your appointment with Dr. Fagbolagun today
           </p> */}
           <Link 
-            href="/signup" 
+            href="/waitlist" 
             className="inline-block bg-white text-sky-600 px-8 py-3 rounded-lg font-semibold hover:bg-sky-50 transition-all duration-200 hover:shadow-lg"
           >
             Join the waitlist

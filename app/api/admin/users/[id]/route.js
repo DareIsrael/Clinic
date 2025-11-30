@@ -29,7 +29,7 @@ export async function PATCH(request, { params }) {
     const { id } = await params;
     const { status } = await request.json();
 
-    console.log('Updating user status:', { id, status }); // Debug log
+    // console.log('Updating user status:', { id, status }); // Debug log
 
     // Validate status
     const validStatuses = ['Active', 'Booked', 'Accepted', 'Rejected'];
