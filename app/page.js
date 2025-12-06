@@ -545,6 +545,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import Announcements from '@/components/Announcements';
 
 export default function Home() {
   // Testimonial slider state
@@ -618,8 +619,13 @@ export default function Home() {
           <div className="absolute inset-0 bg-sky-800/70"></div>
         </div>
 
-        {/* Compact Text Box */}
-        <div className="relative z-10 max-w-md mx-4 lg:mx-16 xl:mx-24 bg-sky-700/90 backdrop-blur-sm rounded-2xl p-6 lg:p-8 border border-sky-400/40 shadow-xl">
+        {/* Announcements Section - Properly positioned with enough margin */}
+        <div className="absolute top-8 left-4 right-4 z-20">
+          <Announcements />
+        </div>
+
+        {/* Main Content Box - Pushed down to avoid overlap */}
+        <div className="relative z-10 max-w-md mx-4 mb-16 lg:mx-16 xl:mx-24 bg-sky-700/90 backdrop-blur-sm rounded-2xl p-6 lg:p-8 border border-sky-400/40 shadow-xl mt-40 lg:mt-44 xl:mt-48">
           {/* Clinic Name */}
           <div className="mb-4">
             <h1 className="text-2xl lg:text-3xl font-bold text-white mb-2">
@@ -628,16 +634,6 @@ export default function Home() {
             </h1>
             <div className="w-12 h-0.5 bg-sky-300 rounded-full mb-3"></div>
           </div>
-
-          {/* Physician */}
-          {/* <div className="mb-4">
-            <p className="text-lg text-sky-50 font-medium">
-              Dr. Oluwaseun FAGBOLAGUN
-            </p>
-            <p className="text-sm text-sky-200/90">
-              MD CCFP MRCGP • Family Physician
-            </p>
-          </div> */}
 
           {/* Welcome Message */}
           <div className="mb-4">
@@ -655,18 +651,11 @@ export default function Home() {
 
           {/* Call-to-Action Buttons */}
           <div className="flex flex-col gap-3">
-            {/* <Link 
-              href="/appointments-Booking" 
-              className="bg-sky-500 text-white px-6 py-3 rounded-lg font-semibold text-center transition-all duration-200 hover:bg-sky-600 hover:shadow-lg"
-            >
-              Book Appointment. Join the waitlist
-            </Link> */}
-
             <Link 
               href="/waitlist" 
               className="bg-sky-500 text-white px-6 py-3 rounded-lg font-semibold text-center transition-all duration-200 hover:bg-sky-600 hover:shadow-lg"
             >
-            Join the waitlist
+              Join the waitlist
             </Link>
             
             <Link 
@@ -717,10 +706,10 @@ export default function Home() {
       </section>
 
       {/* Services Preview */}
-      <section className="py-16 bg-sky-50">
+      <section id="services" className="py-16 bg-sky-50">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 id='services' className="text-2xl font-bold text-sky-900 mb-3">
+            <h2 className="text-2xl font-bold text-sky-900 mb-3">
               Our Medical Services
             </h2>
             <div className="w-12 h-0.5 bg-sky-500 rounded-full mx-auto mb-4"></div>
@@ -942,83 +931,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section
-      <section className="py-16 bg-sky-50">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl font-bold text-sky-900 mb-3">
-              What Our Patients Say
-            </h2>
-            <div className="w-12 h-0.5 bg-sky-500 rounded-full mx-auto mb-4"></div>
-            <p className="text-sky-700 max-w-2xl mx-auto">
-              Hear from families who trust us with their healthcare needs
-            </p>
-          </div>
-
-          
-          <div className="relative bg-white rounded-2xl shadow-lg p-8 md:p-12 border border-sky-200 ">
-            <div className="text-center">
-              
-              <div className="flex justify-center mb-4">
-                <div className="flex space-x-1">
-                  {renderStars(testimonials[currentTestimonial].rating)}
-                </div>
-              </div>
-              
-              
-              <blockquote className="text-lg text-sky-800 mb-6 text-sm sm:text-base md:text-lg leading-relaxed">
-                "{testimonials[currentTestimonial].content}"
-              </blockquote>
-              
-              
-              <div className="mb-8">
-                <p className="font-semibold text-sky-900 text-lg">
-                  {testimonials[currentTestimonial].name}
-                </p>
-                <p className="text-sky-700 text-sm">
-                  {testimonials[currentTestimonial].role}
-                </p>
-              </div>
-
-              
-              <div className="flex justify-center space-x-2 mb-4">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentTestimonial(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                      index === currentTestimonial ? 'bg-sky-500' : 'bg-sky-200'
-                    }`}
-                  />
-                ))}
-              </div>
-
-              
-              <div className="flex justify-center space-x-4">
-                <button
-                  onClick={prevTestimonial}
-                  className="p-2 rounded-full bg-sky-100 text-sky-600 hover:bg-sky-200 transition-colors duration-200"
-                  aria-label="Previous testimonial"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
-                <button
-                  onClick={nextTestimonial}
-                  className="p-2 rounded-full bg-sky-100 text-sky-600 hover:bg-sky-200 transition-colors duration-200"
-                  aria-label="Next testimonial"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
       {/* Features Section */}
       <section className="py-16 bg-sky-100">
         <div className="max-w-4xl mx-auto px-4">
@@ -1088,9 +1000,6 @@ export default function Home() {
           <h2 className="text-2xl font-bold text-white mb-4">
             Start Your Health Journey
           </h2>
-          {/* <p className="text-sky-100 mb-6">
-            Book your appointment with Dr. Fagbolagun today
-          </p> */}
           <Link 
             href="/waitlist" 
             className="inline-block bg-white text-sky-600 px-8 py-3 rounded-lg font-semibold hover:bg-sky-50 transition-all duration-200 hover:shadow-lg"

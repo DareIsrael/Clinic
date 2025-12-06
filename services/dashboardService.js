@@ -96,6 +96,57 @@
 
 
 
+// import api from '@/utils/axiosConfig';
+
+// export const dashboardService = {
+
+
+
+
+  
+//   // Get dashboard stats
+//   getStats: async () => {
+//     const response = await api.get('/dashboard/stats');
+//     return response.data;
+//   },
+
+//   // Get admin stats
+//   getAdminStats: async () => {
+//     const response = await api.get('/dashboard/stats');
+//     return response.data;
+//   },
+
+//   // Get all waitlist entries
+//   getWaitlist: async (params = {}) => {
+//     const response = await api.get('/admin/waitlist', { params });
+//     return response.data;
+//   },
+
+//   // Update waitlist status
+//   updateWaitlistStatus: async (waitlistId, status) => {
+//     const response = await api.patch('/admin/waitlist', { 
+//       id: waitlistId, 
+//       status 
+//     });
+//     return response.data;
+//   },
+
+//   // Get monthly reports
+//   getMonthlyReports: async (year, month) => {
+//     const response = await api.get('/admin/reports/monthly', {
+//       params: { year, month }
+//     });
+//     return response.data;
+//   },
+
+//   // Get reports overview
+//   getReportsOverview: async () => {
+//     const response = await api.get('/admin/reports/overview');
+//     return response.data;
+//   }
+// };
+
+
 import api from '@/utils/axiosConfig';
 
 export const dashboardService = {
@@ -137,6 +188,33 @@ export const dashboardService = {
   // Get reports overview
   getReportsOverview: async () => {
     const response = await api.get('/admin/reports/overview');
+    return response.data;
+  },
+
+  // Announcement functions
+  // Get announcements (admin=true for admin view, false for public view)
+  getAnnouncements: async (isAdmin = false) => {
+    const response = await api.get('/announcements', {
+      params: { admin: isAdmin }
+    });
+    return response.data;
+  },
+
+  // Create announcement
+  createAnnouncement: async (announcementData) => {
+    const response = await api.post('/announcements', announcementData);
+    return response.data;
+  },
+
+  // Update announcement
+  updateAnnouncement: async (id, announcementData) => {
+    const response = await api.put(`/announcements/${id}`, announcementData);
+    return response.data;
+  },
+
+  // Delete announcement
+  deleteAnnouncement: async (id) => {
+    const response = await api.delete(`/announcements/${id}`);
     return response.data;
   }
 };
