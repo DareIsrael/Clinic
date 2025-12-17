@@ -48,6 +48,19 @@ export default function UninsuredServicesPage() {
       ]
     },
     {
+      category: 'Exams and Third-Party Evaluations',
+      icon: (
+        <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+        </svg>
+      ),
+      items: [
+        { service: 'Practice admission interview (patient interviewing a physician about joining the practice)', fee: '$150' },
+        { service: 'Pre-adoption exam &amp; evaluation (Children’s Aid Society – CAS)', fee: '$246' },
+        
+      ]
+    },
+    {
       category: 'Tuberculosis (TB) Testing for Employment',
       icon: (
         <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
