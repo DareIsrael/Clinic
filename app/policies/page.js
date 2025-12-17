@@ -231,7 +231,7 @@ export default function PoliciesPage() {
             Comprehensive, professional, and aligned with CPSO + PHIPA + OMA guidelines
           </p>
           <div className="p-3 bg-sky-600/60 rounded-lg border-l-2 border-sky-300">
-            <p className="text-sm text-white font-light italic mx-auto text-sm sm:text-base md:text-lg leading-relaxed">
+            <p className="text-sm text-white font-light italic mx-auto text-sm sm:text-base leading-relaxed">
               "We are committed to providing compassionate, efficient, and high-quality care for every patient."
             </p>
           </div>
@@ -246,7 +246,7 @@ export default function PoliciesPage() {
               Welcome to St. Mary Rideau Family Clinic
             </h2>
             <div className="w-16 h-1 bg-sky-500 mb-6"></div>
-            <p className="text-sky-700 text-lg leading-relaxed mx-auto text-sm sm:text-base md:text-lg leading-relaxed">
+            <p className="text-sky-700 text-lg leading-relaxed mx-auto text-sm sm:text-base  leading-relaxed">
               We are committed to providing compassionate, efficient, and high-quality care for every patient.
               Below is a clear outline of your rights, responsibilities, and our clinic's operational policies 
               so you always know what to expect.
@@ -286,11 +286,11 @@ export default function PoliciesPage() {
                         )}
                         
                         {item.content && (
-                          <p className="text-sky-700 mx-auto text-sm sm:text-base md:text-lg leading-relaxed">{item.content}</p>
+                          <p className="text-sky-700 mx-auto text-sm sm:text-base  leading-relaxed">{item.content}</p>
                         )}
                         
                         {item.list && (
-                          <ul className="space-y-2 mt-3">
+                          <ul className="space-y-2 mt-3 mx-auto text-sm sm:text-base  leading-relaxed">
                             {item.list.map((listItem, listIndex) => (
                               <li key={listIndex} className="flex items-start">
                                 <span className="text-sky-600 mr-3 mt-1">•</span>
@@ -323,7 +323,7 @@ export default function PoliciesPage() {
                     {section.items.map((item, itemIndex) => (
                       <div key={itemIndex}>
                         {item.content && (
-                          <p className="text-sky-700 mx-auto text-sm sm:text-base md:text-lg leading-relaxed mb-3">{item.content}</p>
+                          <p className="text-sky-700 mx-auto text-sm sm:text-base  leading-relaxed mb-3">{item.content}</p>
                         )}
                         
                         {item.list && (
@@ -352,7 +352,7 @@ export default function PoliciesPage() {
           <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">
             Questions About Our Policies?
           </h3>
-          <p className="text-sky-100 text-lg mb-8 max-w-2xl mx-auto mx-auto text-sm sm:text-base md:text-lg leading-relaxed">
+          <p className="text-sky-100 text-lg mb-8 max-w-2xl mx-auto mx-auto text-sm sm:text-base  leading-relaxed">
             Our team is here to help you understand our policies and ensure you have the best possible experience.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
