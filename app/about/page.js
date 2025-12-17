@@ -169,7 +169,7 @@ export default function AboutPage() {
               <div className="mb-8">
                 <h3 className="text-xl font-bold text-sky-900 mb-4">Dr. Oluwaseun FAGBOLAGUN</h3>
                 <p className="text-lg text-sky-600 font-medium mb-6">Family Physician</p>
-                <p className="text-sky-700 text-sm sm:text-base md:text-lg leading-relaxed mb-6">
+                <p className="text-sky-700 text-sm sm:text-base  leading-relaxed mb-6">
                   Dr. Fagbolagun brings over a decade experience of medical practice. He is certified
                   in family medicine by both Canadian and UK medical boards. With a commitment to excellence
                   and a compassionate approach to patient care, Dr. Fagbolagun provides comprehensive medical
@@ -192,7 +192,7 @@ export default function AboutPage() {
                     </div>
                     <div>
                       <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">{credential.title}</h4>
-                      <p className="text-sky-700">{credential.value}</p>
+                      <p className="text-sky-700 mx-auto text-sm sm:text-base leading-relaxed">{credential.value}</p>
                     </div>
                   </div>
                 ))}
@@ -210,7 +210,7 @@ export default function AboutPage() {
                     </div>
                     <div>
                       <h4 className="text-lg font-semibold text-sky-900 mb-2">{value.title}</h4>
-                      <p className="text-sky-700 text-sm sm:text-base md:text-lg leading-relaxed">{value.description}</p>
+                      <p className="text-sky-700 text-sm sm:text-base  leading-relaxed">{value.description}</p>
                     </div>
                   </div>
                 ))}
@@ -252,7 +252,7 @@ export default function AboutPage() {
             <div>
               <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-6">Our Mission</h2>
               <div className="w-16 h-1 bg-sky-500 mb-6"></div>
-              <p className="text-sky-700 text-sm sm:text-base md:text-lg leading-relaxed mb-6">
+              <p className="text-sky-700 text-sm sm:text-base  leading-relaxed mb-6">
                 To serve our patients, team, and community with excellence - grounded in integrity,
                 guided by professionalism, and driven by patient-centred innovation. We are committed
                 to delivering accessible, comprehensive healthcare that evolves with the needs of the families we serve.
@@ -260,7 +260,7 @@ export default function AboutPage() {
               </p>
               <div className="bg-sky-100 rounded-lg p-6 border border-sky-200">
                 <h3 className="font-semibold text-sky-800 mb-3">Our Commitment</h3>
-                <ul className="space-y-2 text-sky-700 text-sm sm:text-base md:text-lg leading-relaxed">
+                <ul className="space-y-2 text-sky-700 text-sm sm:text-base  leading-relaxed">
                   <li className="flex items-center">
                     <svg className="w-4 h-4 mr-3 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -286,7 +286,7 @@ export default function AboutPage() {
             <div>
               <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-6">Our Vision</h2>
               <div className="w-16 h-1 bg-sky-500 mb-6"></div>
-              <p className="text-sky-700 text-sm sm:text-base md:text-lg leading-relaxed mb-6">
+              <p className="text-sky-700 text-sm sm:text-base  leading-relaxed mb-6">
                 To provide compassionate, efficient, and high-quality family medical care in Ottawa- blending
                 modern technology, premium service, and accessible care. We believe every family deserves care
                 they can trust - care that grows with them and supports their health at every stage of life.

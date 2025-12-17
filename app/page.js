@@ -629,7 +629,7 @@ export default function Home() {
           {/* Clinic Name */}
           <div className="mb-4">
             <h1 className="text-2xl lg:text-3xl font-bold text-white mb-2">
-              St Mary Rideau
+              St Mary Rideauu
               <span className="block text-sky-100 text-xl lg:text-2xl">Family Clinic</span>
             </h1>
             <div className="w-12 h-0.5 bg-sky-300 rounded-full mb-3"></div>
@@ -713,7 +713,7 @@ export default function Home() {
               Our Medical Services
             </h2>
             <div className="w-12 h-0.5 bg-sky-500 rounded-full mx-auto mb-4"></div>
-            <p className="text-sky-700 max-w-3xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed">
+            <p className="text-sky-700 max-w-3xl mx-auto text-sm sm:text-base  leading-relaxed">
               At St Mary Rideau Family Clinic, we know how important it is to get the care you need quickly. 
               We are pleased to offer comprehensive family medicine services to better serve you and your family.
             </p>
