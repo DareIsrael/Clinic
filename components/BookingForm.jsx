@@ -203,8 +203,10 @@ export default function BookingForm() {
 
       {/* Help Text */}
       <div className="mt-6 text-center text-sm text-gray-500">
-        <p>Need help? Contact us at <a href="tel:6133018805" className="text-sky-600 hover:text-sky-700">(555) 123-4567</a></p>
-        <p className="mt-1">Our team is available Monday - Friday, 8:00 AM - 8:00 PM</p>
+        <p>Need help? Contact us at <a href="tel:(343) 887-3470" className="text-sky-600 hover:text-sky-700">(555) 123-4567</a></p>
+        <p className="mt-1">Our team is available - Monday - Mon & Wed - 4pm-8pm, 
+          Tues & Thurs - 10am-7pm, 
+          Sat - 10am-3pm</p>
       </div>
     </div>
   );

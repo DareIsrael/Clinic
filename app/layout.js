@@ -166,7 +166,7 @@ export default function RootLayout({ children }) {
                   <ul className="space-y-2 mx-auto text-sm sm:text-base leading-relaxed">
                     <li className="flex items-center gap-2">
                       <Phone className="w-4 h-4" />
-                      <span>Phone: (613) 301-8805</span>
+                      <span>Phone: (343) 887-3470</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Mail className="w-4 h-4" />
@@ -174,11 +174,15 @@ export default function RootLayout({ children }) {
                     </li>
                     <li className="flex items-center gap-2">
                       <Calendar className="w-4 h-4" />
-                      <span>Monday - Friday: 10:00 AM - 7:00 PM</span>
+                      <span>Monday & Wednesday - 4pm-8pm</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Calendar className="w-4 h-4" />
-                      <span>Saturday: 10:00 AM - 3:00 PM</span>
+                      <span>Tuesday & Thursday - 10am-7pm</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Calendar className="w-4 h-4" />
+                      <span>Sat - 10am-3pm</span>
                     </li>
                   </ul>
                 </div>

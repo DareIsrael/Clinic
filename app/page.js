@@ -892,11 +892,11 @@ export default function Home() {
               <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 border border-sky-200">
                 <div className="space-y-4 mb-6">
                   {[
-                    { day: 'Monday', hours: '10:00 AM - 7:00 PM' },
+                    { day: 'Monday', hours: '4:00 PM - 8:00 PM' },
                     { day: 'Tuesday', hours: '10:00 AM - 7:00 PM' },
-                    { day: 'Wednesday', hours: '10:00 AM - 7:00 PM' },
+                    { day: 'Wednesday', hours: '4:00 PM - 8:00 PM' },
                     { day: 'Thursday', hours: '10:00 AM - 7:00 PM' },
-                    { day: 'Friday', hours: '10:00 AM - 7:00 PM' },
+                    // { day: 'Friday', hours: '10:00 AM - 7:00 PM' },
                     { day: 'Saturday', hours: '10:00 AM - 3:00 PM' },
                     { day: 'Sunday', hours: 'Closed' }
                   ].map((schedule, index) => (

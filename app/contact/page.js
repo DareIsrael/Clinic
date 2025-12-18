@@ -72,7 +72,7 @@ export default function ContactPage() {
         </svg>
       ),
       title: 'Call Us',
-      details: ['Main: (613) 301-8805'],
+      details: ['Main: (343) 887-3470'],
       description: 'Same-day appointments available'
     },
     {
@@ -92,7 +92,7 @@ export default function ContactPage() {
         </svg>
       ),
       title: 'Opening Hours',
-      details: ['Monday - Friday: 10:00 AM - 7:00 PM', 'Saturday: 10:00 AM - 3:00 PM', 'Sunday: Closed'],
+      details: ['Monday & Wednesday - 4pm-8pm', 'Tuesday & Thursday - 10am-7pm', 'Sunday: Closed'],
       description: 'Extended hours by appointment'
     }
   ];
@@ -302,11 +302,11 @@ export default function ContactPage() {
                 <div className="space-y-2 text-sm text-sky-700">
                   <p className="flex items-center">
                     <span className="w-6">📞</span>
-                    <span><span className="font-medium">Appointments:</span> (613) 301-8805</span>
+                    <span><span className="font-medium">Appointments:</span> (343) 887-3470</span>
                   </p>
                   <p className="flex items-center">
                     <span className="w-6">📠</span>
-                    <span><span className="font-medium">Fax:</span> (613) 301-8805</span>
+                    <span><span className="font-medium">Fax:</span> (343) 887-3470</span>
                   </p>
                   <p className="flex items-center">
                     <span className="w-6">📧</span>

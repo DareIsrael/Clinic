@@ -456,7 +456,7 @@ async function sendWaitlistWelcomeEmail(waitlistEntry, isReturningUser = false) 
           <div style="text-align: center; color: #666; font-size: 14px;">
             <p>St Mary Rideau Clinic<br>
              158 Rideau Street, Ottawa K1N5X6<br>
-            Phone: (613) 301-8805 | Email: contact@stmaryrideauclinic.com</p>
+            Phone: (343) 887-3470 | Email: contact@stmaryrideauclinic.com</p>
             
             <p style="font-size: 12px; color: #999;">
               This is an automated message. Please do not reply to this email.
