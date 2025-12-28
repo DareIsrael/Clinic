@@ -72,7 +72,7 @@ export default function ContactPage() {
         </svg>
       ),
       title: 'Call Us',
-      details: ['Main: (343) 887-3470'],
+      details: ['Main: (343) 887-3470', 'Fax: (888)-615-1221'],
       description: 'Same-day appointments available'
     },
     {
@@ -306,7 +306,7 @@ export default function ContactPage() {
                   </p>
                   <p className="flex items-center">
                     <span className="w-6">📠</span>
-                    <span><span className="font-medium">Fax:</span> (343) 887-3470</span>
+                    <span><span className="font-medium">Fax:</span> (888)-615-1221</span>
                   </p>
                   <p className="flex items-center">
                     <span className="w-6">📧</span>

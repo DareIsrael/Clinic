@@ -168,6 +168,10 @@ export default function RootLayout({ children }) {
                       <Phone className="w-4 h-4" />
                       <span>Phone: (343) 887-3470</span>
                     </li>
+                    <p className="flex items-center">
+                    <span className="w-6">📠</span>
+                    <span><span className="font-medium">Fax:</span> (888)-615-1221</span>
+                  </p>
                     <li className="flex items-center gap-2">
                       <Mail className="w-4 h-4" />
                       <span>Email: contact@stmaryrideauclinic.com</span>
