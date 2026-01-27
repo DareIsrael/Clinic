@@ -192,7 +192,7 @@ export default function RootLayout({ children }) {
                 </div>
               </div>
               <div className="border-t border-gray-700 pt-6 text-center mx-auto text-sm sm:text-base  leading-relaxed">
-                <p>&copy; 2025 St Mary Rideau Family Clinic. All rights reserved.</p>
+                <p>&copy; 2026 St Mary Rideau Family Clinic. All rights reserved.</p>
                 <p className="text-gray-400 mt-2 mx-auto text-sm sm:text-base  leading-relaxed">Committed to your health and wellbeing</p>
               </div>
             </div>
