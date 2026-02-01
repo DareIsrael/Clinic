@@ -12,33 +12,15 @@ export async function GET(request) {
     const startDate = searchParams.get('startDate');
     const endDate = searchParams.get('endDate');
     
+    console.log('GET /api/slots/admin called with:', { startDate, endDate });
+    
     let query = {};
     
     if (startDate && endDate) {
-      // Get slots within date range
-      const start = new Date(startDate);
-      start.setUTCHours(0, 0, 0, 0);
-      
-      const end = new Date(endDate);
-      end.setUTCDate(end.getUTCDate() + 1);
-      end.setUTCHours(0, 0, 0, 0);
-      
+      // SIMPLE: Just use date strings directly
       query.date = {
-        $gte: start,
-        $lt: end
-      };
-    } else {
-      // Default to next 30 days
-      const today = new Date();
-      today.setUTCHours(0, 0, 0, 0);
-      
-      const futureDate = new Date(today);
-      futureDate.setUTCDate(futureDate.getUTCDate() + 30);
-      futureDate.setUTCHours(23, 59, 59, 999);
-      
-      query.date = {
-        $gte: today,
-        $lte: futureDate
+        $gte: startDate,
+        $lte: endDate
       };
     }
     
@@ -46,9 +28,12 @@ export async function GET(request) {
       .populate('bookedBy', 'firstName lastName email')
       .sort({ date: 1, time: 1 });
     
+    console.log(`Found ${slots.length} slots in database`);
+    
+    // SIMPLE: Just return the slots as they are
     return NextResponse.json({
       success: true,
-      slots,
+      slots: slots,
       count: slots.length
     });
   } catch (error) {
@@ -60,7 +45,7 @@ export async function GET(request) {
   }
 }
 
-// DELETE - Delete slot by ID or all slots for a date
+// DELETE - Simple version
 export async function DELETE(request) {
   try {
     await dbConnect();
@@ -69,51 +54,12 @@ export async function DELETE(request) {
     const slotId = searchParams.get('slotId');
     const date = searchParams.get('date');
     
-    if (slotId) {
-      // Delete individual slot
-      const slot = await AvailableSlot.findById(slotId);
-      
-      if (!slot) {
-        return NextResponse.json(
-          { success: false, message: 'Slot not found' },
-          { status: 404 }
-        );
-      }
-      
-      // Check if slot is booked
-      if (slot.bookedBy) {
-        return NextResponse.json(
-          { 
-            success: false, 
-            message: 'Cannot delete a booked slot. Cancel the appointment first.' 
-          },
-          { status: 400 }
-        );
-      }
-      
-      await AvailableSlot.findByIdAndDelete(slotId);
-      
-      return NextResponse.json({
-        success: true,
-        message: 'Slot deleted successfully'
-      });
-    }
-    
     if (date) {
-      // Delete all slots for a specific date
-      const start = new Date(date);
-      start.setUTCHours(0, 0, 0, 0);
+      console.log('Deleting slots for date:', date);
       
-      const end = new Date(date);
-      end.setUTCDate(end.getUTCDate() + 1);
-      end.setUTCHours(0, 0, 0, 0);
-      
-      // Find slots to be deleted
+      // SIMPLE: Find slots by exact date string
       const slotsToDelete = await AvailableSlot.find({
-        date: {
-          $gte: start,
-          $lt: end
-        }
+        date: date
       });
       
       // Check if any slots are booked
@@ -130,17 +76,40 @@ export async function DELETE(request) {
       }
       
       // Delete the slots
-      await AvailableSlot.deleteMany({
-        date: {
-          $gte: start,
-          $lt: end
-        }
+      const result = await AvailableSlot.deleteMany({
+        date: date
       });
+      
+      console.log(`Deleted ${result.deletedCount} slots for ${date}`);
       
       return NextResponse.json({
         success: true,
         message: `Deleted all slots for ${date}`,
-        deletedCount: slotsToDelete.length
+        deletedCount: result.deletedCount
+      });
+    } else if (slotId) {
+      // Delete individual slot
+      const slot = await AvailableSlot.findById(slotId);
+      
+      if (!slot) {
+        return NextResponse.json(
+          { success: false, message: 'Slot not found' },
+          { status: 404 }
+        );
+      }
+      
+      if (slot.bookedBy) {
+        return NextResponse.json(
+          { success: false, message: 'Cannot delete a booked slot' },
+          { status: 400 }
+        );
+      }
+      
+      await AvailableSlot.findByIdAndDelete(slotId);
+      
+      return NextResponse.json({
+        success: true,
+        message: 'Slot deleted successfully'
       });
     }
     
@@ -157,6 +126,3 @@ export async function DELETE(request) {
     );
   }
 }
-
-
-

@@ -8,12 +8,7 @@ import { sendEmail } from '@/utils/emailService';
 async function sendAppointmentConfirmationEmail(appointment) {
   try {
     const appointmentDate = new Date(appointment.appointmentDate);
-    const formattedDate = appointmentDate.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+    const formattedDate = appointment.appointmentDate;
 
     const emailSubject = `Appointment Confirmed - ${appointment.firstName} ${appointment.lastName}`;
     

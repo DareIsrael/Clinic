@@ -2,14 +2,8 @@ import mongoose from 'mongoose';
 
 const availableSlotSchema = new mongoose.Schema({
   date: {
-    type: Date,
+    type: String,  // MUST BE String, NOT Date
     required: [true, 'Date is required'],
-    // Store as UTC midnight
-    get: function(value) {
-      if (!value) return null;
-      const d = new Date(value);
-      return d.toISOString().split('T')[0];
-    }
   },
   time: {
     type: String,
@@ -30,31 +24,15 @@ const availableSlotSchema = new mongoose.Schema({
     default: true
   }
 }, {
-  timestamps: true,
-  toJSON: { getters: true, virtuals: true },
-  toObject: { getters: true, virtuals: true }
+  timestamps: true
 });
 
-// Pre-save middleware to ensure date is stored as UTC midnight
-availableSlotSchema.pre('save', function(next) {
-  if (this.isModified('date') && this.date) {
-    const date = new Date(this.date);
-    // Convert to UTC midnight
-    const utcDate = new Date(Date.UTC(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      0, 0, 0, 0
-    ));
-    this.date = utcDate;
-  }
-  next();
-});
+// REMOVE ALL pre-save hooks - they're converting strings to Date objects!
+// availableSlotSchema.pre('save', function(next) {
+//   ... REMOVE THIS ENTIRE FUNCTION ...
+// });
 
-// Compound index for unique date-time combinations
 availableSlotSchema.index({ date: 1, time: 1 }, { unique: true });
-
-// Index for querying available slots
 availableSlotSchema.index({ date: 1, isAvailable: 1 });
 
 export default mongoose.models.AvailableSlot || mongoose.model('AvailableSlot', availableSlotSchema);

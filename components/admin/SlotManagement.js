@@ -24,46 +24,48 @@ export default function SlotManagement() {
     '15:00', '15:30', '16:00', '16:30', '17:00', '17:30'
   ];
 
-  // Helper function to format date to YYYY-MM-DD
-  const formatDateToYYYYMMDD = (dateString) => {
-    if (!dateString) return '';
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
-
-  // Get today's date in local timezone
+  // SIMPLE: Get today's date as YYYY-MM-DD
   const getTodayDate = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
 
-  // Get date 30 days from now
-  const getFutureDate = (days = 30) => {
+  // SIMPLE: Get future date as YYYY-MM-DD
+  const getFutureDate = (daysToAdd) => {
     const future = new Date();
-    future.setDate(future.getDate() + days);
+    future.setDate(future.getDate() + daysToAdd);
     const year = future.getFullYear();
     const month = String(future.getMonth() + 1).padStart(2, '0');
     const day = String(future.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
 
-  // Format date for display
+  // SIMPLE: Format date for display
   const formatDisplayDate = (dateString) => {
     if (!dateString) return '';
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
+    
+    // If it's a YYYY-MM-DD string, format it nicely
+    if (typeof dateString === 'string' && dateString.match(/^\d{4}-\d{2}-\d{2}$/)) {
+      const [year, month, day] = dateString.split('-');
+      const dateObj = new Date(year, month - 1, day);
+      
+      const options = { 
+        weekday: 'short', 
+        month: 'short', 
+        day: 'numeric', 
+        year: 'numeric' 
+      };
+      return dateObj.toLocaleDateString('en-US', options);
+    }
+    
+    return dateString;
   };
+
+  // Today's date for min attribute
+  const todayDate = getTodayDate();
 
   // Load all slots on component mount
   useEffect(() => {
@@ -83,10 +85,12 @@ export default function SlotManagement() {
         end: futureDate
       });
       
+      console.log('Fetching slots for date range:', { today, futureDate });
       const response = await fetch(`/api/slots/admin?startDate=${today}&endDate=${futureDate}`);
       const data = await response.json();
       
       if (data.success) {
+        console.log('Received slots:', data.slots?.length || 0);
         setAllSlots(data.slots || []);
       } else {
         setMessage({ type: 'error', text: data.message || 'Failed to load slots' });
@@ -99,6 +103,8 @@ export default function SlotManagement() {
     }
   };
 
+
+  // ADD THIS MISSING FUNCTION
   const fetchSlotsByDateRange = async () => {
     if (!dateRange.start || !dateRange.end) {
       setMessage({ type: 'error', text: 'Please select both start and end dates' });
@@ -107,6 +113,8 @@ export default function SlotManagement() {
 
     try {
       setAllSlotsLoading(true);
+      console.log('Fetching slots for custom range:', dateRange);
+      
       const response = await fetch(`/api/slots/admin?startDate=${dateRange.start}&endDate=${dateRange.end}`);
       const data = await response.json();
       
@@ -155,6 +163,8 @@ export default function SlotManagement() {
     setMessage({ type: '', text: '' });
 
     try {
+      console.log('Submitting slots for Canada date:', date, 'times:', times);
+      
       const response = await fetch('/api/appointments/admin', {
         method: 'POST',
         headers: {
@@ -169,7 +179,7 @@ export default function SlotManagement() {
       const data = await response.json();
 
       if (data.success) {
-        setMessage({ type: 'success', text: `Successfully added ${data.count} slot(s)` });
+        setMessage({ type: 'success', text: `Successfully added ${data.count} slot(s) for ${formatDisplayDate(date)}` });
         setTimes([]);
         setDate('');
         // Refresh all slots
@@ -178,6 +188,7 @@ export default function SlotManagement() {
         setMessage({ type: 'error', text: data.message });
       }
     } catch (error) {
+      console.error('Error adding slots:', error);
       setMessage({ type: 'error', text: 'Failed to add slots' });
     } finally {
       setLoading(false);
@@ -194,16 +205,18 @@ export default function SlotManagement() {
     setMessage({ type: '', text: '' });
 
     try {
+      console.log('Viewing slots for date:', viewDate);
       const response = await fetch(`/api/appointments?date=${viewDate}`);
       const data = await response.json();
 
       if (data.success) {
-        setAvailableSlots(data.slots);
+        setAvailableSlots(data.slots || []);
       } else {
         setAvailableSlots([]);
         setMessage({ type: 'error', text: data.message });
       }
     } catch (error) {
+      console.error('Error loading slots:', error);
       setAvailableSlots([]);
       setMessage({ type: 'error', text: 'Failed to load slots' });
     } finally {
@@ -230,8 +243,8 @@ export default function SlotManagement() {
         // Update local state
         setAvailableSlots(prev =>
           prev.map(slot =>
-            slot.slotId === slotId
-              ? { ...slot, available: !currentAvailability }
+            slot._id === slotId
+              ? { ...slot, isAvailable: !currentAvailability }
               : slot
           )
         );
@@ -243,7 +256,7 @@ export default function SlotManagement() {
               : slot
           )
         );
-        setMessage({ type: 'success', text: data.message });
+        setMessage({ type: 'success', text: 'Slot availability updated' });
       } else {
         setMessage({ type: 'error', text: data.message || 'Failed to update slot' });
       }
@@ -268,7 +281,7 @@ export default function SlotManagement() {
       if (data.success) {
         // Remove from local state
         setAllSlots(prev => prev.filter(slot => slot._id !== slotId));
-        setAvailableSlots(prev => prev.filter(slot => slot.slotId !== slotId));
+        setAvailableSlots(prev => prev.filter(slot => slot._id !== slotId));
         setMessage({ type: 'success', text: 'Slot deleted successfully' });
       } else {
         setMessage({ type: 'error', text: data.message || 'Failed to delete slot' });
@@ -285,6 +298,7 @@ export default function SlotManagement() {
     }
 
     try {
+      console.log('Deleting slots for Canada date:', date);
       const response = await fetch(`/api/slots/admin?date=${date}`, {
         method: 'DELETE',
       });
@@ -292,8 +306,11 @@ export default function SlotManagement() {
       const data = await response.json();
 
       if (data.success) {
-        // Remove from local state
-        setAllSlots(prev => prev.filter(slot => slot.date !== date));
+        // Remove from local state using canadaDate or date property
+        setAllSlots(prev => prev.filter(slot => {
+          const slotDate = slot.canadaDate || slot.date;
+          return slotDate !== date;
+        }));
         setMessage({ type: 'success', text: `Deleted all slots for ${formatDisplayDate(date)}` });
       } else {
         setMessage({ type: 'error', text: data.message || 'Failed to delete slots' });
@@ -304,22 +321,30 @@ export default function SlotManagement() {
     }
   };
 
-  // Group slots by date
+  // Group slots by date - FIXED
   const groupedSlots = allSlots.reduce((groups, slot) => {
-    const date = slot.date;
-    if (!groups[date]) {
-      groups[date] = [];
+    // Use canadaDate from API response
+    const dateKey = slot.canadaDate || slot.date;
+    if (!groups[dateKey]) {
+      groups[dateKey] = [];
     }
-    groups[date].push(slot);
+    groups[dateKey].push(slot);
     return groups;
   }, {});
-
-  // Set minimum date to today
-  const todayDate = getTodayDate();
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h2 className="text-xl font-semibold text-gray-900 mb-6">Manage Available Slots</h2>
+
+      {/* SIMPLE: Remove timezone complexity */}
+      <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
+        {/* <p className="text-sm text-blue-700">
+          <strong>Note:</strong> All dates and times are stored and displayed exactly as entered.
+        </p> */}
+        <p className="text-xs text-blue-600 mt-1">
+          Today is: {formatDisplayDate(todayDate)} ({todayDate})
+        </p>
+      </div>
 
       {/* Message Display */}
       {message.text && (
@@ -343,10 +368,10 @@ export default function SlotManagement() {
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 min={todayDate}
-                className="w-full px-4 py-2 border border-gray-300 text-gray-400 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                className="w-full px-4 py-2 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
               />
               <p className="text-xs text-gray-500 mt-1">
-                Selected date: {date ? formatDisplayDate(date) : 'Not selected'}
+                Selected date: {date ? formatDisplayDate(date) : 'Not selected'} ({date})
               </p>
             </div>
 
@@ -359,7 +384,7 @@ export default function SlotManagement() {
                   type="time"
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-400 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                 />
                 <button
                   onClick={addTime}
@@ -422,13 +447,13 @@ export default function SlotManagement() {
               disabled={loading || !date || times.length === 0}
               className="w-full px-4 py-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
             >
-              {loading ? 'Adding Slots...' : `Add ${times.length} Slot${times.length !== 1 ? 's' : ''}`}
+              {loading ? 'Adding Slots...' : `Add ${times.length} Slot${times.length !== 1 ? 's' : ''} `}
             </button>
           </div>
         </div>
 
         {/* View & Manage Slots for Specific Date */}
-        
+       
       </div>
 
       {/* All Created Slots Dashboard */}
@@ -445,14 +470,16 @@ export default function SlotManagement() {
                 type="date"
                 value={dateRange.start}
                 onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
-                className="px-3 py-2 border border-gray-300 text-gray-400 rounded text-sm"
+                min={todayDate}
+                className="px-3 py-2 border border-gray-300 text-gray-900 rounded text-sm"
                 placeholder="Start Date"
               />
               <input
                 type="date"
                 value={dateRange.end}
                 onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
-                className="px-3 py-2 border border-gray-300 text-gray-400 rounded text-sm"
+                min={dateRange.start || todayDate}
+                className="px-3 py-2 border border-gray-300 text-gray-900 rounded text-sm"
                 placeholder="End Date"
               />
             </div>
@@ -567,6 +594,7 @@ export default function SlotManagement() {
       <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-100">
         <h4 className="font-medium text-blue-900 mb-2">How it works:</h4>
         <ul className="text-sm text-blue-700 space-y-1">
+          
           <li>• Add available time slots for specific dates</li>
           <li>• Patients can only book from available slots</li>
           <li>• Once a slot is booked, it becomes unavailable to others</li>

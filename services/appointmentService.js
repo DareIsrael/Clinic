@@ -1,34 +1,7 @@
 import Appointment from '@/models/Appointment';
 import AvailableSlot from '@/models/AvailableSlot';
 
-// Helper function to parse date string to UTC midnight
-const parseDateToUTC = (dateString) => {
-  if (!dateString) return null;
-  
-  // If it's already a Date object, convert to UTC midnight
-  if (dateString instanceof Date) {
-    const year = dateString.getUTCFullYear();
-    const month = dateString.getUTCMonth();
-    const day = dateString.getUTCDate();
-    return new Date(Date.UTC(year, month, day, 0, 0, 0, 0));
-  }
-  
-  // Parse YYYY-MM-DD string to UTC midnight
-  const [year, month, day] = dateString.split('-').map(Number);
-  return new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
-};
-
-// Helper function to format date to YYYY-MM-DD
-const formatDateToYYYYMMDD = (date) => {
-  if (!date) return '';
-  
-  const d = date instanceof Date ? date : new Date(date);
-  const year = d.getUTCFullYear();
-  const month = String(d.getUTCMonth() + 1).padStart(2, '0');
-  const day = String(d.getUTCDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-};
-
+// SIMPLE: Remove all timezone helper functions
 // Get clinic schedule (static for display)
 const getClinicSchedule = () => {
   return [
@@ -42,22 +15,12 @@ const getClinicSchedule = () => {
   ];
 };
 
-// Get available slots for a specific date (from admin-set slots)
+// Get available slots for a specific date
 const getAvailableSlots = async (dateString) => {
   try {
-    const date = parseDateToUTC(dateString);
-    
-    const startOfDay = date;
-    const endOfDay = new Date(date);
-    endOfDay.setUTCDate(endOfDay.getUTCDate() + 1);
-    endOfDay.setUTCHours(0, 0, 0, 0);
-
-    // Get all slots for this date
+    // SIMPLE: Just use the date string directly
     const slots = await AvailableSlot.find({
-      date: {
-        $gte: startOfDay,
-        $lt: endOfDay
-      }
+      date: dateString  // Exact match on date string
     }).sort({ time: 1 });
 
     // Return slots with availability status
@@ -72,22 +35,16 @@ const getAvailableSlots = async (dateString) => {
   }
 };
 
-// Get next available dates (with at least one available slot)
+// Get next available dates
 const getAvailableDates = async () => {
   try {
     const today = new Date();
-    today.setUTCHours(0, 0, 0, 0);
+    const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     
-    // Look 30 days ahead
-    const futureDate = new Date(today);
-    futureDate.setUTCDate(futureDate.getUTCDate() + 30);
-    futureDate.setUTCHours(23, 59, 59, 999);
-
     // Get dates that have at least one available slot
     const slots = await AvailableSlot.aggregate([
       {
         $match: {
-          date: { $gte: today, $lte: futureDate },
           isAvailable: true
         }
       },
@@ -100,27 +57,23 @@ const getAvailableDates = async () => {
       { $sort: { "_id": 1 } }
     ]);
 
-    // Format response
+    // SIMPLE: Just use date strings directly
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     
     return slots.map(slot => {
-      const date = new Date(slot._id);
-      const now = new Date();
-      now.setUTCHours(0, 0, 0, 0);
+      const [year, month, day] = slot._id.split('-').map(Number);
+      const dateObj = new Date(year, month - 1, day);
       
-      const tomorrow = new Date(now);
-      tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
-      
-      const dateString = formatDateToYYYYMMDD(date);
-      const todayString = formatDateToYYYYMMDD(now);
-      const tomorrowString = formatDateToYYYYMMDD(tomorrow);
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const tomorrowString = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
       
       return {
-        date: dateString,
-        dayName: days[date.getUTCDay()],
+        date: slot._id,  // Use the date string directly
+        dayName: days[dateObj.getDay()],
         availableSlots: slot.availableSlots,
-        isToday: dateString === todayString,
-        isTomorrow: dateString === tomorrowString
+        isToday: slot._id === todayString,
+        isTomorrow: slot._id === tomorrowString
       };
     });
   } catch (error) {
@@ -129,19 +82,20 @@ const getAvailableDates = async () => {
   }
 };
 
-// Book an appointment
+// Book an appointment - SIMPLE VERSION
 const bookAppointment = async (patientData) => {
   const session = await Appointment.startSession();
   
   try {
     await session.withTransaction(async () => {
-      // Parse appointment date to UTC
-      const appointmentDate = parseDateToUTC(patientData.appointmentDate);
+      // Get date and time from form
+      const appointmentDateStr = patientData.appointmentDate;  // YYYY-MM-DD
+      const appointmentTime = patientData.appointmentTime;     // HH:MM
       
-      // Check if slot exists and is available
+      // SIMPLE: Check if slot exists using exact date string
       const slot = await AvailableSlot.findOne({
-        date: appointmentDate,
-        time: patientData.appointmentTime,
+        date: appointmentDateStr,
+        time: appointmentTime,
         isAvailable: true
       }).session(session);
 
@@ -150,17 +104,9 @@ const bookAppointment = async (patientData) => {
       }
 
       // Check if patient already has an appointment on the same day
-      const startOfDay = appointmentDate;
-      const endOfDay = new Date(appointmentDate);
-      endOfDay.setUTCDate(endOfDay.getUTCDate() + 1);
-      endOfDay.setUTCHours(0, 0, 0, 0);
-
       const existingAppointment = await Appointment.findOne({
         email: patientData.email,
-        appointmentDate: {
-          $gte: startOfDay,
-          $lt: endOfDay
-        },
+        appointmentDate: appointmentDateStr,
         status: { $in: ['scheduled', 'confirmed'] }
       }).session(session);
 
@@ -168,10 +114,11 @@ const bookAppointment = async (patientData) => {
         throw new Error('You already have an appointment scheduled for this date');
       }
 
-      // Create the appointment
+      // Create the appointment with plain strings
       const appointment = new Appointment({
         ...patientData,
-        appointmentDate: appointmentDate, // Store as UTC
+        appointmentDate: appointmentDateStr,  // Store as plain string
+        appointmentTime: appointmentTime,     // Store as plain string
         slotId: slot._id,
         status: 'scheduled'
       });
@@ -206,20 +153,11 @@ const bookAppointment = async (patientData) => {
 };
 
 // Get appointment by email and date
-const getAppointmentByEmailAndDate = async (email, appointmentDate, appointmentTime) => {
+const getAppointmentByEmailAndDate = async (email, appointmentDateStr, appointmentTime) => {
   try {
-    const date = parseDateToUTC(appointmentDate);
-    const startOfDay = date;
-    const endOfDay = new Date(date);
-    endOfDay.setUTCDate(endOfDay.getUTCDate() + 1);
-    endOfDay.setUTCHours(0, 0, 0, 0);
-
     return await Appointment.findOne({
       email: email,
-      appointmentDate: {
-        $gte: startOfDay,
-        $lt: endOfDay
-      },
+      appointmentDate: appointmentDateStr,
       appointmentTime: appointmentTime
     });
   } catch (error) {
@@ -228,44 +166,65 @@ const getAppointmentByEmailAndDate = async (email, appointmentDate, appointmentT
   }
 };
 
-// Admin: Add available slots
+// Add available slots (Admin function) - SIMPLE VERSION
+// Add available slots (Admin function) - SIMPLE VERSION
 const addAvailableSlots = async (dateString, times) => {
   try {
-    const slots = [];
-    const date = parseDateToUTC(dateString);
-
-    for (const time of times) {
-      const slot = new AvailableSlot({
-        date: date,
-        time: time,
-        isAvailable: true,
-        adminCreated: true
-      });
-      slots.push(slot);
+    console.log('Adding slots for date:', dateString);
+    
+    // Validate date format
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(dateString)) {
+      return { success: false, message: 'Invalid date format. Use YYYY-MM-DD' };
     }
-
-    await AvailableSlot.insertMany(slots, { ordered: false });
+    
+    const createdSlots = [];
+    const duplicateSlots = [];
+    
+    for (const time of times) {
+      try {
+        // Check if slot exists - use EXACT date string
+        const existingSlot = await AvailableSlot.findOne({
+          date: dateString,  // Use string directly
+          time: time
+        });
+        
+        if (existingSlot) {
+          duplicateSlots.push(time);
+          continue;
+        }
+        
+        // Create new slot with plain strings
+        const slot = new AvailableSlot({
+          date: dateString,  // Store as STRING
+          time: time,        // Store as STRING
+          isAvailable: true,
+          adminCreated: true
+        });
+        
+        await slot.save();
+        createdSlots.push(slot);
+        
+        console.log('Slot created:', {
+          date: dateString,
+          time: time
+        });
+        
+      } catch (error) {
+        console.error(`Error creating slot ${time}:`, error);
+      }
+    }
     
     return {
       success: true,
-      message: 'Slots added successfully',
-      count: slots.length
+      message: `Created ${createdSlots.length} slot(s) for ${dateString}`,
+      count: createdSlots.length,
+      duplicates: duplicateSlots.length
     };
-  } catch (error) {
-    // Handle duplicate slots gracefully
-    if (error.code === 11000) {
-      return {
-        success: true,
-        message: 'Some slots were already added',
-        count: times.length - error.writeErrors?.length || times.length
-      };
-    }
     
-    console.error('Error adding slots:', error);
-    return {
-      success: false,
-      message: error.message || 'Failed to add slots'
-    };
+  } catch (error) {
+    console.error('Error in addAvailableSlots:', error);
+    return { success: false, message: error.message };
   }
 };
 
@@ -301,14 +260,11 @@ const updateSlotAvailability = async (slotId, isAvailable) => {
 
 const getAllSlotsForAdmin = async (startDate, endDate) => {
   try {
-    const start = parseDateToUTC(startDate);
-    const end = parseDateToUTC(endDate);
-    end.setUTCDate(end.getUTCDate() + 1); // Include the end date
-
+    // SIMPLE: Just query by date strings
     const slots = await AvailableSlot.find({
       date: {
-        $gte: start,
-        $lt: end
+        $gte: startDate,
+        $lte: endDate
       }
     })
     .populate('bookedBy', 'firstName lastName email')
@@ -321,32 +277,15 @@ const getAllSlotsForAdmin = async (startDate, endDate) => {
   }
 };
 
-// Get appointments for admin
+// Get appointments for admin - SIMPLE VERSION
 const getAppointmentsForAdmin = async (page = 1, limit = 10, search = '', status = '', date = '', filter = 'upcoming') => {
   const skip = (page - 1) * limit;
-  const today = new Date();
-  today.setUTCHours(0, 0, 0, 0);
   
   let query = {};
   
-  // Apply filter
-  if (filter === 'today') {
-    const tomorrow = new Date(today);
-    tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
-    
-    query.appointmentDate = {
-      $gte: today,
-      $lt: tomorrow
-    };
-  } else if (filter === 'upcoming') {
-    query.appointmentDate = { $gte: today };
-    query.status = { $in: ['scheduled', 'confirmed'] };
-  } else if (filter === 'completed') {
-    query.status = 'completed';
-  } else if (filter === 'cancelled') {
-    query.status = 'cancelled';
-  } else if (filter === 'past') {
-    query.appointmentDate = { $lt: today };
+  // SIMPLE: Filter by date strings
+  if (date) {
+    query.appointmentDate = date;
   }
   
   // Search by name, email, or phone
@@ -359,21 +298,25 @@ const getAppointmentsForAdmin = async (page = 1, limit = 10, search = '', status
     ];
   }
   
-  // Filter by status (overrides filter if specified)
+  // Filter by status
   if (status && status !== 'all') {
     query.status = status;
   }
   
-  // Filter by specific date
-  if (date) {
-    const startOfDay = parseDateToUTC(date);
-    const endOfDay = new Date(startOfDay);
-    endOfDay.setUTCDate(endOfDay.getUTCDate() + 1);
-    
-    query.appointmentDate = {
-      $gte: startOfDay,
-      $lt: endOfDay
-    };
+  // Apply filter
+  if (filter === 'upcoming') {
+    const today = new Date();
+    const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    query.appointmentDate = { $gte: todayString };
+    query.status = { $in: ['scheduled', 'confirmed'] };
+  } else if (filter === 'completed') {
+    query.status = 'completed';
+  } else if (filter === 'cancelled') {
+    query.status = 'cancelled';
+  } else if (filter === 'past') {
+    const today = new Date();
+    const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    query.appointmentDate = { $lt: todayString };
   }
   
   const total = await Appointment.countDocuments(query);
@@ -461,7 +404,6 @@ export const appointmentService = {
   getAppointmentsForAdmin,
   getAllSlotsForAdmin,
   updateAppointmentStatus,
-  cancelAppointment,
-  parseDateToUTC,
-  formatDateToYYYYMMDD
+  cancelAppointment
+  // REMOVED: parseDateToUTC, formatDateToYYYYMMDD
 };

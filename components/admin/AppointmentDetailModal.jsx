@@ -3,14 +3,22 @@ import AppointmentStatusDropdown from './AppointmentStatusDropdown';
 
 const AppointmentDetailModal = ({ appointment, onClose, onStatusChange }) => {
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
+  if (!dateString) return '';
+  
+  if (typeof dateString === 'string' && dateString.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    const [year, month, day] = dateString.split('-');
+    const dateObj = new Date(year, month - 1, day);
+    
+    return dateObj.toLocaleDateString('en-US', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
       day: 'numeric'
     });
-  };
+  }
+  
+  return dateString;
+};
 
   const calculateAge = (dateOfBirth) => {
     const dob = new Date(dateOfBirth);
@@ -143,16 +151,7 @@ const AppointmentDetailModal = ({ appointment, onClose, onStatusChange }) => {
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    {/* <label className="block text-sm font-medium text-gray-500 mb-1">Duration</label> */}
-                    {/* <p className="text-gray-900">{appointment.duration} minutes</p> */}
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-500 mb-1">Appointment Type</label>
-                    <p className="text-gray-900 capitalize">{appointment.appointmentType.replace('_', ' ')}</p>
-                  </div>
-                </div>
+                
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-500 mb-1">Healthcare Information</label>
