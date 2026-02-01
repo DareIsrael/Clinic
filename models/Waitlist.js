@@ -63,10 +63,7 @@ const waitlistSchema = new mongoose.Schema({
     enum: ['Active', 'Booked', 'Accepted', 'Rejected'],
     default: 'Active'
   }
-//   position: {
-//     type: Number,
-//     default: 0
-//   }
+
 }, {
   timestamps: true
 });

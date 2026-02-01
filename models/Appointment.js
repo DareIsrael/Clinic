@@ -1,82 +1,100 @@
-// import mongoose from 'mongoose';
-
-// const appointmentSchema = new mongoose.Schema({
-//   user: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: 'User',
-//     required: [true, 'User is required']
-//   },
-//   serviceType: {
-//     type: String,
-//     required: [true, 'Service type is required'],
-//     enum: ['Dental Care', 'Eye Care', 'General Checkup', 'Cardiology', 'Dermatology', 'Pediatrics'] // ✅ FIXED: Changed 'Dental' to 'Dental Care'
-//   },
-//   preferredDate: {
-//     type: Date,
-//     required: [true, 'Preferred date is required']
-//   },
-//   preferredTime: {
-//     type: String,
-//     required: [true, 'Preferred time is required']
-//   },
-//   message: {
-//     type: String,
-//     trim: true,
-//     maxlength: [500, 'Message cannot exceed 500 characters']
-//   },
-//   status: {
-//     type: String,
-//     enum: ['pending', 'confirmed', 'cancelled', 'completed'],
-//     default: 'pending'
-//   }
-// }, {
-//   timestamps: true
-// });
-
-// // Remove or modify this unique index - it's causing conflicts
-// // appointmentSchema.index({ preferredDate: 1, preferredTime: 1 }, { unique: true });
-
-// export default mongoose.models.Appointment || mongoose.model('Appointment', appointmentSchema);
-
-
-
 import mongoose from 'mongoose';
 
 const appointmentSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: [true, 'User is required']
-  },
-  serviceType: {
+  firstName: {
     type: String,
-    required: [true, 'Service type is required'],
-    enum: ['Dental Care', 'Eye Care', 'General Checkup', 'Cardiology', 'Dermatology', 'Pediatrics']
+    required: [true, 'First name is required'],
+    trim: true
   },
-  preferredDate: {
+  lastName: {
+    type: String,
+    required: [true, 'Last name is required'],
+    trim: true
+  },
+  email: {
+    type: String,
+    required: [true, 'Email is required'],
+    trim: true
+  },
+  gender: {
+    type: String,
+    required: [true, 'Gender is required'],
+    enum: ['Male', 'Female', 'Other']
+  },
+  healthcareProvince: {
+    type: String,
+    required: [true, 'Healthcare province is required'],
+    trim: true
+  },
+  healthcareNumber: {
+    type: String,
+    required: [true, 'Healthcare number is required'],
+    trim: true
+  },
+  dateOfBirth: {
     type: Date,
-    required: [true, 'Preferred date is required']
+    required: [true, 'Date of birth is required']
   },
-  preferredTime: {
+  cellPhone: {
     type: String,
-    required: [true, 'Preferred time is required']
+    required: [true, 'Cell phone is required'],
+    trim: true
   },
-  message: {
+  address: {
     type: String,
-    trim: true,
-    maxlength: [500, 'Message cannot exceed 500 characters']
+    required: [true, 'Address is required'],
+    trim: true
+  },
+  country: {
+    type: String,
+    required: [true, 'Country is required'],
+    trim: true
+  },
+  postalCode: {
+    type: String,
+    required: [true, 'Postal code is required'],
+    trim: true
+  },
+  appointmentDate: {
+    type: Date,
+    required: [true, 'Appointment date is required']
+  },
+  appointmentTime: {
+    type: String,
+    required: [true, 'Appointment time is required']
   },
   status: {
     type: String,
-    enum: ['pending', 'confirmed', 'cancelled', 'completed'],
-    default: 'pending'
+    enum: ['scheduled', 'confirmed', 'completed', 'cancelled', 'no_show'],
+    default: 'scheduled'
   },
-  lastVisit: {
-    type: Date,
-    default: null
+  reason: {
+    type: String,
+    required: [true, 'Reason for appointment is required'],
+    trim: true
+  },
+  notes: {
+    type: String,
+    trim: true
+  },
+  urgency: {
+    type: String,
+    enum: ['low', 'medium', 'high', 'emergency'],
+    default: 'medium'
+  },
+  // Reference to the slot
+  slotId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'AvailableSlot'
   }
 }, {
   timestamps: true
 });
+
+// Create indexes for efficient querying
+appointmentSchema.index({ email: 1 });
+appointmentSchema.index({ status: 1 });
+appointmentSchema.index({ appointmentDate: 1 });
+appointmentSchema.index({ slotId: 1 });
 
 export default mongoose.models.Appointment || mongoose.model('Appointment', appointmentSchema);

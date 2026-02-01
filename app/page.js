@@ -620,7 +620,7 @@ export default function Home() {
         </div>
 
         {/* Announcements Section - Properly positioned with enough margin */}
-        <div className="absolute top-8 left-4 right-4 z-20">
+        <div className="absolute top-2 left-4 right-4 z-20">
           <Announcements />
         </div>
 
