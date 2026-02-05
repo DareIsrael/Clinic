@@ -408,26 +408,15 @@ export default function Navbar() {
             >
               Home
             </Link>
-            <Link 
-              href="/about" 
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink('/about')} whitespace-nowrap`}
-            >
-              About
-            </Link>
-            <Link 
-              href="/contact" 
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink('/contact')} whitespace-nowrap`}
-            >
-              Contact
-            </Link>
 
-            {/* Online Booking Dropdown */}
+
+          {/* Online Booking Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsOnlineBookingDropdownOpen(!isOnlineBookingDropdownOpen)}
                 className="ml-2 px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-sky-600 to-sky-700 text-white hover:from-sky-700 hover:to-sky-800 transition-all duration-200 shadow-sm hover:shadow-md flex items-center space-x-1.5 whitespace-nowrap"
               >
-                <span>Online Booking</span>
+                <span>Book Now</span>
                 <svg 
                   className={`w-3 h-3 transition-transform duration-200 ${isOnlineBookingDropdownOpen ? 'rotate-180' : ''}`}
                   fill="none" 
@@ -488,6 +477,21 @@ export default function Navbar() {
                 </div>
               )}
             </div>
+
+            <Link 
+              href="/about" 
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink('/about')} whitespace-nowrap`}
+            >
+              About
+            </Link>
+            <Link 
+              href="/contact" 
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink('/contact')} whitespace-nowrap`}
+            >
+              Contact
+            </Link>
+
+            
             
             {isAuthenticated ? (
               <>

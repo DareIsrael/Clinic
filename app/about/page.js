@@ -135,7 +135,7 @@ export default function AboutPage() {
         </div>
 
         {/* Sky Blue Text Box */}
-        <div className="relative z-10 max-w-md mx-4 lg:mx-16 xl:mx-24 bg-sky-700/90 backdrop-blur-sm rounded-2xl p-6 lg:p-8 border border-sky-400/40 shadow-xl">
+        <div className="relative z-10 max-w-md mx-4 lg:mx-16 xl:mx-24 bg-white-700/90 backdrop-blur-sm rounded-2xl p-6 lg:p-8 border border-sky-400/40 shadow-xl">
           <h1 className="text-2xl lg:text-3xl font-bold text-white mb-4">
             About St Mary Rideau Family Clinic
           </h1>

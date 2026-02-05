@@ -232,7 +232,8 @@ export default function AppointmentBooking() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-white">
+    <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8 bg-white">
       {/* Header Section */}
       <div className="text-center mb-10">
         <div className="inline-flex items-center justify-center w-16 h-16 bg-sky-100 rounded-full mb-4">
@@ -240,7 +241,7 @@ export default function AppointmentBooking() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
           </svg>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Book Your Appointment</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold text-sky-900 mb-2">Book Your Appointment</h1>
         <p className="text-gray-600 text-md">Book your appointment from available time slots.</p>
       </div>
 
@@ -980,6 +981,7 @@ export default function AppointmentBooking() {
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 }
