@@ -443,10 +443,10 @@ export default function Home() {
             Start Your Health Journey
           </h2>
           <Link 
-            href="/waitlist" 
+            href="/appointment" 
             className="inline-block bg-white text-sky-600 px-8 py-3 rounded-lg font-semibold hover:bg-sky-50 transition-all duration-200 hover:shadow-lg"
           >
-            Join the waitlist
+            Book Appointment
           </Link>
         </div>
       </section>
