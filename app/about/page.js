@@ -158,7 +158,7 @@ export default function AboutPage() {
       </section>
 
       {/* Physician Profile */}
-      <section className="py-16 bg-sky-50">
+      <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             {/* Physician Information */}
@@ -221,7 +221,7 @@ export default function AboutPage() {
       </section>
 
       {/* Practice Features */}
-      <section className="py-16 bg-sky-100">
+      <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-4">Our Practice Features</h2>
@@ -246,7 +246,7 @@ export default function AboutPage() {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-16 bg-sky-50">
+      <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
