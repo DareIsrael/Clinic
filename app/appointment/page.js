@@ -118,7 +118,7 @@ export default function BookAppointment() {
                 href={option.link}
                 className="
                   block text-center py-4 px-6 rounded-lg font-medium 
-                  text-base bg-sky-900 text-white hover:bg-sky-800 
+                  text-base bg-gradient-to-r from-sky-600 to-sky-700 text-white hover:bg-sky-800 
                   transition-colors
                 "
               >

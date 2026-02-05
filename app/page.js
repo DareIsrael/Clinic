@@ -88,7 +88,7 @@ export default function Home() {
 
   {/* Header */}
   <div className=" mb-4 ">
-    <h1 className="text-3xl lg:text-3xl font-bold text-sky-900 mb-2 leading-tight">
+    <h1 className="text-3xl lg:text-3xl font-bold text-sky-800 mb-2 leading-tight">
       Family Doctor & Walk-In Clinic in Downtown Ottawa
     </h1>
 
@@ -105,7 +105,7 @@ export default function Home() {
     {/* Book Appointment Button */}
     <Link 
     href="/appointment" 
-    className="bg-sky-800 text-white px-4 py-3 rounded-lg font-semibold text-center transition-all duration-200 hover:bg-sky-900 hover:shadow-lg flex items-center justify-center gap-2 whitespace-nowrap"
+    className="bg-gradient-to-r from-sky-600 to-sky-700 text-white px-4 py-3 rounded-lg font-semibold text-center transition-all duration-200 hover:bg-sky-900 hover:shadow-lg flex items-center justify-center gap-2 whitespace-nowrap"
   >
     Book Appointment
     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,7 +116,7 @@ export default function Home() {
   {/* Call Now Button */}
   <a 
     href="tel:+13438873470" 
-    className="bg-white border border-gray-300 text-sky-900 px-4 py-3 rounded-lg font-semibold text-center transition-all duration-200 hover:bg-gray-100 hover:shadow-md flex items-center justify-center gap-2 whitespace-nowrap"
+    className="bg-white border border-gray-300 text-sky-800 px-4 py-3 rounded-lg font-semibold text-center transition-all duration-200 hover:bg-gray-100 hover:shadow-md flex items-center justify-center gap-2 whitespace-nowrap"
   >
     Call Now
     <svg className="w-4 h-4 text-sky-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
