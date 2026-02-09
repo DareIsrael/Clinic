@@ -293,7 +293,7 @@ export default function Navbar() {
             <div className="flex items-center justify-start">
               <Link href="/" className="flex-shrink-0">
                 <Image
-                  src="/St.Mary.png"
+                  src="/St_Mary.png"
                   alt="St Mary Rideau Clinic Logo"
                   width={140}
                   height={45}
@@ -319,7 +319,7 @@ export default function Navbar() {
             {/* Logo */}
             <Link href="/" className="flex-shrink-0" onClick={closeMobileMenu}>
               <Image
-                src="/St.Mary.png"
+                src="/St_Mary.png"
                 alt="St Mary Rideau Clinic Logo"
                 width={120}
                 height={40}
@@ -354,7 +354,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center">
             <Link href="/" className="flex-shrink-0" onClick={closeMobileMenu}>
               <Image
-                src="/St.Mary.png"
+                src="/St_Mary.png"
                 alt="St Mary Rideau Clinic Logo"
                 width={150}
                 height={50}

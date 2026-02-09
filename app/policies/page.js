@@ -295,7 +295,7 @@ export default function PoliciesPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-sky-200 shadow-lg">
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-sky-900 mb-4 sm:mb-6 text-center sm:text-left">
-              Welcome to St. Mary Rideau Family Clinic
+              Welcome to St Mary Rideau Family Clinic
             </h2>
             <div className="w-12 sm:w-16 h-1 bg-sky-500 mb-4 sm:mb-6 mx-auto sm:mx-0"></div>
             <p className="text-sm sm:text-base lg:text-lg text-sky-700 leading-relaxed">
