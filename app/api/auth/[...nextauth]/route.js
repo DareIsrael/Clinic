@@ -2,6 +2,61 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import dbConnect from '@/utils/db';
 import User from '@/models/User';
+import { NextResponse } from 'next/server';
+
+// Simple in-memory rate limiter for login attempts
+const loginAttempts = new Map();
+
+// Clean up old entries every 15 minutes
+setInterval(() => {
+  const now = Date.now();
+  const fifteenMinutes = 15 * 60 * 1000;
+
+  for (const [ip, data] of loginAttempts.entries()) {
+    if (now - data.firstAttempt > fifteenMinutes) {
+      loginAttempts.delete(ip);
+    }
+  }
+}, 15 * 60 * 1000);
+
+// Rate limiting check function
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const fifteenMinutes = 15 * 60 * 1000;
+
+  if (!loginAttempts.has(ip)) {
+    loginAttempts.set(ip, {
+      count: 1,
+      firstAttempt: now
+    });
+    return { allowed: true, remaining: 2 };
+  }
+
+  const data = loginAttempts.get(ip);
+
+  // Reset if 15 minutes have passed
+  if (now - data.firstAttempt > fifteenMinutes) {
+    loginAttempts.set(ip, {
+      count: 1,
+      firstAttempt: now
+    });
+    return { allowed: true, remaining: 2 };
+  }
+
+  // Check if limit exceeded
+  if (data.count >= 3) {
+    const timeLeft = Math.ceil((fifteenMinutes - (now - data.firstAttempt)) / 1000 / 60);
+    return {
+      allowed: false,
+      remaining: 0,
+      retryAfter: timeLeft
+    };
+  }
+
+  // Increment count
+  data.count++;
+  return { allowed: true, remaining: 3 - data.count };
+}
 
 export const authOptions = {
   providers: [
@@ -11,14 +66,24 @@ export const authOptions = {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' }
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
+        // Get IP address for rate limiting
+        const forwarded = req.headers?.['x-forwarded-for'];
+        const ip = forwarded ? forwarded.split(',')[0] : req.headers?.['x-real-ip'] || 'unknown';
+
+        // Check rate limit BEFORE attempting authentication
+        const rateCheck = checkRateLimit(ip);
+        if (!rateCheck.allowed) {
+          throw new Error(`Too many login attempts. Please try again in ${rateCheck.retryAfter} minutes.`);
+        }
+
         await dbConnect();
 
         const { email, password } = credentials;
 
         // Find user
         const user = await User.findOne({ email: email.trim().toLowerCase() }).select('+password');
-        
+
         if (!user) {
           throw new Error('Invalid email or password');
         }
@@ -28,6 +93,9 @@ export const authOptions = {
         if (!isPasswordCorrect) {
           throw new Error('Invalid email or password');
         }
+
+        // Successful login - reset the rate limit for this IP
+        loginAttempts.delete(ip);
 
         // Return complete user object for the dashboard
         return {
@@ -45,7 +113,6 @@ export const authOptions = {
           address: user.address,
           country: user.country,
           postalCode: user.postalCode,
-          // age: user.age
         };
       }
     })
@@ -67,7 +134,6 @@ export const authOptions = {
         token.address = user.address;
         token.country = user.country;
         token.postalCode = user.postalCode;
-        // token.age = user.age;
       }
       return token;
     },
@@ -86,7 +152,6 @@ export const authOptions = {
       session.user.address = token.address;
       session.user.country = token.country;
       session.user.postalCode = token.postalCode;
-      // session.user.age = token.age;
       return session;
     }
   },
@@ -103,7 +168,3 @@ export const authOptions = {
 
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
-
-
-
-

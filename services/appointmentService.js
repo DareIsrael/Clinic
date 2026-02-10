@@ -1,5 +1,6 @@
 import Appointment from '@/models/Appointment';
 import AvailableSlot from '@/models/AvailableSlot';
+import { sanitizeSearchInput } from '@/utils/sanitize';
 
 // SIMPLE: Remove all timezone helper functions
 // Get clinic schedule (static for display)
@@ -40,12 +41,13 @@ const getAvailableDates = async () => {
   try {
     const today = new Date();
     const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-    
-    // Get dates that have at least one available slot
+
+    // Get dates that have at least one available slot AND are today or in the future
     const slots = await AvailableSlot.aggregate([
       {
         $match: {
-          isAvailable: true
+          isAvailable: true,
+          date: { $gte: todayString } // ONLY include today and future dates
         }
       },
       {
@@ -59,15 +61,15 @@ const getAvailableDates = async () => {
 
     // SIMPLE: Just use date strings directly
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    
+
     return slots.map(slot => {
       const [year, month, day] = slot._id.split('-').map(Number);
       const dateObj = new Date(year, month - 1, day);
-      
+
       const tomorrow = new Date(today);
       tomorrow.setDate(tomorrow.getDate() + 1);
       const tomorrowString = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
-      
+
       return {
         date: slot._id,  // Use the date string directly
         dayName: days[dateObj.getDay()],
@@ -85,13 +87,13 @@ const getAvailableDates = async () => {
 // Book an appointment - SIMPLE VERSION
 const bookAppointment = async (patientData) => {
   const session = await Appointment.startSession();
-  
+
   try {
     await session.withTransaction(async () => {
       // Get date and time from form
       const appointmentDateStr = patientData.appointmentDate;  // YYYY-MM-DD
       const appointmentTime = patientData.appointmentTime;     // HH:MM
-      
+
       // SIMPLE: Check if slot exists using exact date string
       const slot = await AvailableSlot.findOne({
         date: appointmentDateStr,
@@ -135,14 +137,14 @@ const bookAppointment = async (patientData) => {
         message: 'Appointment booked successfully!'
       };
     });
-    
+
     return {
       success: true,
       message: 'Appointment booked successfully!'
     };
   } catch (error) {
     console.error('Error booking appointment:', error);
-    
+
     return {
       success: false,
       message: error.message || 'Failed to book appointment. Please try again.'
@@ -171,16 +173,16 @@ const getAppointmentByEmailAndDate = async (email, appointmentDateStr, appointme
 const addAvailableSlots = async (dateString, times) => {
   try {
     console.log('Adding slots for date:', dateString);
-    
+
     // Validate date format
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!dateRegex.test(dateString)) {
       return { success: false, message: 'Invalid date format. Use YYYY-MM-DD' };
     }
-    
+
     const createdSlots = [];
     const duplicateSlots = [];
-    
+
     for (const time of times) {
       try {
         // Check if slot exists - use EXACT date string
@@ -188,12 +190,12 @@ const addAvailableSlots = async (dateString, times) => {
           date: dateString,  // Use string directly
           time: time
         });
-        
+
         if (existingSlot) {
           duplicateSlots.push(time);
           continue;
         }
-        
+
         // Create new slot with plain strings
         const slot = new AvailableSlot({
           date: dateString,  // Store as STRING
@@ -201,27 +203,27 @@ const addAvailableSlots = async (dateString, times) => {
           isAvailable: true,
           adminCreated: true
         });
-        
+
         await slot.save();
         createdSlots.push(slot);
-        
+
         console.log('Slot created:', {
           date: dateString,
           time: time
         });
-        
+
       } catch (error) {
         console.error(`Error creating slot ${time}:`, error);
       }
     }
-    
+
     return {
       success: true,
       message: `Created ${createdSlots.length} slot(s) for ${dateString}`,
       count: createdSlots.length,
       duplicates: duplicateSlots.length
     };
-    
+
   } catch (error) {
     console.error('Error in addAvailableSlots:', error);
     return { success: false, message: error.message };
@@ -232,7 +234,7 @@ const addAvailableSlots = async (dateString, times) => {
 const updateSlotAvailability = async (slotId, isAvailable) => {
   try {
     const slot = await AvailableSlot.findById(slotId);
-    
+
     if (!slot) {
       throw new Error('Slot not found');
     }
@@ -241,9 +243,9 @@ const updateSlotAvailability = async (slotId, isAvailable) => {
     if (isAvailable) {
       slot.bookedBy = null;
     }
-    
+
     await slot.save();
-    
+
     return {
       success: true,
       slot,
@@ -267,8 +269,8 @@ const getAllSlotsForAdmin = async (startDate, endDate) => {
         $lte: endDate
       }
     })
-    .populate('bookedBy', 'firstName lastName email')
-    .sort({ date: 1, time: 1 });
+      .populate('bookedBy', 'firstName lastName email')
+      .sort({ date: 1, time: 1 });
 
     return slots;
   } catch (error) {
@@ -280,35 +282,45 @@ const getAllSlotsForAdmin = async (startDate, endDate) => {
 // Get appointments for admin - SIMPLE VERSION
 const getAppointmentsForAdmin = async (page = 1, limit = 10, search = '', status = '', date = '', filter = 'upcoming') => {
   const skip = (page - 1) * limit;
-  
+
   let query = {};
-  
+
   // SIMPLE: Filter by date strings
   if (date) {
     query.appointmentDate = date;
   }
-  
-  // Search by name, email, or phone
+
+  // Search by name, email, or phone - SANITIZED to prevent NoSQL injection
   if (search) {
-    query.$or = [
-      { firstName: { $regex: search, $options: 'i' } },
-      { lastName: { $regex: search, $options: 'i' } },
-      { email: { $regex: search, $options: 'i' } },
-      { cellPhone: { $regex: search, $options: 'i' } }
-    ];
+    // Sanitize search input to prevent NoSQL injection and ReDoS attacks
+    const sanitizedSearch = sanitizeSearchInput(search, 100);
+
+    // Only perform search if sanitized input is not empty
+    if (sanitizedSearch.length > 0) {
+      query.$or = [
+        { firstName: { $regex: sanitizedSearch, $options: 'i' } },
+        { lastName: { $regex: sanitizedSearch, $options: 'i' } },
+        { email: { $regex: sanitizedSearch, $options: 'i' } },
+        { cellPhone: { $regex: sanitizedSearch, $options: 'i' } }
+      ];
+    }
   }
-  
+
   // Filter by status
   if (status && status !== 'all') {
     query.status = status;
   }
-  
+
   // Apply filter
   if (filter === 'upcoming') {
     const today = new Date();
     const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     query.appointmentDate = { $gte: todayString };
-    query.status = { $in: ['scheduled', 'confirmed'] };
+    query.status = { $in: ['scheduled', 'confirmed', 'no_show'] }; // specific statuses for upcoming
+  } else if (filter === 'today') {
+    const today = new Date();
+    const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    query.appointmentDate = todayString;
   } else if (filter === 'completed') {
     query.status = 'completed';
   } else if (filter === 'cancelled') {
@@ -318,14 +330,30 @@ const getAppointmentsForAdmin = async (page = 1, limit = 10, search = '', status
     const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     query.appointmentDate = { $lt: todayString };
   }
-  
-  const total = await Appointment.countDocuments(query);
-  
-  const appointments = await Appointment.find(query)
-    .sort({ appointmentDate: 1, appointmentTime: 1 })
-    .skip(skip)
-    .limit(limit);
-  
+
+  const [total, appointments] = await Promise.all([
+    Appointment.countDocuments(query),
+    Appointment.find(query)
+      .sort({ appointmentDate: 1, appointmentTime: 1 })
+      .skip(skip)
+      .limit(limit)
+  ]);
+
+  // key statistics for badges
+  const today = new Date();
+  const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
+  const [upcomingCount, todayCount, completedCount, cancelledCount, allCount] = await Promise.all([
+    Appointment.countDocuments({
+      appointmentDate: { $gte: todayString },
+      status: { $in: ['scheduled', 'confirmed', 'no_show'] }
+    }),
+    Appointment.countDocuments({ appointmentDate: todayString }),
+    Appointment.countDocuments({ status: 'completed' }),
+    Appointment.countDocuments({ status: 'cancelled' }),
+    Appointment.countDocuments({})
+  ]);
+
   return {
     appointments,
     pagination: {
@@ -333,6 +361,13 @@ const getAppointmentsForAdmin = async (page = 1, limit = 10, search = '', status
       limit,
       total,
       pages: Math.ceil(total / limit)
+    },
+    counts: {
+      upcoming: upcomingCount,
+      today: todayCount,
+      completed: completedCount,
+      cancelled: cancelledCount,
+      all: allCount
     }
   };
 };
@@ -341,7 +376,7 @@ const getAppointmentsForAdmin = async (page = 1, limit = 10, search = '', status
 const updateAppointmentStatus = async (appointmentId, status) => {
   return await Appointment.findByIdAndUpdate(
     appointmentId,
-    { 
+    {
       status,
       updatedAt: new Date()
     },
@@ -352,11 +387,11 @@ const updateAppointmentStatus = async (appointmentId, status) => {
 // Cancel appointment
 const cancelAppointment = async (appointmentId, reason) => {
   const session = await Appointment.startSession();
-  
+
   try {
     await session.withTransaction(async () => {
       const appointment = await Appointment.findById(appointmentId).session(session);
-      
+
       if (!appointment) {
         throw new Error('Appointment not found');
       }
@@ -372,7 +407,7 @@ const cancelAppointment = async (appointmentId, reason) => {
       if (appointment.slotId) {
         await AvailableSlot.findByIdAndUpdate(
           appointment.slotId,
-          { 
+          {
             isAvailable: true,
             bookedBy: null
           },
@@ -392,6 +427,33 @@ const cancelAppointment = async (appointmentId, reason) => {
   }
 };
 
+// Cleanup past date slots (optional - can be run as a cron job or manually)
+const cleanupPastSlots = async () => {
+  try {
+    const today = new Date();
+    const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
+    // Delete all slots with dates before today
+    const result = await AvailableSlot.deleteMany({
+      date: { $lt: todayString }
+    });
+
+    console.log(`Cleaned up ${result.deletedCount} past date slots`);
+
+    return {
+      success: true,
+      deletedCount: result.deletedCount,
+      message: `Successfully removed ${result.deletedCount} past date slots`
+    };
+  } catch (error) {
+    console.error('Error cleaning up past slots:', error);
+    return {
+      success: false,
+      message: error.message
+    };
+  }
+};
+
 // Export all functions as named exports
 export const appointmentService = {
   getClinicSchedule,
@@ -404,6 +466,7 @@ export const appointmentService = {
   getAppointmentsForAdmin,
   getAllSlotsForAdmin,
   updateAppointmentStatus,
-  cancelAppointment
+  cancelAppointment,
+  cleanupPastSlots  // NEW: Function to remove past date slots
   // REMOVED: parseDateToUTC, formatDateToYYYYMMDD
 };

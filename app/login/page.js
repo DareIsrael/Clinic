@@ -68,7 +68,8 @@ export default function LoginPage() {
       if (result?.ok) {
         router.push('/');
       } else {
-        setError('Invalid email or password. Please try again.');
+        // Display the specific error from the backend (e.g., rate limit, invalid credentials)
+        setError(result?.error || 'Invalid email or password. Please try again.');
       }
     } catch (err) {
       console.error('Login error:', err);
@@ -83,7 +84,7 @@ export default function LoginPage() {
       <div className="max-w-4xl w-full">
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
           <div className="flex flex-col lg:flex-row">
-            
+
             {/* Left Side - Image */}
             <div className="lg:w-1/2 bg-sky-600 relative">
               <div
@@ -143,11 +144,10 @@ export default function LoginPage() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none text-gray-400 focus:ring-2 ${
-                        validationErrors.email
+                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none text-gray-400 focus:ring-2 ${validationErrors.email
                           ? 'border-red-500 focus:ring-red-500'
                           : 'border-gray-300 focus:ring-sky-500'
-                      }`}
+                        }`}
                       placeholder="Enter your email"
                     />
                     {validationErrors.email && (
@@ -166,11 +166,10 @@ export default function LoginPage() {
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
-                        className={`w-full px-4 py-3 border rounded-lg text-gray-400 focus:outline-none focus:ring-2 pr-12 ${
-                          validationErrors.password
+                        className={`w-full px-4 py-3 border rounded-lg text-gray-400 focus:outline-none focus:ring-2 pr-12 ${validationErrors.password
                             ? 'border-red-500 focus:ring-red-500'
                             : 'border-gray-300 focus:ring-sky-500'
-                        }`}
+                          }`}
                         placeholder="Enter your password"
                       />
                       <button
