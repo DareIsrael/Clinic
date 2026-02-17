@@ -92,7 +92,7 @@ export default function ContactPage() {
         </svg>
       ),
       title: 'Opening Hours',
-      details: ['Monday & Wednesday - 4pm-8pm', 'Tuesday & Thursday - 10am-7pm', 'Saturday - 10am-3pm'],
+      details: ['Monday to Thursday: 10am-7pm', 'Friday: 10am-5pm', 'Saturday: 10am-3pm'],
       description: 'Extended hours by appointment'
     }
   ];

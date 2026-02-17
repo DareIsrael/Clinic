@@ -178,15 +178,15 @@ export default function RootLayout({ children }) {
                     </li>
                     <li className="flex items-center gap-2">
                       <Calendar className="w-4 h-4" />
-                      <span>Monday & Wednesday - 4pm-8pm</span>
+                      <span>Monday to Thursday: 10am-7pm</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Calendar className="w-4 h-4" />
-                      <span>Tuesday & Thursday - 10am-7pm</span>
+                      <span>Friday: 10am-5pm</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Calendar className="w-4 h-4" />
-                      <span>Sat - 10am-3pm</span>
+                      <span>Saturday: 10am-3pm</span>
                     </li>
                   </ul>
                 </div>

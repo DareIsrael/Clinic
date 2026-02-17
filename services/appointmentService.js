@@ -10,7 +10,7 @@ const getClinicSchedule = () => {
     { day: 'Tuesday', hours: 'By Appointment Only', isOpen: true },
     { day: 'Wednesday', hours: 'By Appointment Only', isOpen: true },
     { day: 'Thursday', hours: 'By Appointment Only', isOpen: true },
-    { day: 'Friday', hours: 'Closed', isOpen: false },
+    { day: 'Friday', hours: 'By Appointment Only', isOpen: true },
     { day: 'Saturday', hours: 'By Appointment Only', isOpen: true },
     { day: 'Sunday', hours: 'Closed', isOpen: false }
   ];
