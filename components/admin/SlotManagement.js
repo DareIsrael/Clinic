@@ -85,12 +85,12 @@ export default function SlotManagement() {
         end: futureDate
       });
       
-      console.log('Fetching slots for date range:', { today, futureDate });
+      // console.log('Fetching slots for date range:', { today, futureDate });
       const response = await fetch(`/api/slots/admin?startDate=${today}&endDate=${futureDate}`);
       const data = await response.json();
       
       if (data.success) {
-        console.log('Received slots:', data.slots?.length || 0);
+        // console.log('Received slots:', data.slots?.length || 0);
         setAllSlots(data.slots || []);
       } else {
         setMessage({ type: 'error', text: data.message || 'Failed to load slots' });
@@ -113,7 +113,7 @@ export default function SlotManagement() {
 
     try {
       setAllSlotsLoading(true);
-      console.log('Fetching slots for custom range:', dateRange);
+      // console.log('Fetching slots for custom range:', dateRange);
       
       const response = await fetch(`/api/slots/admin?startDate=${dateRange.start}&endDate=${dateRange.end}`);
       const data = await response.json();
@@ -163,7 +163,7 @@ export default function SlotManagement() {
     setMessage({ type: '', text: '' });
 
     try {
-      console.log('Submitting slots for Canada date:', date, 'times:', times);
+      // console.log('Submitting slots for Canada date:', date, 'times:', times);
       
       const response = await fetch('/api/appointments/admin', {
         method: 'POST',
@@ -205,7 +205,7 @@ export default function SlotManagement() {
     setMessage({ type: '', text: '' });
 
     try {
-      console.log('Viewing slots for date:', viewDate);
+      // console.log('Viewing slots for date:', viewDate);
       const response = await fetch(`/api/appointments?date=${viewDate}`);
       const data = await response.json();
 
@@ -298,7 +298,7 @@ export default function SlotManagement() {
     }
 
     try {
-      console.log('Deleting slots for Canada date:', date);
+      // console.log('Deleting slots for Canada date:', date);
       const response = await fetch(`/api/slots/admin?date=${date}`, {
         method: 'DELETE',
       });

@@ -172,7 +172,7 @@ const getAppointmentByEmailAndDate = async (email, appointmentDateStr, appointme
 // Add available slots (Admin function) - SIMPLE VERSION
 const addAvailableSlots = async (dateString, times) => {
   try {
-    console.log('Adding slots for date:', dateString);
+    // console.log('Adding slots for date:', dateString);
 
     // Validate date format
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
@@ -207,10 +207,10 @@ const addAvailableSlots = async (dateString, times) => {
         await slot.save();
         createdSlots.push(slot);
 
-        console.log('Slot created:', {
-          date: dateString,
-          time: time
-        });
+        // console.log('Slot created:', {
+        //   date: dateString,
+        //   time: time
+        // });
 
       } catch (error) {
         console.error(`Error creating slot ${time}:`, error);
@@ -438,7 +438,7 @@ const cleanupPastSlots = async () => {
       date: { $lt: todayString }
     });
 
-    console.log(`Cleaned up ${result.deletedCount} past date slots`);
+    // console.log(`Cleaned up ${result.deletedCount} past date slots`);
 
     return {
       success: true,

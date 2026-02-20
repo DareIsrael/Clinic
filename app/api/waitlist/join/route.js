@@ -358,7 +358,7 @@ export async function POST(request) {
     // ✅ FIXED: Send welcome email with proper await and error handling
     try {
       await sendWaitlistWelcomeEmail(waitlistEntry, isReturningUser);
-      console.log('Waitlist welcome email sent successfully to:', waitlistEntry.email);
+      // console.log('Waitlist welcome email sent successfully to:', waitlistEntry.email);
     } catch (emailError) {
       console.error('Failed to send waitlist welcome email:', emailError);
       // Don't fail the entire request if email fails, just log it

@@ -70,7 +70,7 @@ export async function POST(request) {
       );
     }
     
-    console.log('Adding slots for date:', date, 'times:', times);
+    // console.log('Adding slots for date:', date, 'times:', times);
     
     const result = await appointmentService.addAvailableSlots(date, times);
     

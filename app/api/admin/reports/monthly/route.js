@@ -281,7 +281,7 @@ export async function GET(request) {
     const year = parseInt(searchParams.get('year')) || new Date().getFullYear();
     const month = parseInt(searchParams.get('month')) || new Date().getMonth() + 1;
 
-    console.log('Fetching reports for:', { year, month });
+    // console.log('Fetching reports for:', { year, month });
 
     // Calculate date range for the month - FIXED TIMEZONE ISSUE
     const startDate = new Date(Date.UTC(year, month - 1, 1));

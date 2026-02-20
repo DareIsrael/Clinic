@@ -12,7 +12,7 @@ export async function GET(request) {
     const startDate = searchParams.get('startDate');
     const endDate = searchParams.get('endDate');
     
-    console.log('GET /api/slots/admin called with:', { startDate, endDate });
+    // console.log('GET /api/slots/admin called with:', { startDate, endDate });
     
     let query = {};
     
@@ -28,7 +28,7 @@ export async function GET(request) {
       .populate('bookedBy', 'firstName lastName email')
       .sort({ date: 1, time: 1 });
     
-    console.log(`Found ${slots.length} slots in database`);
+    // console.log(`Found ${slots.length} slots in database`);
     
     // SIMPLE: Just return the slots as they are
     return NextResponse.json({
@@ -55,7 +55,7 @@ export async function DELETE(request) {
     const date = searchParams.get('date');
     
     if (date) {
-      console.log('Deleting slots for date:', date);
+      // console.log('Deleting slots for date:', date);
       
       // SIMPLE: Find slots by exact date string
       const slotsToDelete = await AvailableSlot.find({
@@ -80,7 +80,7 @@ export async function DELETE(request) {
         date: date
       });
       
-      console.log(`Deleted ${result.deletedCount} slots for ${date}`);
+      // console.log(`Deleted ${result.deletedCount} slots for ${date}`);
       
       return NextResponse.json({
         success: true,
