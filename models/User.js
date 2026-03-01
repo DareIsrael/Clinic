@@ -34,7 +34,7 @@
 //     required: [true, 'Healthcare number is required'],
 //     trim: true
 //   },
-  
+
 //   dateOfBirth: {
 //     type: Date,
 //     required: [true, 'Date of birth is required']
@@ -168,17 +168,19 @@ const userSchema = new mongoose.Schema({
   },
   resetPasswordToken: String,
   resetPasswordExpires: Date,
+  adminLoginToken: String,
+  adminLoginTokenExpires: Date,
 }, {
   timestamps: true
 });
 
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
 
-userSchema.methods.correctPassword = async function(candidatePassword) {
+userSchema.methods.correctPassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 

@@ -63,6 +63,30 @@ export default function LoginPage() {
     setError('');
 
     try {
+      // Step 1: Check if this is an admin login (requires email confirmation)
+      const checkResponse = await fetch('/api/auth/admin-login-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const checkData = await checkResponse.json();
+
+      if (!checkResponse.ok) {
+        setError(checkData.message || 'Invalid email or password. Please try again.');
+        return;
+      }
+
+      // If admin — redirect to the pending confirmation page
+      if (checkData.requiresConfirmation) {
+        router.push(`/admin-login-pending?email=${encodeURIComponent(formData.email)}`);
+        return;
+      }
+
+      // Step 2: Non-admin — proceed with normal next-auth sign in
       const result = await signIn(formData.email, formData.password);
 
       if (result?.ok) {
@@ -145,8 +169,8 @@ export default function LoginPage() {
                       value={formData.email}
                       onChange={handleChange}
                       className={`w-full px-4 py-3 border rounded-lg focus:outline-none text-gray-400 focus:ring-2 ${validationErrors.email
-                          ? 'border-red-500 focus:ring-red-500'
-                          : 'border-gray-300 focus:ring-sky-500'
+                        ? 'border-red-500 focus:ring-red-500'
+                        : 'border-gray-300 focus:ring-sky-500'
                         }`}
                       placeholder="Enter your email"
                     />
@@ -167,8 +191,8 @@ export default function LoginPage() {
                         value={formData.password}
                         onChange={handleChange}
                         className={`w-full px-4 py-3 border rounded-lg text-gray-400 focus:outline-none focus:ring-2 pr-12 ${validationErrors.password
-                            ? 'border-red-500 focus:ring-red-500'
-                            : 'border-gray-300 focus:ring-sky-500'
+                          ? 'border-red-500 focus:ring-red-500'
+                          : 'border-gray-300 focus:ring-sky-500'
                           }`}
                         placeholder="Enter your password"
                       />

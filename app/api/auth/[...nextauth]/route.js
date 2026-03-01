@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import jwt from 'jsonwebtoken';
 import dbConnect from '@/utils/db';
 import User from '@/models/User';
 import { NextResponse } from 'next/server';
@@ -67,6 +68,40 @@ export const authOptions = {
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials, req) {
+        await dbConnect();
+
+        // --- Admin login confirmation flow (via email link) ---
+        if (credentials.loginToken) {
+          try {
+            const decoded = jwt.verify(credentials.loginToken, process.env.NEXTAUTH_SECRET);
+            if (decoded.purpose !== 'admin-login-confirm') {
+              throw new Error('Invalid login token');
+            }
+            const user = await User.findById(decoded.userId);
+            if (!user || user.role !== 'admin') {
+              throw new Error('Invalid login token');
+            }
+            return {
+              id: user._id.toString(),
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              role: user.role,
+              cellPhone: user.cellPhone,
+              dateOfBirth: user.dateOfBirth,
+              gender: user.gender,
+              healthcareNumber: user.healthcareNumber,
+              healthcareProvince: user.healthcareProvince,
+              address: user.address,
+              country: user.country,
+              postalCode: user.postalCode,
+            };
+          } catch (err) {
+            throw new Error('Invalid or expired confirmation. Please log in again.');
+          }
+        }
+
+        // --- Normal password-based login flow ---
         // Get IP address for rate limiting
         const forwarded = req.headers?.['x-forwarded-for'];
         const ip = forwarded ? forwarded.split(',')[0] : req.headers?.['x-real-ip'] || 'unknown';
@@ -76,8 +111,6 @@ export const authOptions = {
         if (!rateCheck.allowed) {
           throw new Error(`Too many login attempts. Please try again in ${rateCheck.retryAfter} minutes.`);
         }
-
-        await dbConnect();
 
         const { email, password } = credentials;
 
