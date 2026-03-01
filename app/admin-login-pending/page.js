@@ -26,7 +26,7 @@ function AdminLoginPendingContent() {
                     </h1>
 
                     <p className="text-gray-600 mb-2">
-                        A confirmation link has been sent to your email
+                        A confirmation link has been sent to
                     </p>
 
                     {email && (
