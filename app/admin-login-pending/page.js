@@ -1,31 +1,13 @@
 'use client';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-export default function AdminLoginPending() {
-    const [resending, setResending] = useState(false);
-    const [resent, setResent] = useState(false);
+function AdminLoginPendingContent() {
     const [error, setError] = useState('');
-
-    const email = typeof window !== 'undefined'
-        ? new URLSearchParams(window.location.search).get('email') || ''
-        : '';
-
-    const handleResend = async () => {
-        if (!email) return;
-        setResending(true);
-        setError('');
-        setResent(false);
-
-        try {
-            // We can't resend without the password, so direct them to re-login
-            setError('Please go back to the login page and sign in again to receive a new link.');
-        } catch {
-            setError('Something went wrong. Please try again.');
-        } finally {
-            setResending(false);
-        }
-    };
+    const [resent, setResent] = useState(false);
+    const searchParams = useSearchParams();
+    const email = searchParams.get('email') || '';
 
     return (
         <div className="min-h-screen bg-white flex items-center justify-center p-4">
@@ -100,5 +82,26 @@ export default function AdminLoginPending() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function AdminLoginPending() {
+    return (
+        <Suspense
+            fallback={
+                <div className="min-h-screen bg-white flex items-center justify-center p-4">
+                    <div className="max-w-md w-full">
+                        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 text-center">
+                            <div className="w-20 h-20 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-sky-600"></div>
+                            </div>
+                            <h1 className="text-2xl font-bold text-gray-900 mb-3">Loading...</h1>
+                        </div>
+                    </div>
+                </div>
+            }
+        >
+            <AdminLoginPendingContent />
+        </Suspense>
     );
 }

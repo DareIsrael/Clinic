@@ -1,10 +1,10 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 
-export default function AdminLoginConfirm() {
+function AdminLoginConfirmContent() {
     const [status, setStatus] = useState('verifying'); // verifying | success | error
     const [message, setMessage] = useState('Verifying your confirmation link...');
     const router = useRouter();
@@ -128,5 +128,27 @@ export default function AdminLoginConfirm() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function AdminLoginConfirm() {
+    return (
+        <Suspense
+            fallback={
+                <div className="min-h-screen bg-white flex items-center justify-center p-4">
+                    <div className="max-w-md w-full">
+                        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 text-center">
+                            <div className="w-20 h-20 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-sky-600"></div>
+                            </div>
+                            <h1 className="text-2xl font-bold text-gray-900 mb-3">Confirming Login...</h1>
+                            <p className="text-gray-600">Verifying your confirmation link...</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        >
+            <AdminLoginConfirmContent />
+        </Suspense>
     );
 }
