@@ -13,7 +13,7 @@
 
 //   const handleStatusChange = async (newStatus) => {
 //     if (newStatus === waitlistEntry.status) return;
-    
+
 //     setIsUpdating(true);
 //     try {
 //       await onStatusChange(waitlistEntry._id, newStatus);
@@ -449,11 +449,11 @@
 //                       Priority: {announcement.priority}
 //                     </span>
 //                   </div>
-                  
+
 //                   <p className="text-gray-700 text-sm mb-3">
 //                     {announcement.content}
 //                   </p>
-                  
+
 //                   <div className="flex items-center text-xs text-gray-500 space-x-4">
 //                     <span>Created: {new Date(announcement.createdAt).toLocaleDateString()}</span>
 //                     {announcement.endDate && (
@@ -462,7 +462,7 @@
 //                     <span>By: {announcement.createdBy?.firstName || 'Admin'}</span>
 //                   </div>
 //                 </div>
-                
+
 //                 <div className="flex space-x-2 ml-4">
 //                   <button
 //                     onClick={() => handleEdit(announcement)}
@@ -501,7 +501,7 @@
 //   const [error, setError] = useState('');
 //   const [selectedWaitlistEntry, setSelectedWaitlistEntry] = useState(null);
 //   const [isWaitlistModalOpen, setIsWaitlistModalOpen] = useState(false);
-  
+
 //   // Pagination states for waitlist
 //   const [waitlistPagination, setWaitlistPagination] = useState({
 //     page: 1,
@@ -545,7 +545,7 @@
 //         search, 
 //         status: status === 'all' ? null : status 
 //       });
-      
+
 //       if (response.success) {
 //         setWaitlist(response.waitlist || []);
 //         setWaitlistPagination(response.pagination || {
@@ -616,7 +616,7 @@
 //         dashboardService.getAdminStats(),
 //         dashboardService.getWaitlist({ limit: 10 })
 //       ]);
-      
+
 //       setStats(statsResponse.stats || {});
 //       setWaitlist(waitlistResponse.waitlist || []);
 //       setWaitlistPagination(waitlistResponse.pagination || {
@@ -638,7 +638,7 @@
 //     try {
 //       setReportsLoading(true);
 //       const response = await dashboardService.getMonthlyReports(year, month);
-      
+
 //       if (response.success) {
 //         setReportsData(response.report);
 //       }
@@ -653,7 +653,7 @@
 //   const fetchReportsOverview = async () => {
 //     try {
 //       const response = await dashboardService.getReportsOverview();
-      
+
 //       if (response.success) {
 //         setReportsOverview(response.overview);
 //       }
@@ -685,18 +685,18 @@
 //   const handleWaitlistStatusChange = async (waitlistId, newStatus) => {
 //     try {
 //       const response = await dashboardService.updateWaitlistStatus(waitlistId, newStatus);
-      
+
 //       if (response.success) {
 //         setWaitlist(prevWaitlist => 
 //           prevWaitlist.map(entry => 
 //             entry._id === waitlistId ? { ...entry, status: newStatus } : entry
 //           )
 //         );
-        
+
 //         if (selectedWaitlistEntry && selectedWaitlistEntry._id === waitlistId) {
 //           setSelectedWaitlistEntry(prev => ({ ...prev, status: newStatus }));
 //         }
-        
+
 //         const statsResponse = await dashboardService.getAdminStats();
 //         setStats(statsResponse.stats || {});
 //       } else {
@@ -824,7 +824,7 @@
 //                       <option value="20">20 per page</option>
 //                       <option value="50">50 per page</option>
 //                     </select>
-                    
+
 //                     <button 
 //                       onClick={() => fetchWaitlist(waitlistPagination.page, waitlistPagination.limit, searchQuery, searchStatus)}
 //                       disabled={waitlistLoading}
@@ -867,7 +867,7 @@
 //                       )}
 //                     </div>
 //                   </div>
-                  
+
 //                   <div>
 //                     <label htmlFor="statusFilter" className="block text-sm font-medium text-gray-700 mb-1">
 //                       Filter by Status
@@ -904,7 +904,7 @@
 //                   </div>
 //                 )}
 //               </div>
-              
+
 //               <div className="p-4 sm:p-6">
 //                 {waitlistLoading ? (
 //                   <div className="text-center py-8">
@@ -1041,7 +1041,7 @@
 //                                   <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
 //                                 </svg>
 //                               </button>
-                              
+
 //                               {/* Page numbers */}
 //                               {Array.from({ length: Math.min(5, waitlistPagination.pages) }, (_, i) => {
 //                                 let pageNum;
@@ -1287,7 +1287,7 @@
 //               className="absolute inset-0 bg-black bg-opacity-10 backdrop-blur-sm transition-opacity duration-200"
 //               onClick={closeWaitlistModal}
 //             ></div>
-            
+
 //             <div className="bg-white rounded-lg max-w-2xl w-full max-h-[85vh] overflow-y-auto relative shadow-xl border border-gray-200">
 //               <div className="p-6 border-b border-gray-200 bg-white sticky top-0 z-10">
 //                 <div className="flex justify-between items-center">
@@ -1482,6 +1482,9 @@ import ReportsTab from '@/components/admin/ReportsTab';
 import AnnouncementsTab from '@/components/admin/AnnouncementsTab';
 import AppointmentsTab from '@/components/admin/AppointmentsTab';
 import SlotManagement from '@/components/admin/SlotManagement';
+import WaitlistBroadcastTab from '@/components/admin/WaitlistBroadcastTab';
+import AppointmentBroadcastTab from '@/components/admin/AppointmentBroadcastTab';
+import BroadcastHistoryTab from '@/components/admin/BroadcastHistoryTab';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('waitlist');
@@ -1514,15 +1517,14 @@ export default function AdminDashboard() {
         <div className="bg-white border-b">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <nav className="flex space-x-8 overflow-x-auto">
-              {['waitlist', 'reports', 'appointments', 'slots', 'announcements'].map((tab) => (
+              {['waitlist', 'reports', 'appointments', 'slots', 'announcements', 'waitlist-broadcast', 'appointment-broadcast', 'broadcast-history'].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
-                    activeTab === tab
-                      ? 'border-sky-500 text-sky-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
+                  className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${activeTab === tab
+                    ? 'border-sky-500 text-sky-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
                 >
                   {tab.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                 </button>
@@ -1538,6 +1540,9 @@ export default function AdminDashboard() {
           {activeTab === 'announcements' && <AnnouncementsTab />}
           {activeTab === 'appointments' && <AppointmentsTab />}
           {activeTab === 'slots' && <SlotManagement />}
+          {activeTab === 'waitlist-broadcast' && <WaitlistBroadcastTab />}
+          {activeTab === 'appointment-broadcast' && <AppointmentBroadcastTab />}
+          {activeTab === 'broadcast-history' && <BroadcastHistoryTab />}
         </div>
       </div>
     </ProtectedRoute>

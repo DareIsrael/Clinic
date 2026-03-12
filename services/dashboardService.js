@@ -91,7 +91,7 @@
 //     const response = await api.get('/admin/reports/overview');
 //     return response.data;
 //   },
-  
+
 // };
 
 
@@ -103,7 +103,7 @@
 
 
 
-  
+
 //   // Get dashboard stats
 //   getStats: async () => {
 //     const response = await api.get('/dashboard/stats');
@@ -170,9 +170,9 @@ export const dashboardService = {
 
   // Update waitlist status
   updateWaitlistStatus: async (waitlistId, status) => {
-    const response = await api.patch('/admin/waitlist', { 
-      id: waitlistId, 
-      status 
+    const response = await api.patch('/admin/waitlist', {
+      id: waitlistId,
+      status
     });
     return response.data;
   },
@@ -216,5 +216,41 @@ export const dashboardService = {
   deleteAnnouncement: async (id) => {
     const response = await api.delete(`/announcements/${id}`);
     return response.data;
-  }
+  },
+
+  // Broadcast email to waitlist
+  broadcastToWaitlist: async (data) => {
+    const response = await api.post('/admin/broadcast/waitlist', data);
+    return response.data;
+  },
+
+  // Preview waitlist broadcast recipient count
+  previewWaitlistBroadcast: async (statusFilter) => {
+    const response = await api.get('/admin/broadcast/waitlist', {
+      params: { statusFilter },
+    });
+    return response.data;
+  },
+
+  // Broadcast email to appointment holders
+  broadcastToAppointments: async (data) => {
+    const response = await api.post('/admin/broadcast/appointments', data);
+    return response.data;
+  },
+
+  // Preview appointment broadcast recipient count
+  previewAppointmentBroadcast: async (statusFilter) => {
+    const response = await api.get('/admin/broadcast/appointments', {
+      params: { statusFilter },
+    });
+    return response.data;
+  },
+
+  // Fetch broadcast message history
+  getBroadcastHistory: async (page = 1, limit = 15, type = 'all') => {
+    const response = await api.get('/admin/broadcast/history', {
+      params: { page, limit, type },
+    });
+    return response.data;
+  },
 };
