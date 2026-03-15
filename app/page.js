@@ -1,8 +1,10 @@
 "use client";
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Announcements from '@/components/Announcements';
+
+
 
 export default function Home() {
   // Testimonial slider state
@@ -88,24 +90,24 @@ export default function Home() {
 
   {/* Header */}
   <div className=" mb-4 ">
-    <h1 className="text-3xl lg:text-3xl font-bold text-sky-800 mb-2 leading-tight">
+    <h1 className="hero-heading text-3xl lg:text-3xl font-bold text-sky-800 mb-2 leading-tight">
       Family Doctor & Walk-In Clinic in Downtown Ottawa
     </h1>
 
-    <div className="w-16 h-1 bg-sky-800 rounded-full mb-3"></div>
+    <div className="hero-heading w-16 h-1 bg-sky-800 rounded-full mb-3" style={{ animationDelay: '0.25s' }}></div>
 
-    <p className="text-gray-600 text-sm lg:text-base">
+    <p className="hero-sub text-gray-600 text-sm lg:text-base">
       Same-day visits. Online booking. No phone wait.
     </p>
   </div>
 
   {/* Call-to-Action Buttons */}
-  <div className="flex flex-col sm:flex-row gap-3 mt-6">
+  <div className="hero-cta flex flex-col sm:flex-row gap-3 mt-6">
 
     {/* Book Appointment Button */}
     <Link 
     href="/appointment" 
-    className="bg-gradient-to-r from-sky-600 to-sky-700 text-white px-4 py-3 rounded-lg font-semibold text-center transition-all duration-200 hover:bg-sky-900 hover:shadow-lg flex items-center justify-center gap-2 whitespace-nowrap"
+    className="btn-breathe bg-gradient-to-r from-sky-600 to-sky-700 text-white px-4 py-3 rounded-lg font-semibold text-center transition-all duration-200 hover:bg-sky-900 hover:shadow-lg flex items-center justify-center gap-2 whitespace-nowrap"
   >
     Book Appointment
     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

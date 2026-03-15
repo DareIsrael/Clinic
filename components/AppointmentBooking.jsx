@@ -315,7 +315,7 @@ export default function AppointmentBooking() {
               </div>
               
               {/* Clinic Schedule Card */}
-              {clinicSchedule.length > 0 && (
+              {/* {clinicSchedule.length > 0 && (
                 <div className="bg-sky-50 rounded-xl p-6 mb-8 border border-sky-100">
                   <div className="flex items-center mb-4">
                     <svg className="w-6 h-6 text-sky-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -343,7 +343,7 @@ export default function AppointmentBooking() {
                     ))}
                   </div>
                 </div>
-              )}
+              )} */}
 
               {/* Available Dates */}
               {loading ? (
