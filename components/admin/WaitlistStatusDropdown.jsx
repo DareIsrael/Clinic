@@ -39,6 +39,9 @@ const WaitlistStatusDropdown = ({ waitlistEntry, onStatusChange }) => {
         <option value="Booked">Booked</option>
         <option value="Accepted">Accepted</option>
         <option value="Rejected">Rejected</option>
+        <option value="Called">Called</option>
+        <option value="Left Voicemail">Left Voicemail</option>
+        <option value="Not Reachable">Not Reachable</option>
       </select>
       {isUpdating && (
         <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75 rounded-full">

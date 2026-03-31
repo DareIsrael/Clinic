@@ -60,7 +60,7 @@ const waitlistSchema = new mongoose.Schema({
   // FIXED: Updated enum values to match what you're using
   status: {
     type: String,
-    enum: ['Active', 'Booked', 'Accepted', 'Rejected'],
+    enum: ['Active', 'Booked', 'Accepted', 'Rejected', 'Called', 'Left Voicemail', 'Not Reachable'],
     default: 'Active'
   }
 
@@ -72,5 +72,7 @@ const waitlistSchema = new mongoose.Schema({
 waitlistSchema.index({ createdAt: 1 });
 waitlistSchema.index({ status: 1 });
 // waitlistSchema.index({ email: 1 });
+
+
 
 export default mongoose.models.Waitlist || mongoose.model('Waitlist', waitlistSchema);

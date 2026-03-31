@@ -124,6 +124,10 @@ export default function WaitlistBroadcastTab() {
                             <option value="Booked">Booked</option>
                             <option value="Accepted">Accepted</option>
                             <option value="Rejected">Rejected</option>
+                            <option value="Called">Called</option>
+                            <option value="Left Voicemail">Left Voicemail</option>
+                            <option value="Not Reachable">Not Reachable</option>
+
                         </select>
                         <div className="bg-sky-50 border border-sky-200 text-sky-700 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap">
                             {previewLoading ? (

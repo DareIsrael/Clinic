@@ -32,7 +32,7 @@ export async function PATCH(request, { params }) {
     // console.log('Updating user status:', { id, status }); // Debug log
 
     // Validate status
-    const validStatuses = ['Active', 'Booked', 'Accepted', 'Rejected'];
+    const validStatuses = ['Active', 'Booked', 'Accepted', 'Rejected', 'Called', 'Left Voicemail', 'Not Reachable'];
     if (!validStatuses.includes(status)) {
       return NextResponse.json(
         { success: false, message: 'Invalid status' },
