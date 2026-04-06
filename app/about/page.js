@@ -555,9 +555,7 @@ export default function AboutPage() {
                   >
                     Join Waitlist for Dr. Okwechime's Practice
                   </Link> */}
-                  <p className="text-xs text-sky-600 text-center mt-3">
-                    Beginning April 27, 2026 - Initial "Meet & Greet" appointments available
-                  </p>
+                  
                 </div>
               </div>
             </div>
