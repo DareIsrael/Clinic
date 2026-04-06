@@ -542,21 +542,55 @@ export default function Home() {
         </div>
 
         {/* Announcements Section - Top Left */}
-        <div className="absolute top-2 left-4 right-auto z-20">
+        {/* <div className="absolute top-2 left-4 right-auto z-20">
+          <Announcements />
+        </div> */}
+
+        {/* Announcements Section - Centered on Mobile, Top Left on Desktop */}
+        <div className="absolute top-2 left-1/2 -translate-x-1/2 md:left-4 md:right-auto md:translate-x-0 z-20 w-[calc(100%-2rem)] md:w-auto">
           <Announcements />
         </div>
 
-        {/* New Doctor Announcement - Top Right Corner */}
+        {/* New Doctor Announcement - Full Screen on Mobile */}
         {showNewDoctorAnnouncement && (
-          <div className="absolute top-2 right-4 z-20 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl animate-slide-in-right">
-            <div className="bg-gradient-to-br from-emerald-50 to-teal-50 border-l-4 border-emerald-500 rounded-lg shadow-xl overflow-hidden">
-              <div className="p-3 sm:p-4">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="bg-emerald-100 rounded-full p-1">
+          <>
+            {/* Mobile Full Screen Overlay */}
+            <div className="fixed inset-0 z-50 md:hidden">
+              <div
+                className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+                onClick={() => setShowNewDoctorAnnouncement(false)}
+              ></div>
+              <div className="relative h-full flex items-center justify-center p-6">
+                <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh] w-full">
+                  <div className="p-6">
+                    <div className="flex items-start justify-between gap-3 mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="bg-emerald-100 rounded-full p-2">
+                          <svg
+                            className="w-6 h-6 text-emerald-600"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                            />
+                          </svg>
+                        </div>
+                        <h3 className="text-[11px] sm:text-xs md:text-lg font-bold text-emerald-800 uppercase tracking-wide">
+  Welcome New Physician!
+</h3>
+                      </div>
+                      <button
+                        onClick={() => setShowNewDoctorAnnouncement(false)}
+                        className="flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors bg-white/50 rounded-full p-1"
+                        aria-label="Close announcement"
+                      >
                         <svg
-                          className="w-4 h-4 text-emerald-600"
+                          className="w-5 h-5"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -565,81 +599,149 @@ export default function Home() {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={2}
-                            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                            d="M6 18L18 6M6 6l12 12"
                           />
                         </svg>
-                      </div>
-                      <h3 className="text-xs sm:text-sm font-bold text-emerald-800 uppercase tracking-wide">
-                        Welcome New Physician!
-                      </h3>
+                      </button>
                     </div>
-                    <p className="text-xs sm:text-sm text-gray-700 leading-relaxed mb-3">
-                      We're pleased to welcome{" "}
-                      <span className="font-semibold text-emerald-700">
-                        Dr. Babundo Okwechime
-                      </span>{" "}
-                      to the team at St. Mary Rideau Family Clinic!
-                    </p>
-                    <p className="text-xs text-gray-600 mb-3">
-                      Beginning{" "}
-                      <span className="font-semibold">April 27, 2026</span>, Dr.
-                      Okwechime will start seeing patients for initial "meet and
-                      greet" appointments.
-                    </p>
-                    <p className="text-xs text-gray-600 mb-3">
-                      Patients interested in joining his practice are encouraged
-                      to sign up on our waitlist for a chance to be rostered.
-                    </p>
-                    <p className="text-xs text-emerald-700 italic">
-                      We look forward to introducing you to a dedicated and
-                      compassionate new member of our clinic.
-                    </p>
-                    <div className="mt-3">
+
+                    <div className="space-y-4 ">
+                      <p className="text-base text-sm text-gray-700 leading-relaxed">
+                        We're pleased to welcome{" "}
+                        <span className="font-semibold text-emerald-700">
+                          Dr. Babundo Okwechime
+                        </span>{" "}
+                        to the team at St. Mary Rideau Family Clinic!
+                      </p>
+
+                      <p className="text-base text-sm text-gray-600">
+                        Beginning{" "}
+                        <span className="font-semibold">April 27, 2026</span>,
+                        Dr. Okwechime will start seeing patients for initial
+                        "meet and greet" appointments.
+                      </p>
+
+                      <p className="text-base text-sm text-gray-600">
+                        Patients interested in joining his practice are
+                        encouraged to sign up on our waitlist for a chance to be
+                        rostered.
+                      </p>
+
+                      <p className="text-base text-sm text-emerald-700 italic">
+                        We look forward to introducing you to a dedicated and
+                        compassionate new member of our clinic.
+                      </p>
+                    </div>
+
+                    <div className="mt-6">
                       <Link
                         href="/waitlist"
-                        className="text-xs font-medium text-emerald-600 hover:text-emerald-700 transition-colors flex items-center gap-1"
+                        className="block w-full text-center bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all duration-200 shadow-md"
                       >
                         Join Waitlist
-                        <svg
-                          className="w-3 h-3"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
                       </Link>
                     </div>
                   </div>
-                  <button
-                    onClick={() => setShowNewDoctorAnnouncement(false)}
-                    className="flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors"
-                    aria-label="Close announcement"
-                  >
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
                 </div>
               </div>
             </div>
-          </div>
+
+            {/* Desktop Version - Top Right Corner */}
+            <div className="hidden md:block absolute top-2 right-4 z-20 max-w-sm lg:max-w-md xl:max-w-lg animate-slide-in-right">
+              <div className="bg-gradient-to-br from-emerald-50 to-teal-50 border-l-4 border-emerald-500 rounded-lg shadow-xl overflow-hidden">
+                <div className="p-3 sm:p-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="bg-emerald-100 rounded-full p-1">
+                          <svg
+                            className="w-4 h-4 text-emerald-600"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                            />
+                          </svg>
+                        </div>
+                        <h3 className="text-xs sm:text-sm font-bold text-emerald-800 uppercase tracking-wide">
+                          Welcome New Physician!
+                        </h3>
+                      </div>
+                      <p className="text-xs sm:text-sm text-gray-700 leading-relaxed mb-3">
+                        We're pleased to welcome{" "}
+                        <span className="font-semibold text-emerald-700">
+                          Dr. Babundo Okwechime
+                        </span>{" "}
+                        to the team at St. Mary Rideau Family Clinic!
+                      </p>
+                      <p className="text-xs text-gray-600 mb-3">
+                        Beginning{" "}
+                        <span className="font-semibold">April 27, 2026</span>,
+                        Dr. Okwechime will start seeing patients for initial
+                        "meet and greet" appointments.
+                      </p>
+                      <p className="text-xs text-gray-600 mb-3">
+                        Patients interested in joining his practice are
+                        encouraged to sign up on our waitlist for a chance to be
+                        rostered.
+                      </p>
+                      <p className="text-xs text-emerald-700 italic">
+                        We look forward to introducing you to a dedicated and
+                        compassionate new member of our clinic.
+                      </p>
+                      <div className="mt-3">
+                        <Link
+                          href="/waitlist"
+                          className="text-xs font-medium text-emerald-600 hover:text-emerald-700 transition-colors flex items-center gap-1"
+                        >
+                          Join Waitlist
+                          <svg
+                            className="w-3 h-3"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M9 5l7 7-7 7"
+                            />
+                          </svg>
+                        </Link>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => setShowNewDoctorAnnouncement(false)}
+                      className="flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors"
+                      aria-label="Close announcement"
+                    >
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
         )}
+
         {/* Main Content Box - Pushed down to avoid overlap */}
         <div className="relative z-10 max-w-md mx-4 mb-16 lg:mx-16 xl:mx-24 bg-white rounded-2xl p-6 lg:p-8 border border-gray-200 shadow-xl mt-40 lg:mt-44 xl:mt-48">
           {/* Header */}
