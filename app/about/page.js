@@ -438,167 +438,146 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Physician Profiles */}
+      {/* Physician Profiles - Side by Side on Desktop, Stacked on Mobile */}
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
-          {/* Dr. Oluwaseun Fagbolagun */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-20">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-6">Meet Your Family Physician</h2>
-              <div className="w-16 h-1 bg-sky-500 mb-6"></div>
-              
-              <div className="mb-8">
-                <h3 className="text-xl font-bold text-sky-900 mb-4">Dr. Oluwaseun FAGBOLAGUN</h3>
-                <p className="text-lg text-sky-600 font-medium mb-6">Family Physician</p>
-                <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-6">
-                  Dr. Fagbolagun brings over a decade experience of medical practice. He is certified
-                  in family medicine by both Canadian and UK medical boards. With a commitment to excellence
-                  and a compassionate approach to patient care, Dr. Fagbolagun provides comprehensive medical
-                  services for patients of all ages.
-                </p>
-              </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            {/* Dr. Oluwaseun Fagbolagun - Left Column */}
+            <div className="bg-white rounded-2xl border border-sky-200 shadow-lg overflow-hidden">
+              <div className="p-6 md:p-8">
+                <div className="mb-6">
+                  <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-4">Meets Your Family Physician</h2>
+                  <div className="w-16 h-1 bg-sky-500 mb-6"></div>
+                </div>
+                
+                <div className="mb-8">
+                  <h3 className="text-xl font-bold text-sky-900 mb-4">Dr. Oluwaseun FAGBOLAGUN</h3>
+                  <p className="text-lg text-sky-600 font-medium mb-6">Family Physician</p>
+                  <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-6">
+                    Dr. Fagbolagun brings over a decade experience of medical practice. He is certified
+                    in family medicine by both Canadian and UK medical boards. With a commitment to excellence
+                    and a compassionate approach to patient care, Dr. Fagbolagun provides comprehensive medical
+                    services for patients of all ages.
+                  </p>
+                </div>
 
-              <div className="space-y-4 text-sm sm:text-base md:text-lg leading-relaxed">
-                {credentials.map((credential, index) => (
-                  <div key={index} className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
-                      {credential.icon}
+                <div className="space-y-4">
+                  {credentials.map((credential, index) => (
+                    <div key={index} className="flex items-start space-x-4">
+                      <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
+                        {credential.icon}
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">{credential.title}</h4>
+                        <p className="text-sky-700 text-sm sm:text-base leading-relaxed">{credential.value}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">{credential.title}</h4>
-                      <p className="text-sky-700 mx-auto text-sm sm:text-base leading-relaxed">{credential.value}</p>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-8 border border-sky-200 shadow-lg">
-              <h3 className="text-2xl font-bold text-sky-900 mb-6">Our Practice Philosophy</h3>
-              <div className="space-y-6">
-                {values.map((value, index) => (
-                  <div key={index} className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-sky-50 rounded-lg flex items-center justify-center text-sky-600 border border-sky-200">
-                      {value.icon}
+            {/* Dr. Babundo Okwechime - Right Column */}
+            <div className="bg-white rounded-2xl border border-sky-200 shadow-lg overflow-hidden">
+              <div className="p-6 md:p-8">
+                {/* <div className="mb-6">
+                  <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-semibold mb-4">
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                    </svg>
+                    <span>Welcoming New Physician</span>
+                  </div>
+                  <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-4">New Family Physician</h2>
+                  <div className="w-16 h-1 bg-sky-500 mb-6"></div>
+                </div> */}
+                
+                <div className="mb-8">
+                  <h3 className="text-xl font-bold text-sky-900 mb-4">Dr. Babundo Okwechime</h3>
+                  <p className="text-lg text-sky-600 font-medium mb-6">Family Physician</p>
+                  <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-6">
+                    Dr. Babundo Okwechime is an experienced clinician who bridges the gap between individual patient care and global medical standards. With an M.Sc. in Global Health Science, he applies a holistic, evidence-based lens to his practice, partnering with patients on their long-term wellness journeys. His clinical scope is further enhanced by specialized expertise in orthopaedics, including joint injections and minor surgical procedures. Dr. Okwechime is dually certified in family medicine by both the Canadian and UK medical boards.
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14v6l9-5-9-5-9 5 9 5z" />
+                      </svg>
                     </div>
                     <div>
-                      <h4 className="text-lg font-semibold text-sky-900 mb-2">{value.title}</h4>
-                      <p className="text-sky-700 text-sm sm:text-base leading-relaxed">{value.description}</p>
+                      <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">Medical Degree</h4>
+                      <p className="text-sky-700 text-sm sm:text-base leading-relaxed">MD - Doctor of Medicine</p>
                     </div>
                   </div>
-                ))}
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">Advanced Degree</h4>
+                      <p className="text-sky-700 text-sm sm:text-base leading-relaxed">M.Sc. in Global Health Science</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">Certifications</h4>
+                      <p className="text-sky-700 text-sm sm:text-base leading-relaxed">CCFP & MRCGP - Dual Certified</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm0-5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">Specialized Expertise</h4>
+                      <p className="text-sky-700 text-sm sm:text-base leading-relaxed">Orthopaedics - Joint Injections & Minor Surgical Procedures</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-8 pt-6 border-t border-sky-200">
+                  {/* <Link 
+                    href="/waitlist" 
+                    className="block w-full text-center bg-gradient-to-r from-sky-600 to-sky-700 text-white px-6 py-3 rounded-lg font-semibold hover:from-sky-700 hover:to-sky-800 transition-all duration-200 hover:shadow-lg"
+                  >
+                    Join Waitlist for Dr. Okwechime's Practice
+                  </Link> */}
+                  <p className="text-xs text-sky-600 text-center mt-3">
+                    Beginning April 27, 2026 - Initial "Meet & Greet" appointments available
+                  </p>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Dr. Babundo Okwechime */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start pt-8 border-t border-sky-200">
-            <div>
-              <div className="mb-8">
-                <h3 className="text-xl font-bold text-sky-900 mb-4">Dr. Babundo Okwechime</h3>
-                <p className="text-lg text-sky-600 font-medium mb-6">Family Physician</p>
-                <p className="text-sky-700 text-sm sm:text-base leading-relaxed">
-                  Dr. Babundo Okwechime is an experienced clinician who bridges the gap between individual patient care and global medical standards. With an M.Sc. in Global Health Science, he applies a holistic, evidence-based lens to his practice, partnering with patients on their long-term wellness journeys. His clinical scope is further enhanced by specialized expertise in orthopaedics, including joint injections and minor surgical procedures. Dr. Okwechime is dually certified in family medicine by both the Canadian and UK medical boards.
-                </p>
-              </div>
-
-              <div className="space-y-4 text-sm sm:text-base md:text-lg leading-relaxed">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14v6l9-5-9-5-9 5 9 5z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">Medical Degree</h4>
-                    <p className="text-sky-700 text-sm sm:text-base leading-relaxed">MD - Doctor of Medicine</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">Advanced Degree</h4>
-                    <p className="text-sky-700 text-sm sm:text-base leading-relaxed">M.Sc. in Global Health Science</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">Certifications</h4>
-                    <p className="text-sky-700 text-sm sm:text-base leading-relaxed">CCFP & MRCGP - Dual Certified (Canadian & UK Medical Boards)</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm0-5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">Specialized Expertise</h4>
-                    <p className="text-sky-700 text-sm sm:text-base leading-relaxed">Orthopaedics - Joint Injections & Minor Surgical Procedures</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl p-8 border border-sky-200 shadow-lg">
-              <h3 className="text-2xl font-bold text-sky-900 mb-6">Approach to Care</h3>
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
+          {/* Practice Philosophy Section - Full Width Below Both Doctors */}
+          <div className="mt-12 bg-white rounded-2xl p-8 border border-sky-200 shadow-lg">
+            <h3 className="text-2xl font-bold text-sky-900 mb-6">Our Practice Philosophy</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {values.map((value, index) => (
+                <div key={index} className="flex items-start space-x-4">
                   <div className="flex-shrink-0 w-12 h-12 bg-sky-50 rounded-lg flex items-center justify-center text-sky-600 border border-sky-200">
-                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                    {value.icon}
                   </div>
                   <div>
-                    <h4 className="text-lg font-semibold text-sky-900 mb-2">Global Health Perspective</h4>
-                    <p className="text-sky-700 text-sm sm:text-base leading-relaxed">Bridging individual patient care with global medical standards through evidence-based practice.</p>
+                    <h4 className="text-lg font-semibold text-sky-900 mb-2">{value.title}</h4>
+                    <p className="text-sky-700 text-sm sm:text-base leading-relaxed">{value.description}</p>
                   </div>
                 </div>
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-sky-50 rounded-lg flex items-center justify-center text-sky-600 border border-sky-200">
-                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-semibold text-sky-900 mb-2">Holistic Wellness</h4>
-                    <p className="text-sky-700 text-sm sm:text-base leading-relaxed">Partnering with patients on their long-term wellness journeys with a holistic, evidence-based lens.</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-sky-50 rounded-lg flex items-center justify-center text-sky-600 border border-sky-200">
-                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm0-5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-semibold text-sky-900 mb-2">Orthopaedic Expertise</h4>
-                    <p className="text-sky-700 text-sm sm:text-base leading-relaxed">Specialized training in joint injections and minor surgical procedures.</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="mt-8 pt-6 border-t border-sky-200">
-                <Link 
-                  href="/waitlist" 
-                  className="block w-full text-center bg-sky-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-sky-700 transition-all duration-200 hover:shadow-lg"
-                >
-                  Join Waitlist
-                </Link>
-                
-              </div>
+              ))}
             </div>
           </div>
         </div>

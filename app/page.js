@@ -635,10 +635,10 @@ export default function Home() {
 
                     <div className="mt-6">
                       <Link
-                        href="/waitlist"
+                        href="/appointment"
                         className="block w-full text-center bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all duration-200 shadow-md"
                       >
-                        Join Waitlist
+                        Book Appointment
                       </Link>
                     </div>
                   </div>
@@ -696,10 +696,10 @@ export default function Home() {
                       </p>
                       <div className="mt-3">
                         <Link
-                          href="/waitlist"
+                          href="/appointment"
                           className="text-xs font-medium text-emerald-600 hover:text-emerald-700 transition-colors flex items-center gap-1"
                         >
-                          Join Waitlist
+                          Book Appointment
                           <svg
                             className="w-3 h-3"
                             fill="none"
