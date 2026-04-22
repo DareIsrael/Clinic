@@ -411,14 +411,14 @@ export default function AboutPage() {
       {/* Hero Section with Background Image */}
       <section className="relative min-h-[60vh] flex items-center justify-start bg-sky-900 overflow-hidden">
         {/* Background Image */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: 'url("https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")',
-          }}
-        >
-          <div className="absolute inset-0 bg-sky-900/70"></div>
-        </div>
+       <div 
+  className="absolute inset-0 bg-cover bg-top bg-no-repeat"
+  style={{
+    backgroundImage: 'url("https://res.cloudinary.com/dveill0ji/image/upload/v1776831814/St.MaryBackgroundA_pqfkaw.jpg")',
+  }}
+>
+  <div className="absolute inset-0 bg-sky-900/70"></div>
+</div>
 
         {/* Sky Blue Text Box */}
         <div className="relative z-10 max-w-md mx-4 lg:mx-16 xl:mx-24 bg-white-700/90 backdrop-blur-sm rounded-2xl p-6 lg:p-8 border border-sky-400/40 shadow-xl">

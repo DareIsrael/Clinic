@@ -535,7 +535,7 @@ export default function Home() {
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage:
-              'url("https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")',
+              'url("https://res.cloudinary.com/dveill0ji/image/upload/v1776831591/St.MaryBackground_i6rqpf.jpg")',
           }}
         >
           <div className="absolute inset-0 bg-sky-800/70"></div>
