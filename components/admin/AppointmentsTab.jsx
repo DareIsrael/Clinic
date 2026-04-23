@@ -249,7 +249,7 @@ export default function AppointmentsTab() {
 
         {/* Quick Filter Buttons */}
         <div className="mt-5 flex flex-wrap gap-2">
-          {['upcoming', 'today', 'completed', 'cancelled', 'all'].map((filter) => {
+          {['upcoming', 'today', 'completed', 'cancelled','all'].map((filter) => {
             const label = filter.charAt(0).toUpperCase() + filter.slice(1).replace('_', ' ');
             const count = counts[filter] || 0;
             return (

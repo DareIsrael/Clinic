@@ -117,12 +117,7 @@ export default function ContactPage() {
             Contact St Mary Rideau Clinic
           </h1>
           <div className="w-12 h-0.5 bg-sky-300 rounded-full mb-4"></div>
-          {/* <p className="text-lg text-sky-50 font-medium mb-2">
-            Dr. Oluwaseun FAGBOLAGUN
-          </p> */}
-          {/* <p className="text-sm text-sky-200/90 mb-4">
-            MD CCFP MRCGP • Family Physician
-          </p> */}
+          
           <p className="text-sm text-white leading-relaxed">
             We're here to help you with all your healthcare needs. Get in touch with us today for appointments, inquiries, or medical concerns.
           </p>
@@ -273,11 +268,35 @@ export default function ContactPage() {
                     <p className="text-sm mt-1">158 Rideau Street Ottawa, K1N5X6</p>
                   </div>
                 </div>
-                <div className="mt-4 text-center">
+
+                <div className="mt-3 text-center">
+                  <a
+                    href="https://maps.google.com/?q=158+Rideau+Ottawa+ON+KIN+5X6"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-sky-600 hover:text-sky-700 font-medium text-sm transition-colors"
+                  >
+                    Get Directions
+                    <svg
+                      className="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </a>
+                </div>
+                {/* <div className="mt-4 text-center">
                   <button className="text-sky-600 hover:text-sky-700 font-medium text-sm">
                     Get Directions →
                   </button>
-                </div>
+                </div> */}
               </div>
 
               {/* Emergency Info */}
