@@ -19,6 +19,19 @@ export default function BookAppointment() {
     },
     {
       id: 2,
+      title: "Dr. Okwechime Rostered Patients",
+      description: "For patients already registered with Dr. Okwechime for ongoing care.",
+      note: "(Existing patients only)",
+      buttonText: "Book as Existing Patient",
+      link: " https://ocean.cognisantmd.com/intake/patients.html?linkRef=5b641f80-4b63-4511-a6c9-5f04c97199c6#/online-booking",
+      icon: (
+        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+      )
+    },
+    {
+      id: 3,
       title: "Same-Day Walk-In Appointments",
       description: "For new or unregistered patients who need to be seen today.",
       note: "(Urgent or one-time visits)",
@@ -31,7 +44,7 @@ export default function BookAppointment() {
       )
     },
     {
-      id: 3,
+      id: 4,
       title: "Register with a Family Doctor",
       description: "Join the list to become a permanent patient for long-term care.",
       note: "(Not for same-day visits)",
