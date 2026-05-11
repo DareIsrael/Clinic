@@ -293,7 +293,7 @@ export default function RootLayout({ children }) {
               </div>
 
               {/* Newsletter Signup */}
-              <div className="border-t border-gray-700 pt-8 mb-8">
+              {/* <div className="border-t border-gray-700 pt-8 mb-8">
                 <div className="max-w-md mx-auto text-center">
                   <h3 className="text-lg font-semibold mb-2 text-sky-400">Stay Updated</h3>
                   <p className="text-gray-400 text-sm mb-4">Subscribe to our newsletter for health tips and clinic updates</p>
@@ -311,7 +311,7 @@ export default function RootLayout({ children }) {
                     </button>
                   </form>
                 </div>
-              </div>
+              </div> */}
 
               {/* Copyright */}
               <div className="border-t border-gray-700 pt-6 text-center">
