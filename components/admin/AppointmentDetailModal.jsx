@@ -34,7 +34,7 @@ const AppointmentDetailModal = ({ appointment, onClose, onStatusChange }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div 
-        className="absolute inset-0 bg-black bg-opacity-10 backdrop-blur-sm transition-opacity duration-200"
+        className="absolute inset-0 bg-black/10 backdrop-blur-sm transition-opacity duration-200"
         onClick={onClose}
       ></div>
       

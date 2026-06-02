@@ -43,7 +43,7 @@ const AppointmentStatusDropdown = ({ appointment, onStatusChange }) => {
         <option value="no_show">No Show</option>
       </select>
       {isUpdating && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75 rounded-lg">
+        <div className="absolute inset-0 flex items-center justify-center bg-white/75 rounded-lg">
           <div className="w-3 h-3 border border-sky-600 border-t-transparent rounded-full animate-spin"></div>
         </div>
       )}

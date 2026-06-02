@@ -188,7 +188,7 @@ export default function WaitlistBroadcastTab() {
             {/* Confirmation modal */}
             {showConfirm && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                    <div className="absolute inset-0 bg-black bg-opacity-10 backdrop-blur-sm" onClick={() => setShowConfirm(false)} />
+                    <div className="absolute inset-0 bg-black/10 backdrop-blur-sm" onClick={() => setShowConfirm(false)} />
                     <div className="bg-white rounded-lg max-w-md w-full p-6 relative shadow-xl border border-gray-200">
                         <h3 className="text-lg font-semibold text-gray-900 mb-2">Confirm Send</h3>
                         <p className="text-gray-600 text-sm mb-1">
