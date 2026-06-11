@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function AppointmentBooking() {
   // State management
@@ -7,6 +7,7 @@ export default function AppointmentBooking() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const hasTrackedRef = useRef(false);
   const [availableSlots, setAvailableSlots] = useState([]);
   const [availableDates, setAvailableDates] = useState([]);
   const [clinicSchedule, setClinicSchedule] = useState([]);
@@ -186,6 +187,19 @@ export default function AppointmentBooking() {
       const data = await response.json();
 
       if (data.success) {
+        // Fire GTM conversion event only once after confirmed API success
+        if (typeof window !== 'undefined' && !hasTrackedRef.current) {
+          hasTrackedRef.current = true;
+
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: 'appointment_booking',
+            appointmentDate: formData.appointmentDate,
+            appointmentTime: formData.appointmentTime,
+            reason: formData.reason,
+          });
+        }
+
         setSuccess('Appointment booked successfully! You will receive a confirmation email.');
         setStep(4);
         

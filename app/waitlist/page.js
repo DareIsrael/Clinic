@@ -324,7 +324,7 @@
 
 
 'use client';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import InputField from '@/components/InputField';
 
@@ -346,6 +346,8 @@ export default function WaitlistPage() {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
   const router = useRouter();
+  const hasTrackedRef = useRef(false);
+
 
   const genderOptions = [
     { value: '', label: 'Select Gender' },
@@ -439,12 +441,26 @@ export default function WaitlistPage() {
       const result = await response.json();
       
       if (result.success) {
+        // Fire GTM event only once after confirmed API success
+        if (typeof window !== 'undefined' && !hasTrackedRef.current) {
+          hasTrackedRef.current = true;
+
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: 'waitlist_signup',
+            eventCallback: function () {
+              router.push('/waiting-list-confirmation');
+            },
+            eventTimeout: 2000,
+          });
+        }
+
         setSuccessMessage('Successfully joined waitlist! Redirecting...');
-        
-        // Redirect to confirmation page after short delay
+
+        // Fallback redirect in case GTM eventCallback never fires
         setTimeout(() => {
           router.push('/waiting-list-confirmation');
-        }, 1500);
+        }, 2500);
       } else {
         // Handle specific backend errors
         if (result.message?.includes('already on our waitlist') || result.message?.includes('duplicate')) {

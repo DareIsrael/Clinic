@@ -1,8 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
-import { appointmentService } from '@/services/appointmentService';
 
 export default function BookingForm() {
   const [formData, setFormData] = useState({
@@ -15,6 +14,7 @@ export default function BookingForm() {
   const [message, setMessage] = useState('');
   const { user } = useAuth();
   const router = useRouter();
+  const hasTrackedRef = useRef(false);
 
   const serviceOptions = [
     { value: 'Dental Care', label: 'Dental Care' },
@@ -43,27 +43,52 @@ export default function BookingForm() {
     setMessage('');
 
     try {
-      const response = await appointmentService.createAppointment(formData);
+      const response = await fetch('/api/appointments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
 
-      if (response.success) {
+      const result = await response.json();
+
+      // console.log("BOOKING RESPONSE:", result);
+
+      if (result.success) {
+        // Fire GTM event only once after confirmed API success
+        if (typeof window !== 'undefined' && !hasTrackedRef.current) {
+          hasTrackedRef.current = true;
+
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: 'appointment_booking',
+            serviceType: formData.serviceType,
+            preferredDate: formData.preferredDate,
+            eventCallback: function () {
+              router.push('/dashboard');
+            },
+            eventTimeout: 2000,
+          });
+        }
+
         setMessage('Appointment booked successfully!');
+
         setFormData({
           serviceType: '',
           preferredDate: '',
           preferredTime: '',
           message: ''
         });
-        
-        // Redirect to dashboard after 2 seconds
+
+        // Fallback redirect in case GTM eventCallback never fires
         setTimeout(() => {
           router.push('/dashboard');
-        }, 2000);
+        }, 3000);
       } else {
-        setMessage(response.message || 'Failed to book appointment');
+        setMessage(result.message || 'Failed to book appointment');
       }
     } catch (error) {
       console.error('Booking error:', error);
-      setMessage(error.response?.data?.message || 'An error occurred. Please try again.');
+      setMessage(error.message || 'An error occurred. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -200,14 +225,6 @@ export default function BookingForm() {
           )}
         </button>
       </form>
-
-      {/* Help Text */}
-      {/* <div className="mt-6 text-center text-sm text-gray-500">
-        <p>Need help? Contact us at <a href="tel:(343) 887-3470" className="text-sky-600 hover:text-sky-700">(555) 123-4567</a></p>
-        <p className="mt-1">Our team is available - Monday - Mon & Wed - 4pm-8pm, 
-          Tues & Thurs - 10am-7pm, 
-          Sat - 10am-3pm</p>
-      </div> */}
     </div>
   );
 }
