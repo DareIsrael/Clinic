@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function LoginPage() {
@@ -110,36 +111,20 @@ export default function LoginPage() {
           <div className="flex flex-col lg:flex-row">
 
             {/* Left Side - Image */}
-            <div className="lg:w-1/2 bg-sky-600 relative">
-              <div
-                className="h-48 lg:h-full bg-cover bg-center bg-no-repeat"
-                style={{
-                  backgroundImage: 'url("https://images.unsplash.com/photo-1576097449790-4b5e7f7dd4c5?auto=format&fit=crop&w=1000&q=80")',
-                }}
-              >
-                <div className="absolute inset-0 bg-blue-900/20"></div>
-              </div>
-
-              <div className="absolute inset-0 flex items-center justify-center p-8">
-                <div className="text-center text-white">
-                  <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4 border border-white/30">
-                    <svg
-                      className="w-8 h-8 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z"
-                      />
-                    </svg>
-                  </div>
-                  <h2 className="text-2xl font-bold mb-2">St Mary Rideau Clinic</h2>
-                  <p className="text-sky-100 text-sm">Secure Patient Account</p>
+            <div className="hidden lg:flex lg:w-1/2 bg-white items-center justify-center p-8 border-r border-gray-100">
+              <div className="text-center">
+                <div className="mb-6 flex justify-center">
+                  <Image
+                    src="/St.MaryLOGO2.svg"
+                    alt="St Mary Rideau Clinic Logo"
+                    width={250}
+                    height={80}
+                    className="object-contain"
+                    priority
+                  />
                 </div>
+                {/* <h2 className="text-xl font-bold text-gray-900 mb-2">St Mary Rideau Clinic</h2> */}
+                {/* <p className="text-gray-500 text-sm">Secure Admin Portal</p> */}
               </div>
             </div>
 
@@ -148,7 +133,7 @@ export default function LoginPage() {
               <div className="max-w-md mx-auto">
                 <div className="text-center mb-8">
                   <h1 className="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h1>
-                  <p className="text-gray-600 text-sm">Sign in to your patient portal</p>
+                  <p className="text-gray-600 text-sm">Sign in to your admin portal</p>
                 </div>
 
                 {error && (
@@ -242,8 +227,8 @@ export default function LoginPage() {
                   </button>
                 </form>
 
-                <div className="mt-6 text-center text-sm">
-                  New patient?{' '}
+                <div className="text-gray-600 mt-6 text-center text-sm">
+                  New Admin Staff?{' '}
                   <Link href="/signup" className="text-sky-600 hover:text-sky-500 font-medium">
                     Create account
                   </Link>

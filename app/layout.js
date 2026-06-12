@@ -97,6 +97,7 @@ import Navbar from '@/components/Navbar';
 // import { AuthProvider } from '@/contexts/AuthContext';
 import { Poppins } from 'next/font/google';
 import SessionProvider from '@/components/SessionProvider';
+import AdminInactivityTracker from '@/components/AdminInactivityTracker';
 import { Phone, Mail, Calendar, MapPin, Clock, Heart, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 import Link from 'next/link';
 import Script from 'next/script';
@@ -143,7 +144,7 @@ export default function RootLayout({ children }) {
       <body className={poppins.className}>
 
         {/* <!-- Google Tag Manager (noscript) --> */}
-        
+
 <noscript>
   <iframe
     src="https://www.googletagmanager.com/ns.html?id=GTM-KSQBJ9PK"
@@ -155,6 +156,8 @@ export default function RootLayout({ children }) {
 {/* <!-- End Google Tag Manager (noscript) --> */}
 
         <SessionProvider>
+          <AdminInactivityTracker />
+
           <Navbar />
           <main className="min-h-screen">{children}</main>
           
