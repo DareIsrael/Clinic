@@ -106,8 +106,8 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
-      <div className="max-w-4xl w-full">
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
+      <div className="max-w-3xl w-full">
+        <div className="bg-white rounded-2xl  overflow-hidden  border border-gray-200">
           <div className="flex flex-col lg:flex-row">
 
             {/* Left Side - Image */}
@@ -142,7 +142,7 @@ export default function LoginPage() {
                   </div>
                 )}
 
-                <form className="space-y-5" onSubmit={handleSubmit}>
+                <form className="space-y-4" onSubmit={handleSubmit}>
                   {/* Email */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -151,11 +151,12 @@ export default function LoginPage() {
                     <input
                       type="email"
                       name="email"
+                      // autoComplete="off"
                       value={formData.email}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none text-gray-400 focus:ring-2 ${validationErrors.email
+                      className={`w-full px-4 py-2 border rounded-lg focus:outline-none text-gray-400 focus:ring-2 ${validationErrors.email
                         ? 'border-red-500 focus:ring-red-500'
-                        : 'border-gray-300 focus:ring-sky-500'
+                        : 'border-gray-600 focus:ring-sky-500'
                         }`}
                       placeholder="Enter your email"
                     />
@@ -173,11 +174,12 @@ export default function LoginPage() {
                       <input
                         type={showPassword ? 'text' : 'password'}
                         name="password"
+                        autoComplete="new-password"
                         value={formData.password}
                         onChange={handleChange}
-                        className={`w-full px-4 py-3 border rounded-lg text-gray-400 focus:outline-none focus:ring-2 pr-12 ${validationErrors.password
+                        className={`w-full px-4 py-2 border rounded-lg text-gray-500 focus:outline-none focus:ring-2 pr-12 ${validationErrors.password
                           ? 'border-red-500 focus:ring-red-500'
-                          : 'border-gray-300 focus:ring-sky-500'
+                          : 'border-gray-600 focus:ring-sky-500'
                           }`}
                         placeholder="Enter your password"
                       />
