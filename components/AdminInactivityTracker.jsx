@@ -18,7 +18,7 @@ import { useSession, signOut } from 'next-auth/react';
  *  values, e.g. 2 * 60 * 1000 (2 min) and 30 * 1000 (30s)
  * ──────────────────────────────────────────────────────
  */
-const INACTIVITY_LIMIT_MS = 30 * 60 * 1000; // 30 minutes
+const INACTIVITY_LIMIT_MS = 12 * 60 * 60 * 1000; // 12 hours
 const WARNING_BEFORE_MS = 60 * 1000;             // 1 minute before logout
 
 const STORAGE_KEY = 'adminLastActivity';
