@@ -551,11 +551,11 @@ export default function Home() {
           <Announcements />
         </div>
 
-        {/* New Doctor Announcement - Full Screen on Mobile */}
-        {showNewDoctorAnnouncement && (
+        {/* New Doctor Announcement - Full Screen on Mobile
+              {showNewDoctorAnnouncement && (
           <>
             {/* Mobile Full Screen Overlay */}
-            <div className="fixed inset-0 z-50 md:hidden">
+            {/* <div className="fixed inset-0 z-50 md:hidden">
               <div
                 className="absolute inset-0 bg-black/50 backdrop-blur-sm"
                 onClick={() => setShowNewDoctorAnnouncement(false)}
@@ -644,10 +644,10 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Desktop Version - Top Right Corner */}
-            <div className="hidden md:block absolute top-2 right-4 z-20 max-w-sm lg:max-w-md xl:max-w-lg animate-slide-in-right">
+            {/* <div className="hidden md:block absolute top-2 right-4 z-20 max-w-sm lg:max-w-md xl:max-w-lg animate-slide-in-right">
               <div className="bg-gradient-to-br from-emerald-50 to-teal-50 border-l-4 border-emerald-500 rounded-lg shadow-xl overflow-hidden">
                 <div className="p-3 sm:p-4">
                   <div className="flex items-start justify-between gap-2">
@@ -738,9 +738,9 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </div>
-          </>
-        )}
+            </div> */}
+          {/* </> */}
+        
 
         {/* Main Content Box - Pushed down to avoid overlap */}
         <div className="relative z-10 max-w-md mx-4 mb-16 lg:mx-16 xl:mx-24 bg-white rounded-2xl p-6 lg:p-8 border border-gray-200 shadow-xl mt-40 lg:mt-44 xl:mt-48">
