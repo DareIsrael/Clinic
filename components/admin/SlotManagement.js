@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { Clock, Calendar, Plus, Trash2, CheckCircle2, XCircle, Filter, RefreshCw, Info } from 'lucide-react';
 
 export default function SlotManagement() {
   const [date, setDate] = useState('');
@@ -46,12 +47,9 @@ export default function SlotManagement() {
   // SIMPLE: Format date for display
   const formatDisplayDate = (dateString) => {
     if (!dateString) return '';
-    
-    // If it's a YYYY-MM-DD string, format it nicely
     if (typeof dateString === 'string' && dateString.match(/^\d{4}-\d{2}-\d{2}$/)) {
       const [year, month, day] = dateString.split('-');
       const dateObj = new Date(year, month - 1, day);
-      
       const options = { 
         weekday: 'short', 
         month: 'short', 
@@ -60,14 +58,11 @@ export default function SlotManagement() {
       };
       return dateObj.toLocaleDateString('en-US', options);
     }
-    
     return dateString;
   };
 
-  // Today's date for min attribute
   const todayDate = getTodayDate();
 
-  // Load all slots on component mount
   useEffect(() => {
     fetchAllSlots();
   }, []);
@@ -75,8 +70,6 @@ export default function SlotManagement() {
   const fetchAllSlots = async () => {
     try {
       setAllSlotsLoading(true);
-      
-      // Set default date range (today to 30 days from now)
       const today = getTodayDate();
       const futureDate = getFutureDate(30);
       
@@ -85,12 +78,10 @@ export default function SlotManagement() {
         end: futureDate
       });
       
-      // console.log('Fetching slots for date range:', { today, futureDate });
       const response = await fetch(`/api/slots/admin?startDate=${today}&endDate=${futureDate}`);
       const data = await response.json();
       
       if (data.success) {
-        // console.log('Received slots:', data.slots?.length || 0);
         setAllSlots(data.slots || []);
       } else {
         setMessage({ type: 'error', text: data.message || 'Failed to load slots' });
@@ -103,8 +94,6 @@ export default function SlotManagement() {
     }
   };
 
-
-  // ADD THIS MISSING FUNCTION
   const fetchSlotsByDateRange = async () => {
     if (!dateRange.start || !dateRange.end) {
       setMessage({ type: 'error', text: 'Please select both start and end dates' });
@@ -113,8 +102,6 @@ export default function SlotManagement() {
 
     try {
       setAllSlotsLoading(true);
-      // console.log('Fetching slots for custom range:', dateRange);
-      
       const response = await fetch(`/api/slots/admin?startDate=${dateRange.start}&endDate=${dateRange.end}`);
       const data = await response.json();
       
@@ -163,8 +150,6 @@ export default function SlotManagement() {
     setMessage({ type: '', text: '' });
 
     try {
-      // console.log('Submitting slots for Canada date:', date, 'times:', times);
-      
       const response = await fetch('/api/appointments/admin', {
         method: 'POST',
         headers: {
@@ -182,7 +167,6 @@ export default function SlotManagement() {
         setMessage({ type: 'success', text: `Successfully added ${data.count} slot(s) for ${formatDisplayDate(date)}` });
         setTimes([]);
         setDate('');
-        // Refresh all slots
         await fetchAllSlots();
       } else {
         setMessage({ type: 'error', text: data.message });
@@ -192,35 +176,6 @@ export default function SlotManagement() {
       setMessage({ type: 'error', text: 'Failed to add slots' });
     } finally {
       setLoading(false);
-    }
-  };
-
-  const viewSlots = async () => {
-    if (!viewDate) {
-      setMessage({ type: 'error', text: 'Please select a date to view slots' });
-      return;
-    }
-
-    setViewLoading(true);
-    setMessage({ type: '', text: '' });
-
-    try {
-      // console.log('Viewing slots for date:', viewDate);
-      const response = await fetch(`/api/appointments?date=${viewDate}`);
-      const data = await response.json();
-
-      if (data.success) {
-        setAvailableSlots(data.slots || []);
-      } else {
-        setAvailableSlots([]);
-        setMessage({ type: 'error', text: data.message });
-      }
-    } catch (error) {
-      console.error('Error loading slots:', error);
-      setAvailableSlots([]);
-      setMessage({ type: 'error', text: 'Failed to load slots' });
-    } finally {
-      setViewLoading(false);
     }
   };
 
@@ -240,7 +195,6 @@ export default function SlotManagement() {
       const data = await response.json();
 
       if (data.success) {
-        // Update local state
         setAvailableSlots(prev =>
           prev.map(slot =>
             slot._id === slotId
@@ -248,7 +202,6 @@ export default function SlotManagement() {
               : slot
           )
         );
-        // Also update all slots
         setAllSlots(prev =>
           prev.map(slot =>
             slot._id === slotId
@@ -279,7 +232,6 @@ export default function SlotManagement() {
       const data = await response.json();
 
       if (data.success) {
-        // Remove from local state
         setAllSlots(prev => prev.filter(slot => slot._id !== slotId));
         setAvailableSlots(prev => prev.filter(slot => slot._id !== slotId));
         setMessage({ type: 'success', text: 'Slot deleted successfully' });
@@ -298,7 +250,6 @@ export default function SlotManagement() {
     }
 
     try {
-      // console.log('Deleting slots for Canada date:', date);
       const response = await fetch(`/api/slots/admin?date=${date}`, {
         method: 'DELETE',
       });
@@ -306,7 +257,6 @@ export default function SlotManagement() {
       const data = await response.json();
 
       if (data.success) {
-        // Remove from local state using canadaDate or date property
         setAllSlots(prev => prev.filter(slot => {
           const slotDate = slot.canadaDate || slot.date;
           return slotDate !== date;
@@ -321,9 +271,7 @@ export default function SlotManagement() {
     }
   };
 
-  // Group slots by date - FIXED
   const groupedSlots = allSlots.reduce((groups, slot) => {
-    // Use canadaDate from API response
     const dateKey = slot.canadaDate || slot.date;
     if (!groups[dateKey]) {
       groups[dateKey] = [];
@@ -333,275 +281,251 @@ export default function SlotManagement() {
   }, {});
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">Manage Available Slots</h2>
-
-      {/* SIMPLE: Remove timezone complexity */}
-      <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
-        {/* <p className="text-sm text-blue-700">
-          <strong>Note:</strong> All dates and times are stored and displayed exactly as entered.
-        </p> */}
-        <p className="text-xs text-blue-600 mt-1">
-          Today is: {formatDisplayDate(todayDate)} ({todayDate})
-        </p>
+    <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-6 space-y-6">
+      
+      {/* Header */}
+      <div className="flex items-center justify-between pb-4 border-b border-[#F1F5F9]">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 bg-sky-50 rounded-xl flex items-center justify-center">
+            <Clock className="w-5 h-5 text-sky-600" />
+          </div>
+          <div>
+            <h2 className="text-sm font-bold text-[#0F172A] uppercase tracking-wider">Schedule Slot Management</h2>
+            <p className="text-xs text-[#64748B] mt-0.5 font-semibold">Today: {formatDisplayDate(todayDate)}</p>
+          </div>
+        </div>
       </div>
 
-      {/* Message Display */}
+      {/* Message alerts */}
       {message.text && (
-        <div className={`mb-6 p-4 rounded-lg ${message.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
+        <div className={`p-3.5 rounded-xl text-xs font-bold border ${
+          message.type === 'success' 
+            ? 'bg-emerald-50 text-emerald-800 border-emerald-100' 
+            : 'bg-rose-50 text-rose-800 border-rose-100'
+        }`}>
           {message.text}
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Add New Slots */}
-        <div>
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Add New Slots</h3>
-          
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Select Date *
-              </label>
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                min={todayDate}
-                className="w-full px-4 py-2 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
-              />
-              <p className="text-xs text-gray-500 mt-1">
-                Selected date: {date ? formatDisplayDate(date) : 'Not selected'} ({date})
-              </p>
-            </div>
+      {/* Forms layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        {/* Left add section */}
+        <div className="lg:col-span-5 space-y-4">
+          <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-4 space-y-4">
+            <h3 className="text-xs font-bold text-[#0F172A] uppercase tracking-wider">Create Available Slots</h3>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Add Time Slot *
-              </label>
-              <div className="flex gap-2 mb-3">
+            <div className="space-y-3.5">
+              <div>
+                <label className="block text-xs font-bold text-[#475569] mb-1.5 uppercase">Select Date *</label>
                 <input
-                  type="time"
-                  value={time}
-                  onChange={(e) => setTime(e.target.value)}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  min={todayDate}
+                  className="w-full px-3 py-2 bg-white border border-[#E2E8F0] rounded-xl text-xs text-[#334155] focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20"
                 />
-                <button
-                  onClick={addTime}
-                  className="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700"
-                >
-                  Add
-                </button>
               </div>
 
-              {/* Common Times */}
-              <div className="mb-4">
-                <p className="text-sm text-gray-600 mb-2">Quick Add Common Times:</p>
-                <div className="flex flex-wrap gap-2">
+              <div>
+                <label className="block text-xs font-bold text-[#475569] mb-1.5 uppercase">Add Custom Time *</label>
+                <div className="flex gap-2">
+                  <input
+                    type="time"
+                    value={time}
+                    onChange={(e) => setTime(e.target.value)}
+                    className="flex-1 px-3 py-2 bg-white border border-[#E2E8F0] rounded-xl text-xs text-[#334155] focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20"
+                  />
+                  <button
+                    onClick={addTime}
+                    className="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1"
+                  >
+                    <Plus className="w-3.5 h-3.5" /> Add
+                  </button>
+                </div>
+              </div>
+
+              {/* Common presets */}
+              <div>
+                <p className="text-[10px] font-bold text-[#64748B] mb-2 uppercase tracking-wide">Quick Preset Hours</p>
+                <div className="flex flex-wrap gap-1.5">
                   {commonTimes.map(commonTime => (
                     <button
                       key={commonTime}
                       onClick={() => addCommonTime(commonTime)}
-                      className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded hover:bg-gray-200"
+                      className="px-2 py-1 text-[10px] font-bold bg-white border border-[#E2E8F0] text-[#334155] rounded-lg hover:bg-sky-50 hover:border-sky-300 transition"
                     >
                       {commonTime}
                     </button>
                   ))}
                 </div>
               </div>
+
+              {/* Selected presets feedback list */}
+              {times.length > 0 && (
+                <div className="pt-3 border-t border-[#E2E8F0] space-y-2">
+                  <div className="flex justify-between items-center text-xs font-bold">
+                    <span className="text-[#334155]">Selected Times ({times.length})</span>
+                    <button onClick={clearAllTimes} className="text-rose-600 hover:underline">Clear All</button>
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-1.5 p-2 bg-white border border-[#E2E8F0] rounded-xl">
+                    {times.sort().map(t => (
+                      <div key={t} className="flex items-center gap-1.5 px-2 py-1 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[10px] font-semibold text-[#334155]">
+                        <span>{t}</span>
+                        <button onClick={() => removeTime(t)} className="text-rose-500 hover:text-rose-700 font-bold">×</button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <button
+                onClick={submitSlots}
+                disabled={loading || !date || times.length === 0}
+                className="w-full py-2.5 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-xs font-bold transition disabled:opacity-50 flex items-center justify-center gap-1.5 shadow-sm"
+              >
+                {loading ? 'Submitting...' : `Create ${times.length} Slots`}
+              </button>
             </div>
-
-            {/* Selected Times */}
-            {times.length > 0 && (
-              <div>
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-medium text-gray-700">Selected Times ({times.length})</span>
-                  <button
-                    onClick={clearAllTimes}
-                    className="text-sm text-red-600 hover:text-red-800"
-                  >
-                    Clear All
-                  </button>
-                </div>
-                <div className="flex flex-wrap gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                  {times.sort().map(t => (
-                    <div
-                      key={t}
-                      className="flex items-center gap-2 px-3 py-1 bg-white rounded border border-gray-300"
-                    >
-                      <span className="text-gray-700">{t}</span>
-                      <button
-                        onClick={() => removeTime(t)}
-                        className="text-red-500 hover:text-red-700"
-                      >
-                        ×
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <button
-              onClick={submitSlots}
-              disabled={loading || !date || times.length === 0}
-              className="w-full px-4 py-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
-            >
-              {loading ? 'Adding Slots...' : `Add ${times.length} Slot${times.length !== 1 ? 's' : ''} `}
-            </button>
           </div>
         </div>
 
-        {/* View & Manage Slots for Specific Date */}
-       
-      </div>
-
-      {/* All Created Slots Dashboard */}
-      <div className="mt-8">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-          <div>
-            <h3 className="text-lg font-medium text-gray-900">All Created Slots</h3>
-            <p className="text-sm text-gray-600">View and manage all available time slots</p>
-          </div>
-          
-          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-            <div className="flex gap-2">
-              <input
-                type="date"
-                value={dateRange.start}
-                onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
-                min={todayDate}
-                className="px-3 py-2 border border-gray-300 text-gray-900 rounded text-sm"
-                placeholder="Start Date"
-              />
-              <input
-                type="date"
-                value={dateRange.end}
-                onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
-                min={dateRange.start || todayDate}
-                className="px-3 py-2 border border-gray-300 text-gray-900 rounded text-sm"
-                placeholder="End Date"
-              />
+        {/* Right list dashboard section */}
+        <div className="lg:col-span-7 space-y-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pb-3 border-b border-[#F1F5F9]">
+            <div>
+              <h3 className="text-xs font-bold text-[#0F172A] uppercase tracking-wider">All Created Slots</h3>
+              <p className="text-[10px] text-[#64748B] font-semibold mt-0.5">Filter slots by specific date boundaries</p>
             </div>
-            <button
-              onClick={fetchSlotsByDateRange}
-              disabled={allSlotsLoading || !dateRange.start || !dateRange.end}
-              className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 disabled:opacity-50 text-sm"
-            >
-              {allSlotsLoading ? 'Loading...' : 'Filter'}
-            </button>
-            <button
-              onClick={fetchAllSlots}
-              disabled={allSlotsLoading}
-              className="px-4 py-2 bg-sky-600 text-white rounded hover:bg-sky-700 disabled:opacity-50 text-sm"
-            >
-              Refresh All
-            </button>
           </div>
-        </div>
 
-        {allSlotsLoading ? (
-          <div className="text-center py-8">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-sky-600"></div>
-            <p className="mt-2 text-gray-600">Loading all slots...</p>
-          </div>
-        ) : Object.keys(groupedSlots).length > 0 ? (
-          <div className="border border-gray-200 rounded-lg overflow-hidden">
-            <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-gray-700">
-                  {Object.keys(groupedSlots).length} date(s) • {allSlots.length} total slots
-                </span>
-                <span className="text-sm text-gray-600">
-                  {allSlots.filter(slot => slot.isAvailable).length} available • {allSlots.filter(slot => !slot.isAvailable).length} booked
-                </span>
-              </div>
+          {/* Date range filters */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-[#F8FAFC] p-3 border border-[#E2E8F0] rounded-xl">
+            <input
+              type="date"
+              value={dateRange.start}
+              onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
+              min={todayDate}
+              className="px-2.5 py-1.5 bg-white border border-[#E2E8F0] rounded-lg text-xs text-[#334155] focus:outline-none"
+            />
+            <input
+              type="date"
+              value={dateRange.end}
+              onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
+              min={dateRange.start || todayDate}
+              className="px-2.5 py-1.5 bg-white border border-[#E2E8F0] rounded-lg text-xs text-[#334155] focus:outline-none"
+            />
+            <div className="flex gap-1.5">
+              <button
+                onClick={fetchSlotsByDateRange}
+                disabled={allSlotsLoading || !dateRange.start || !dateRange.end}
+                className="flex-1 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-lg text-xs transition disabled:opacity-50 py-1.5"
+              >
+                Filter
+              </button>
+              <button
+                onClick={fetchAllSlots}
+                disabled={allSlotsLoading}
+                className="p-1.5 bg-white border border-[#E2E8F0] hover:bg-[#F8FAFC] text-[#64748B] rounded-lg transition"
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+              </button>
             </div>
-            
-            <div className="max-h-96 overflow-y-auto">
+          </div>
+
+          {/* Slots list */}
+          {allSlotsLoading ? (
+            <div className="text-center py-16">
+              <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#0EA5E9] border-t-transparent mx-auto"></div>
+              <p className="mt-3 text-xs text-[#94A3B8]">Loading slots...</p>
+            </div>
+          ) : Object.keys(groupedSlots).length > 0 ? (
+            <div className="border border-[#E2E8F0] rounded-xl overflow-hidden max-h-[380px] overflow-y-auto divide-y divide-[#E2E8F0]">
               {Object.entries(groupedSlots)
                 .sort(([dateA], [dateB]) => new Date(dateA) - new Date(dateB))
                 .map(([date, slots]) => (
-                  <div key={date} className="border-b border-gray-100 last:border-b-0">
-                    <div className="bg-gray-50 px-4 py-3 border-b border-gray-100">
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <span className="font-medium text-gray-900">{formatDisplayDate(date)}</span>
-                          <span className="ml-3 text-sm text-gray-600">
-                            {slots.length} slot{slots.length !== 1 ? 's' : ''} • 
-                            <span className="ml-1">
-                              {slots.filter(s => s.isAvailable).length} available, {slots.filter(s => !s.isAvailable).length} booked
-                            </span>
-                          </span>
-                        </div>
-                        <button
-                          onClick={() => deleteAllSlotsForDate(date)}
-                          className="text-sm text-red-600 hover:text-red-800"
-                        >
-                          Delete All
-                        </button>
+                  <div key={date} className="bg-white">
+                    <div className="bg-[#F8FAFC] px-4 py-2.5 flex justify-between items-center border-b border-[#E2E8F0]">
+                      <div className="flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-sky-600" />
+                        <span className="font-bold text-xs text-[#0F172A]">{formatDisplayDate(date)}</span>
+                        <span className="text-[10px] font-semibold text-[#64748B] ml-1">
+                          ({slots.length} slots · {slots.filter(s => s.isAvailable).length} open)
+                        </span>
                       </div>
+                      <button
+                        onClick={() => deleteAllSlotsForDate(date)}
+                        className="text-[10px] font-bold text-rose-600 hover:underline flex items-center gap-0.5"
+                      >
+                        <Trash2 className="w-3 h-3" /> Delete Day
+                      </button>
                     </div>
-                    
-                    <div className="p-4">
-                      <div className="flex flex-wrap gap-2">
-                        {slots
-                          .sort((a, b) => a.time.localeCompare(b.time))
-                          .map(slot => (
-                            <div
-                              key={slot._id}
-                              className="flex items-center gap-2 px-3 py-2 bg-white rounded border border-gray-300 hover:border-gray-400"
-                            >
-                              <span className="font-medium text-gray-900">{slot.time}</span>
-                              <span className={`px-2 py-1 text-xs rounded-full ${slot.isAvailable ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                                {slot.isAvailable ? 'Available' : 'Booked'}
+
+                    <div className="p-3.5 space-y-2">
+                      {slots
+                        .sort((a, b) => a.time.localeCompare(b.time))
+                        .map(slot => (
+                          <div
+                            key={slot._id}
+                            className="flex items-center justify-between p-2 bg-[#F8FAFC]/50 hover:bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg transition"
+                          >
+                            <div className="flex items-center gap-3">
+                              <span className="font-bold text-xs text-[#334155]">{slot.time}</span>
+                              <span className={`px-2 py-0.5 text-[9px] font-bold rounded-lg ${
+                                slot.isAvailable ? 'bg-emerald-50 text-emerald-800' : 'bg-rose-50 text-rose-800'
+                              }`}>
+                                {slot.isAvailable ? 'Open' : 'Booked'}
                               </span>
                               {slot.bookedBy && (
-                                <span className="text-xs text-gray-500">
-                                  ({slot.bookedBy?.firstName || 'Booked'})
+                                <span className="text-[10px] text-gray-500 font-semibold">
+                                  by {slot.bookedBy?.firstName}
                                 </span>
                               )}
-                              <div className="flex gap-1">
-                                <button
-                                  onClick={() => toggleSlotAvailability(slot._id, slot.isAvailable)}
-                                  className={`px-2 py-1 text-xs rounded ${slot.isAvailable ? 'bg-red-50 text-red-700 hover:bg-red-100' : 'bg-green-50 text-green-700 hover:bg-green-100'}`}
-                                >
-                                  {slot.isAvailable ? 'Make Unavailable' : 'Make Available'}
-                                </button>
-                                <button
-                                  onClick={() => deleteSlot(slot._id)}
-                                  className="px-2 py-1 text-xs bg-red-50 text-red-700 rounded hover:bg-red-100"
-                                >
-                                  Delete
-                                </button>
-                              </div>
                             </div>
-                          ))}
-                      </div>
+
+                            <div className="flex items-center gap-1.5">
+                              <button
+                                onClick={() => toggleSlotAvailability(slot._id, slot.isAvailable)}
+                                className={`px-2 py-1 text-[10px] font-bold rounded-lg transition ${
+                                  slot.isAvailable 
+                                    ? 'bg-rose-50 text-rose-700 hover:bg-rose-100/80' 
+                                    : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100/80'
+                                }`}
+                              >
+                                {slot.isAvailable ? 'Block' : 'Unblock'}
+                              </button>
+                              <button
+                                onClick={() => deleteSlot(slot._id)}
+                                className="p-1 text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
                     </div>
                   </div>
                 ))}
             </div>
-          </div>
-        ) : (
-          <div className="text-center py-8 text-gray-500 border border-gray-200 rounded-lg">
-            No slots created yet. Add slots using the form above.
-          </div>
-        )}
+          ) : (
+            <div className="text-center py-12 text-xs text-[#94A3B8] border border-[#E2E8F0] rounded-xl">
+              No slots configured. Create slots using the left panel.
+            </div>
+          )}
+        </div>
+
       </div>
 
-      {/* Information Panel */}
-      <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-100">
-        <h4 className="font-medium text-blue-900 mb-2">How it works:</h4>
-        <ul className="text-sm text-blue-700 space-y-1">
-          
-          <li>• Add available time slots for specific dates</li>
-          <li>• Patients can only book from available slots</li>
-          <li>• Once a slot is booked, it becomes unavailable to others</li>
-          <li>• You can manually mark slots as available/unavailable</li>
-          <li>• Delete individual slots or all slots for a specific date</li>
-          <li>• View all created slots in the dashboard above</li>
-        </ul>
+      {/* Guide box */}
+      <div className="bg-[#EFF6FF] border border-[#BFDBFE]/20 rounded-xl p-4 flex gap-3 text-xs text-[#1E40AF]">
+        <Info className="w-4 h-4 text-[#1D4ED8] flex-shrink-0 mt-0.5" />
+        <div className="space-y-1">
+          <p className="font-bold text-[#1E3A8A]">Administrator Guide:</p>
+          <p className="font-medium text-[#1E40AF]">
+            Adding slots allows public patients to book them instantly. You can block slot availability manually at any time to reserve them for priority walkthrough patients.
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -1,14 +1,9 @@
-
-
-
-// cleaned up commented out code
-
-
 'use client';
 import { useState, useEffect, useCallback } from 'react';
 import debounce from 'lodash/debounce';
 import AppointmentDetailModal from './AppointmentDetailModal';
 import AppointmentStatusDropdown from './AppointmentStatusDropdown';
+import { Search, Calendar, RefreshCw, X, ChevronLeft, ChevronRight, User } from 'lucide-react';
 
 export default function AppointmentsTab() {
   const [appointments, setAppointments] = useState([]);
@@ -174,7 +169,6 @@ export default function AppointmentsTab() {
         if (selectedAppointment && selectedAppointment._id === appointmentId) {
           setSelectedAppointment(prev => ({ ...prev, status: newStatus }));
         }
-        // Refresh counts if status changed significantly (optional but good)
         fetchAppointments(pagination.page, pagination.limit, searchQuery, searchStatus, searchDate, activeFilter);
         alert(`Appointment status updated to ${newStatus}.`);
       } else {
@@ -198,12 +192,12 @@ export default function AppointmentsTab() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'scheduled': return 'bg-blue-100 text-blue-800';
-      case 'confirmed': return 'bg-green-100 text-green-800';
-      case 'completed': return 'bg-purple-100 text-purple-800';
-      case 'cancelled': return 'bg-red-100 text-red-800';
-      case 'no_show': return 'bg-yellow-100 text-yellow-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'scheduled': return 'bg-[#EFF6FF] text-[#1E40AF]';
+      case 'confirmed': return 'bg-[#ECFDF5] text-[#065F46]';
+      case 'completed': return 'bg-[#F5F3FF] text-[#5B21B6]';
+      case 'cancelled': return 'bg-[#FEF2F2] text-[#991B1B]';
+      case 'no_show': return 'bg-[#FFFBEB] text-[#92400E]';
+      default: return 'bg-[#F8FAFC] text-[#64748B]';
     }
   };
 
@@ -211,151 +205,180 @@ export default function AppointmentsTab() {
     fetchAppointments();
   }, []);
 
-  // Filtering is now done on the server
-  const filteredAppointments = appointments;
-
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <div className="p-6 border-b border-gray-200">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <h2 className="text-xl font-semibold text-gray-900">Appointment Management</h2>
-            <p className="text-sm text-gray-500 mt-1">
-              Showing {filteredAppointments.length > 0 ? (pagination.page - 1) * pagination.limit + 1 : 0} - {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total} appointments
-            </p>
-          </div>
-          <div className="flex items-center space-x-3 mt-3 sm:mt-0">
-            <select
-              value={pagination.limit}
-              onChange={(e) => handleLimitChange(parseInt(e.target.value))}
-              className="text-sm text-gray-700 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-sky-500"
-              disabled={loading}
-            >
-              <option value="5">5 per page</option>
-              <option value="10">10 per page</option>
-              <option value="20">20 per page</option>
-              <option value="50">50 per page</option>
-            </select>
-            <button
-              onClick={() => fetchAppointments(pagination.page, pagination.limit, searchQuery, searchStatus, searchDate, activeFilter)}
-              disabled={loading}
-              className="bg-sky-600 text-white px-4 py-2 rounded-md text-sm hover:bg-sky-700 transition duration-200 disabled:opacity-50"
-            >
-              {loading ? 'Loading...' : 'Refresh'}
-            </button>
-          </div>
+    <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm overflow-hidden space-y-6 p-6">
+      
+      {/* Header bar */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-[#F1F5F9]">
+        <div>
+          <h2 className="text-sm font-bold text-[#0F172A] uppercase tracking-wider">Appointment Management</h2>
+          <p className="text-xs text-[#64748B] mt-0.5 font-semibold">
+            Showing {appointments.length > 0 ? (pagination.page - 1) * pagination.limit + 1 : 0} - {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total} entries
+          </p>
         </div>
-
-        {/* Quick Filter Buttons */}
-        <div className="mt-5 flex flex-wrap gap-2">
-          {['upcoming', 'today', 'completed', 'cancelled','all'].map((filter) => {
-            const label = filter.charAt(0).toUpperCase() + filter.slice(1).replace('_', ' ');
-            const count = counts[filter] || 0;
-            return (
-              <button
-                key={filter}
-                onClick={() => handleFilterChange(filter)}
-                className={`px-4 py-2 rounded-md text-sm font-medium ${activeFilter === filter ? 'bg-sky-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
-              >
-                {label} ({count})
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Search Filters */}
-        <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Search</label>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={handleSearchChange}
-              placeholder="Search by name, email, phone..."
-              className="w-full px-3 py-2 border border-gray-300  text-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-            <select
-              value={searchStatus}
-              onChange={handleStatusChange}
-              className="w-full px-3 py-2 border border-gray-300 text-gray-400 rounded-md focus:outline-none focus:ring-2 text-sm"
-            >
-              <option value="all">All Statuses</option>
-              <option value="scheduled">Scheduled</option>
-              <option value="confirmed">Confirmed</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
-              <option value="no_show">No Show</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
-            <input
-              type="date"
-              value={searchDate}
-              onChange={handleDateChange}
-              className="w-full px-3 py-2 border border-gray-300 text-gray-400 rounded-md focus:outline-none focus:ring-2 text-sm"
-            />
-          </div>
+        
+        <div className="flex items-center gap-2">
+          <select
+            value={pagination.limit}
+            onChange={(e) => handleLimitChange(parseInt(e.target.value))}
+            className="px-3 py-1.5 border border-[#E2E8F0] rounded-xl text-xs text-[#334155] focus:outline-none bg-white cursor-pointer"
+            disabled={loading}
+          >
+            <option value="5">5 rows</option>
+            <option value="10">10 rows</option>
+            <option value="20">20 rows</option>
+            <option value="50">50 rows</option>
+          </select>
+          
+          <button
+            onClick={() => fetchAppointments(pagination.page, pagination.limit, searchQuery, searchStatus, searchDate, activeFilter)}
+            disabled={loading}
+            className="p-1.5 border border-[#E2E8F0] hover:bg-[#F8FAFC] rounded-xl transition disabled:opacity-50"
+            title="Refresh list"
+          >
+            <RefreshCw className="w-3.5 h-3.5 text-[#64748B]" />
+          </button>
         </div>
       </div>
 
-      {/* Table */}
-      <div className="p-6 overflow-x-auto">
+      {/* Filter Tabs */}
+      <div className="flex flex-wrap gap-1.5 bg-[#F8FAFC] p-1.5 rounded-xl border border-[#E2E8F0]/80">
+        {['upcoming', 'today', 'completed', 'cancelled', 'all'].map((filter) => {
+          const label = filter.charAt(0).toUpperCase() + filter.slice(1).replace('_', ' ');
+          const count = counts[filter] || 0;
+          const isActive = activeFilter === filter;
+          return (
+            <button
+              key={filter}
+              onClick={() => handleFilterChange(filter)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+                isActive 
+                  ? 'bg-sky-600 text-white shadow-xs' 
+                  : 'text-[#64748B] hover:text-[#334155] hover:bg-white/60'
+              }`}
+            >
+              {label} ({count})
+            </button>
+          );
+        })}
+      </div>
+
+      {/* 🔍 PREMIUM ENHANCED SEARCH FILTERS 🔍 */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="relative group">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#94A3B8]" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            placeholder="Search by name, email, phone..."
+            className="w-full pl-9 pr-8 py-2 bg-white border border-[#E2E8F0] rounded-xl text-xs text-[#334155] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 focus:border-[#0EA5E9] transition-all"
+          />
+          {searchQuery && (
+            <button
+              onClick={handleClearSearch}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
+
+        <select
+          value={searchStatus}
+          onChange={handleStatusChange}
+          className="w-full px-3 py-2 bg-white border border-[#E2E8F0] rounded-xl text-xs text-[#334155] focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 focus:border-[#0EA5E9] cursor-pointer"
+        >
+          <option value="all">All Statuses</option>
+          <option value="scheduled">Scheduled</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
+          <option value="no_show">No Show</option>
+        </select>
+
+        <input
+          type="date"
+          value={searchDate}
+          onChange={handleDateChange}
+          className="w-full px-3 py-2 bg-white border border-[#E2E8F0] rounded-xl text-xs text-[#334155] focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 focus:border-[#0EA5E9]"
+        />
+      </div>
+
+      {/* Table List View */}
+      <div className="overflow-x-auto border border-[#E2E8F0] rounded-xl">
         {loading ? (
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-10 w-10 border-4 border-sky-500 border-t-transparent mx-auto"></div>
-            <p className="mt-3 text-gray-500 text-sm">Loading appointments...</p>
+          <div className="text-center py-16">
+            <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#0EA5E9] border-t-transparent mx-auto"></div>
+            <p className="mt-3 text-xs text-[#94A3B8]">Loading appointments…</p>
           </div>
-        ) : filteredAppointments.length === 0 ? (
-          <div className="text-center py-12 text-gray-400 text-sm">No appointments found.</div>
+        ) : appointments.length === 0 ? (
+          <div className="text-center py-16 text-xs text-[#94A3B8]">No appointments matching query found.</div>
         ) : (
-          <table className="min-w-full divide-y divide-gray-200 text-sm">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-[#E2E8F0] text-xs">
+            <thead className="bg-[#F8FAFC]">
               <tr>
-                <th className="px-4 py-3 text-left font-medium text-gray-700">No</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-700">Patient</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-700">Date & Time</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-700">Status</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-700">Actions</th>
+                <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">No</th>
+                <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">Patient Details</th>
+                <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">Date & Time</th>
+                <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">Status Badge</th>
+                <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {filteredAppointments.map((appointment, index) => {
+            <tbody className="bg-white divide-y divide-[#F1F5F9]">
+              {appointments.map((appointment, index) => {
                 const appointmentDate = appointment.canadaDate || appointment.appointmentDate;
                 const isAppointmentToday = isToday(appointmentDate);
                 const isAppointmentPast = isPast(appointmentDate);
 
                 return (
-                  <tr key={appointment._id} className={`${isAppointmentToday ? 'bg-sky-50' : ''} ${isAppointmentPast && appointment.status === 'scheduled' ? 'bg-red-50' : ''} hover:bg-gray-50 transition`}>
-                    <td className="px-4 py-3 text-gray-500 cursor-pointer" onClick={() => openModal(appointment)}>
-                      {(pagination.page - 1) * pagination.limit + index + 1}{isAppointmentToday && <span className="text-xs text-sky-600 ml-1">Today</span>}
+                  <tr 
+                    key={appointment._id} 
+                    className={`hover:bg-[#F8FAFC]/50 transition-colors ${
+                      isAppointmentToday ? 'bg-[#EFF6FF]/60' : ''
+                    } ${isAppointmentPast && appointment.status === 'scheduled' ? 'bg-[#FEF2F2]/60' : ''}`}
+                  >
+                    <td className="px-4 py-4 text-[#64748B] font-bold cursor-pointer" onClick={() => openModal(appointment)}>
+                      {(pagination.page - 1) * pagination.limit + index + 1}
+                      {isAppointmentToday && (
+                        <span className="block text-[8px] font-black text-blue-600 uppercase mt-0.5">Today</span>
+                      )}
                     </td>
-                    <td className="px-4 py-3 cursor-pointer" onClick={() => openModal(appointment)}>
-                      <div className="font-medium text-gray-800">{appointment.firstName} {appointment.lastName}</div>
-                      <div className="text-gray-500">{appointment.email}</div>
-                      <div className="text-gray-500">{appointment.cellPhone}</div>
+                    
+                    <td className="px-4 py-4 cursor-pointer" onClick={() => openModal(appointment)}>
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-full bg-[#EFF6FF] border border-[#BFDBFE]/20 flex items-center justify-center text-xs font-bold text-[#1E3A8A] flex-shrink-0">
+                          {appointment.firstName?.charAt(0) || 'P'}
+                        </div>
+                        <div className="min-w-0">
+                          <div className="font-bold text-[#0F172A]">{appointment.firstName} {appointment.lastName}</div>
+                          <div className="text-[10px] text-[#64748B] font-medium">{appointment.email}</div>
+                          <div className="text-[10px] text-[#64748B] font-medium">{appointment.cellPhone}</div>
+                        </div>
+                      </div>
                     </td>
-                    <td className="px-4 py-3 cursor-pointer" onClick={() => openModal(appointment)}>
-                      <div className="text-gray-400">{formatDateString(appointmentDate)}</div>
-                      <div className="text-gray-500">{appointment.appointmentTime}</div>
+
+                    <td className="px-4 py-4 cursor-pointer" onClick={() => openModal(appointment)}>
+                      <div className="font-bold text-[#334155]">{formatDateString(appointmentDate)}</div>
+                      <div className="text-[10px] text-[#64748B] font-semibold mt-0.5">{appointment.appointmentTime}</div>
                     </td>
-                    <td className="px-4 py-3">
-                      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(appointment.status)}`}>
-                        {appointment.status}
+
+                    <td className="px-4 py-4">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-bold ${getStatusColor(appointment.status)}`}>
+                        {appointment.status.toUpperCase()}
                       </span>
                     </td>
-                    <td className="px-4 py-3 flex items-center gap-2">
-                      <AppointmentStatusDropdown appointment={appointment} onStatusChange={handleStatusUpdate} />
-                      <button
-                        onClick={() => openModal(appointment)}
-                        className="text-sky-600 hover:text-sky-800 text-sm font-medium"
-                      >
-                        View
-                      </button>
+
+                    <td className="px-4 py-4">
+                      <div className="flex items-center gap-2">
+                        <AppointmentStatusDropdown appointment={appointment} onStatusChange={handleStatusUpdate} />
+                        <button
+                          onClick={() => openModal(appointment)}
+                          className="px-2.5 py-1 bg-white border border-[#E2E8F0] hover:bg-[#F8FAFC] text-[10px] font-bold text-[#334155] rounded-lg transition"
+                        >
+                          View
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -363,149 +386,52 @@ export default function AppointmentsTab() {
             </tbody>
           </table>
         )}
-
-        {/* Pagination Component */}
-        {!loading && pagination.pages > 1 && (
-          <div className="mt-6 flex flex-col sm:flex-row items-center justify-between border-t border-gray-200 pt-6 gap-4">
-            {/* Pagination Info */}
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <span>Page {pagination.page} of {pagination.pages}</span>
-              <span className="mx-2">•</span>
-              <span>{pagination.total} total appointments</span>
-            </div>
-
-            {/* Pagination Controls */}
-            <div className="flex items-center gap-2">
-              {/* Previous Button */}
-              <button
-                onClick={() => handlePageChange(pagination.page - 1)}
-                disabled={pagination.page <= 1}
-                className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${pagination.page <= 1
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900'
-                  }`}
-              >
-                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-                Previous
-              </button>
-
-              {/* Page Numbers */}
-              <div className="flex items-center gap-1">
-                {(() => {
-                  const pages = [];
-                  const maxVisible = 5;
-                  let startPage = Math.max(1, pagination.page - Math.floor(maxVisible / 2));
-                  let endPage = Math.min(pagination.pages, startPage + maxVisible - 1);
-
-                  // Adjust if we're near the end
-                  if (endPage - startPage + 1 < maxVisible) {
-                    startPage = Math.max(1, endPage - maxVisible + 1);
-                  }
-
-                  // First page
-                  if (startPage > 1) {
-                    pages.push(
-                      <button
-                        key={1}
-                        onClick={() => handlePageChange(1)}
-                        className={`px-3 py-1 rounded-md text-sm font-medium ${pagination.page === 1
-                          ? 'bg-sky-600 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                          }`}
-                      >
-                        1
-                      </button>
-                    );
-                    if (startPage > 2) {
-                      pages.push(
-                        <span key="ellipsis1" className="px-2 text-gray-400">
-                          ...
-                        </span>
-                      );
-                    }
-                  }
-
-                  // Page numbers
-                  for (let i = startPage; i <= endPage; i++) {
-                    pages.push(
-                      <button
-                        key={i}
-                        onClick={() => handlePageChange(i)}
-                        className={`px-3 py-1 rounded-md text-sm font-medium ${pagination.page === i
-                          ? 'bg-sky-600 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                          }`}
-                      >
-                        {i}
-                      </button>
-                    );
-                  }
-
-                  // Last page
-                  if (endPage < pagination.pages) {
-                    if (endPage < pagination.pages - 1) {
-                      pages.push(
-                        <span key="ellipsis2" className="px-2 text-gray-400">
-                          ...
-                        </span>
-                      );
-                    }
-                    pages.push(
-                      <button
-                        key={pagination.pages}
-                        onClick={() => handlePageChange(pagination.pages)}
-                        className={`px-3 py-1 rounded-md text-sm font-medium ${pagination.page === pagination.pages
-                          ? 'bg-sky-600 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                          }`}
-                      >
-                        {pagination.pages}
-                      </button>
-                    );
-                  }
-
-                  return pages;
-                })()}
-              </div>
-
-              {/* Next Button */}
-              <button
-                onClick={() => handlePageChange(pagination.page + 1)}
-                disabled={pagination.page >= pagination.pages}
-                className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${pagination.page >= pagination.pages
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900'
-                  }`}
-              >
-                Next
-                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
-
-            {/* Items Per Page */}
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-500">Show:</span>
-              <select
-                value={pagination.limit}
-                onChange={(e) => handleLimitChange(parseInt(e.target.value))}
-                className="text-sm border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-1 focus:ring-sky-500"
-              >
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-              </select>
-              <span className="text-sm text-gray-500">per page</span>
-            </div>
-          </div>
-        )}
       </div>
 
-      {/* Modal */}
+      {/* Pagination Controls */}
+      {!loading && pagination.pages > 1 && (
+        <div className="flex flex-col sm:flex-row items-center justify-between pt-4 border-t border-[#F1F5F9] gap-4 text-xs text-[#64748B] font-medium">
+          <div>
+            Page <span className="text-[#0F172A] font-bold">{pagination.page}</span> of <span className="text-[#0F172A] font-bold">{pagination.pages}</span> · <span className="text-[#0F172A] font-bold">{pagination.total}</span> total entries
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={() => handlePageChange(pagination.page - 1)}
+              disabled={pagination.page <= 1}
+              className="p-1.5 border border-[#E2E8F0] hover:bg-[#F8FAFC] rounded-lg transition disabled:opacity-50"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+
+            {Array.from({ length: pagination.pages }, (_, idx) => {
+              const p = idx + 1;
+              const isCurrent = pagination.page === p;
+              return (
+                <button
+                  key={p}
+                  onClick={() => handlePageChange(p)}
+                  className={`w-7 h-7 flex items-center justify-center rounded-lg text-xs font-bold transition ${
+                    isCurrent ? 'bg-sky-600 text-white shadow-xs' : 'border border-[#E2E8F0] hover:bg-[#F8FAFC]'
+                  }`}
+                >
+                  {p}
+                </button>
+              );
+            })}
+
+            <button
+              onClick={() => handlePageChange(pagination.page + 1)}
+              disabled={pagination.page >= pagination.pages}
+              className="p-1.5 border border-[#E2E8F0] hover:bg-[#F8FAFC] rounded-lg transition disabled:opacity-50"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Detail Modal Component */}
       {isModalOpen && selectedAppointment && (
         <AppointmentDetailModal appointment={selectedAppointment} onClose={closeModal} onStatusChange={handleStatusUpdate} />
       )}

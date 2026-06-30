@@ -4,6 +4,7 @@ import { dashboardService } from '@/services/dashboardService';
 import debounce from 'lodash/debounce';
 import WaitlistStatusDropdown from './WaitlistStatusDropdown';
 import WaitlistDetailModal from './WaitlistDetailModal';
+import { Search, RefreshCw, X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function WaitlistTab() {
   const [waitlist, setWaitlist] = useState([]);
@@ -121,296 +122,246 @@ export default function WaitlistTab() {
   }, []);
 
   return (
-    <div className="bg-white rounded-lg shadow-md">
-      <div className="p-4 sm:p-6 border-b border-gray-200">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div>
-            <h2 className="text-lg font-semibold text-gray-900">Waitlist Management</h2>
-            <p className="text-sm text-gray-600 mt-1">
-              Showing {waitlist.length} of {pagination.total} waitlist entries
-            </p>
-          </div>
-          <div className="flex items-center space-x-4">
-            <select
-              value={pagination.limit}
-              onChange={(e) => handleLimitChange(parseInt(e.target.value))}
-              className="text-sm text-gray-600 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-sky-500"
-              disabled={loading}
-            >
-              <option value="5">5 per page</option>
-              <option value="10">10 per page</option>
-              <option value="20">20 per page</option>
-              <option value="50">50 per page</option>
-            </select>
-            
-            <button 
-              onClick={() => fetchWaitlist(pagination.page, pagination.limit, searchQuery, searchStatus)}
-              disabled={loading}
-              className="bg-sky-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-sky-700 transition duration-300 disabled:opacity-50"
-            >
-              {loading ? 'Loading...' : 'Refresh'}
-            </button>
-          </div>
+    <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm overflow-hidden p-6 space-y-6">
+      
+      {/* Header bar */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-[#F1F5F9]">
+        <div>
+          <h2 className="text-sm font-bold text-[#0F172A] uppercase tracking-wider">Waitlist Management</h2>
+          <p className="text-xs text-[#64748B] mt-0.5 font-semibold">
+            Showing {waitlist.length} of {pagination.total} entries
+          </p>
         </div>
-
-        {/* Search and Filter */}
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
-              Search Waitlist
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <input
-                type="text"
-                id="search"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                placeholder="Search by name, email, or healthcare number..."
-                className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none text-gray-700 focus:ring-2 focus:ring-sky-500"
-              />
-              {searchQuery && (
-                <button
-                  onClick={handleClearSearch}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                >
-                  <svg className="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              )}
-            </div>
-          </div>
+        
+        <div className="flex items-center gap-2">
+          <select
+            value={pagination.limit}
+            onChange={(e) => handleLimitChange(parseInt(e.target.value))}
+            className="px-3 py-1.5 border border-[#E2E8F0] rounded-xl text-xs text-[#334155] focus:outline-none bg-white cursor-pointer"
+            disabled={loading}
+          >
+            <option value="5">5 rows</option>
+            <option value="10">10 rows</option>
+            <option value="20">20 rows</option>
+            <option value="50">50 rows</option>
+          </select>
           
-          <div>
-            <label htmlFor="statusFilter" className="block text-sm font-medium text-gray-700 mb-1">
-              Filter by Status
-            </label>
-            <select
-              id="statusFilter"
-              value={searchStatus}
-              onChange={handleStatusChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-gray-700 focus:ring-sky-500"
-            >
-              <option value="all">All Statuses</option>
-              <option value="Active">Active</option>
-              <option value="Booked">Booked</option>
-              <option value="Accepted">Accepted</option>
-              <option value="Rejected">Rejected</option>
-              <option value="Called">Called</option>
-              <option value="Left Voicemail">Left Voicemail</option>
-              <option value="Not Reachable">Not Reachable</option>
-            </select>
-          </div>
+          <button
+            onClick={() => fetchWaitlist(pagination.page, pagination.limit, searchQuery, searchStatus)}
+            disabled={loading}
+            className="p-1.5 border border-[#E2E8F0] hover:bg-[#F8FAFC] rounded-xl transition disabled:opacity-50"
+            title="Refresh list"
+          >
+            <RefreshCw className="w-3.5 h-3.5 text-[#64748B]" />
+          </button>
         </div>
+      </div>
 
-        {/* Search Results Info */}
-        {(searchQuery || searchStatus !== 'all') && (
-          <div className="mt-4 flex items-center justify-between text-sm text-gray-600">
-            <div>
-              Searching for: {searchQuery && `"${searchQuery}"`} 
-              {searchQuery && searchStatus !== 'all' && ' with '}
-              {searchStatus !== 'all' && `status: ${searchStatus}`}
-            </div>
+      {/* 🔍 PREMIUM ENHANCED SEARCH FILTERS 🔍 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        
+        <div className="relative group">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#94A3B8]" />
+          <input
+            type="text"
+            id="search"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            placeholder="Search by name, email, or healthcare number..."
+            className="w-full pl-9 pr-8 py-2 bg-white border border-[#E2E8F0] rounded-xl text-xs text-[#334155] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 focus:border-[#0EA5E9] transition-all"
+          />
+          {searchQuery && (
             <button
               onClick={handleClearSearch}
-              className="text-sky-600 hover:text-sky-800 text-sm font-medium"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
             >
-              Clear filters
+              <X className="w-3.5 h-3.5" />
             </button>
-          </div>
-        )}
+          )}
+        </div>
+
+        <select
+          id="statusFilter"
+          value={searchStatus}
+          onChange={handleStatusChange}
+          className="w-full px-3 py-2 bg-white border border-[#E2E8F0] rounded-xl text-xs text-[#334155] focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 focus:border-[#0EA5E9] cursor-pointer"
+        >
+          <option value="all">All Statuses</option>
+          <option value="Active">Active</option>
+          <option value="Booked">Booked</option>
+          <option value="Accepted">Accepted</option>
+          <option value="Rejected">Rejected</option>
+          <option value="Called">Called</option>
+          <option value="Left Voicemail">Left Voicemail</option>
+          <option value="Not Reachable">Not Reachable</option>
+        </select>
       </div>
-      
-      <div className="p-4 sm:p-6">
+
+      {/* Active filters summary */}
+      {(searchQuery || searchStatus !== 'all') && (
+        <div className="flex items-center justify-between text-[11px] text-[#64748B] font-bold bg-[#F8FAFC] border border-[#E2E8F0]/60 px-3 py-2 rounded-xl">
+          <div>
+            Searching: {searchQuery && `"${searchQuery}"`} 
+            {searchQuery && searchStatus !== 'all' && ' & '}
+            {searchStatus !== 'all' && `status: ${searchStatus}`}
+          </div>
+          <button
+            onClick={handleClearSearch}
+            className="text-[#1E3A8A] hover:underline"
+          >
+            Clear filters
+          </button>
+        </div>
+      )}
+
+      {/* Table List View */}
+      <div className="overflow-x-auto border border-[#E2E8F0] rounded-xl">
         {loading ? (
-          <div className="text-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sky-600 mx-auto"></div>
-            <p className="mt-2 text-gray-600">Loading waitlist...</p>
+          <div className="text-center py-16">
+            <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#0EA5E9] border-t-transparent mx-auto"></div>
+            <p className="mt-3 text-xs text-[#94A3B8]">Loading waitlist…</p>
           </div>
         ) : (
-          <>
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      No
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Name
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Email
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Phone
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Joined
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {waitlist.map((entry, index) => (
-                    <tr 
-                      key={entry._id} 
-                      className="hover:bg-gray-50 transition duration-300"
-                    >
-                      <td 
-                        className="px-4 py-4 whitespace-nowrap cursor-pointer"
-                        onClick={() => openModal(entry)}
-                      >
-                        <div className="text-sm font-medium text-gray-900">
-                          {(pagination.page - 1) * pagination.limit + index + 1}
-                        </div>
-                      </td>
-                      <td 
-                        className="px-4 py-4 whitespace-nowrap cursor-pointer"
-                        onClick={() => openModal(entry)}
-                      >
-                        <div className="text-sm font-medium text-gray-900">
-                          {entry.firstName} {entry.lastName}
-                        </div>
-                      </td>
-                      <td 
-                        className="px-4 py-4 whitespace-nowrap cursor-pointer"
-                        onClick={() => openModal(entry)}
-                      >
-                        <div className="text-sm text-gray-900">{entry.email}</div>
-                      </td>
-                      <td 
-                        className="px-4 py-4 whitespace-nowrap cursor-pointer"
-                        onClick={() => openModal(entry)}
-                      >
-                        <div className="text-sm text-gray-900">{entry.cellPhone || 'N/A'}</div>
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <WaitlistStatusDropdown 
-                          waitlistEntry={entry} 
-                          onStatusChange={handleStatusUpdate}
-                        />
-                      </td>
-                      <td 
-                        className="px-4 py-4 whitespace-nowrap cursor-pointer"
-                        onClick={() => openModal(entry)}
-                      >
-                        <div className="text-sm text-gray-900">
-                          {entry.createdAt ? new Date(entry.createdAt).toLocaleDateString() : 'N/A'}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                  {waitlist.length === 0 && (
-                    <tr>
-                      <td colSpan="6" className="px-4 py-8 text-center text-gray-500">
-                        {searchQuery || searchStatus !== 'all' 
-                          ? 'No waitlist entries found matching your search criteria.'
-                          : 'No waitlist entries found'}
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Pagination */}
-            {pagination.pages > 1 && (
-              <div className="flex items-center justify-between mt-6 px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
-                <div className="flex justify-between flex-1 sm:hidden">
-                  <button
-                    onClick={() => handlePageChange(pagination.page - 1)}
-                    disabled={pagination.page === 1}
-                    className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          <table className="min-w-full divide-y divide-[#E2E8F0] text-xs">
+            <thead className="bg-[#F8FAFC]">
+              <tr>
+                <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">No</th>
+                <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">Patient Name</th>
+                <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">Email Address</th>
+                <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">Phone Number</th>
+                <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">Status Badge</th>
+                <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">Joined Date</th>
+              </tr>
+            </thead>
+            
+            <tbody className="bg-white divide-y divide-[#F1F5F9]">
+              {waitlist.map((entry, index) => (
+                <tr 
+                  key={entry._id} 
+                  className="hover:bg-[#F8FAFC]/50 transition-colors"
+                >
+                  <td 
+                    className="px-4 py-4 text-[#64748B] font-bold cursor-pointer"
+                    onClick={() => openModal(entry)}
                   >
-                    Previous
-                  </button>
-                  <button
-                    onClick={() => handlePageChange(pagination.page + 1)}
-                    disabled={pagination.page === pagination.pages}
-                    className="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    {(pagination.page - 1) * pagination.limit + index + 1}
+                  </td>
+                  
+                  <td 
+                    className="px-4 py-4 cursor-pointer"
+                    onClick={() => openModal(entry)}
                   >
-                    Next
-                  </button>
-                </div>
-                <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-                  <div>
-                    <p className="text-sm text-gray-700">
-                      Showing <span className="font-medium">{(pagination.page - 1) * pagination.limit + 1}</span> to{' '}
-                      <span className="font-medium">
-                        {Math.min(pagination.page * pagination.limit, pagination.total)}
-                      </span> of{' '}
-                      <span className="font-medium">{pagination.total}</span> results
-                    </p>
-                  </div>
-                  <div>
-                    <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                      <button
-                        onClick={() => handlePageChange(pagination.page - 1)}
-                        disabled={pagination.page === 1}
-                        className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        <span className="sr-only">Previous</span>
-                        <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                          <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
-                        </svg>
-                      </button>
-                      
-                      {/* Page numbers */}
-                      {Array.from({ length: Math.min(5, pagination.pages) }, (_, i) => {
-                        let pageNum;
-                        if (pagination.pages <= 5) {
-                          pageNum = i + 1;
-                        } else if (pagination.page <= 3) {
-                          pageNum = i + 1;
-                        } else if (pagination.page >= pagination.pages - 2) {
-                          pageNum = pagination.pages - 4 + i;
-                        } else {
-                          pageNum = pagination.page - 2 + i;
-                        }
-
-                        return (
-                          <button
-                            key={pageNum}
-                            onClick={() => handlePageChange(pageNum)}
-                            className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${
-                              pagination.page === pageNum
-                                ? 'z-10 bg-sky-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600'
-                                : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
-                            }`}
-                          >
-                            {pageNum}
-                          </button>
-                        );
-                      })}
-
-                      <button
-                        onClick={() => handlePageChange(pagination.page + 1)}
-                        disabled={pagination.page === pagination.pages}
-                        className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        <span className="sr-only">Next</span>
-                        <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                          <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l4.5 4.25a.75.75 0 01-1.06.02z" clipRule="evenodd" />
-                        </svg>
-                      </button>
-                    </nav>
-                  </div>
-                </div>
-              </div>
-            )}
-          </>
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-full bg-[#F0F9FF] border border-[#0284C7]/15 flex items-center justify-center text-xs font-bold text-[#0369A1] flex-shrink-0">
+                        {entry.firstName?.charAt(0) || 'W'}
+                      </div>
+                      <div className="font-bold text-[#0F172A]">
+                        {entry.firstName} {entry.lastName}
+                      </div>
+                    </div>
+                  </td>
+                  
+                  <td 
+                    className="px-4 py-4 text-[#475569] font-medium cursor-pointer"
+                    onClick={() => openModal(entry)}
+                  >
+                    {entry.email}
+                  </td>
+                  
+                  <td 
+                    className="px-4 py-4 text-[#475569] font-medium cursor-pointer"
+                    onClick={() => openModal(entry)}
+                  >
+                    {entry.cellPhone || 'N/A'}
+                  </td>
+                  
+                  <td className="px-4 py-4">
+                    <WaitlistStatusDropdown 
+                      waitlistEntry={entry} 
+                      onStatusChange={handleStatusUpdate}
+                    />
+                  </td>
+                  
+                  <td 
+                    className="px-4 py-4 text-[#64748B] font-semibold cursor-pointer"
+                    onClick={() => openModal(entry)}
+                  >
+                    {entry.createdAt ? new Date(entry.createdAt).toLocaleDateString() : 'N/A'}
+                  </td>
+                </tr>
+              ))}
+              
+              {waitlist.length === 0 && (
+                <tr>
+                  <td colSpan="6" className="px-4 py-16 text-center text-xs text-[#94A3B8]">
+                    No entries found matching filters.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         )}
       </div>
 
-      {/* Detail Modal */}
+      {/* Pagination Controls */}
+      {!loading && pagination.pages > 1 && (
+        <div className="flex flex-col sm:flex-row items-center justify-between pt-4 border-t border-[#F1F5F9] gap-4 text-xs text-[#64748B] font-medium">
+          <div>
+            Showing <span className="text-[#0F172A] font-bold">{(pagination.page - 1) * pagination.limit + 1}</span> to{' '}
+            <span className="text-[#0F172A] font-bold">
+              {Math.min(pagination.page * pagination.limit, pagination.total)}
+            </span> of{' '}
+            <span className="text-[#0F172A] font-bold">{pagination.total}</span> results
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={() => handlePageChange(pagination.page - 1)}
+              disabled={pagination.page === 1}
+              className="p-1.5 border border-[#E2E8F0] hover:bg-[#F8FAFC] rounded-lg transition disabled:opacity-50"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            
+            {Array.from({ length: Math.min(5, pagination.pages) }, (_, i) => {
+              let pageNum;
+              if (pagination.pages <= 5) {
+                pageNum = i + 1;
+              } else if (pagination.page <= 3) {
+                pageNum = i + 1;
+              } else if (pagination.page >= pagination.pages - 2) {
+                pageNum = pagination.pages - 4 + i;
+              } else {
+                pageNum = pagination.page - 2 + i;
+              }
+
+              const isCurrent = pagination.page === pageNum;
+
+              return (
+                <button
+                  key={pageNum}
+                  onClick={() => handlePageChange(pageNum)}
+                  className={`w-7 h-7 flex items-center justify-center rounded-lg text-xs font-bold transition ${
+                    isCurrent ? 'bg-sky-600 text-white shadow-xs' : 'border border-[#E2E8F0] hover:bg-[#F8FAFC]'
+                  }`}
+                >
+                  {pageNum}
+                </button>
+              );
+            })}
+
+            <button
+              onClick={() => handlePageChange(pagination.page + 1)}
+              disabled={pagination.page === pagination.pages}
+              className="p-1.5 border border-[#E2E8F0] hover:bg-[#F8FAFC] rounded-lg transition disabled:opacity-50"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Detail Modal Component */}
       {isModalOpen && selectedWaitlistEntry && (
         <WaitlistDetailModal
           entry={selectedWaitlistEntry}

@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { dashboardService } from '@/services/dashboardService';
+import { History, Calendar, User, Eye, ChevronDown, Sparkles } from 'lucide-react';
 
 export default function BroadcastHistoryTab() {
     const [messages, setMessages] = useState([]);
@@ -39,148 +40,157 @@ export default function BroadcastHistoryTab() {
     };
 
     return (
-        <div className="bg-white rounded-lg shadow-md p-6">
-            <div className="flex items-center justify-between mb-6">
-                <div>
-                    <h2 className="text-lg font-semibold text-gray-900">Broadcast History</h2>
-                    <p className="text-sm text-gray-600 mt-1">
-                        {pagination.total} message{pagination.total !== 1 ? 's' : ''} sent
-                    </p>
+        <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-6 space-y-6">
+            
+            {/* Header */}
+            <div className="pb-4 border-b border-[#F1F5F9] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 bg-sky-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <History className="w-5 h-5 text-sky-600" />
+                    </div>
+                    <div>
+                        <h2 className="text-sm font-bold text-[#0F172A] uppercase tracking-wider">Broadcast Send History</h2>
+                        <p className="text-xs text-[#64748B] mt-0.5 font-semibold">
+                            Total: {pagination.total} broadcast messages recorded
+                        </p>
+                    </div>
                 </div>
+
                 <select
                     value={typeFilter}
                     onChange={(e) => setTypeFilter(e.target.value)}
-                    className="px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    className="px-3 py-1.5 bg-white border border-[#E2E8F0] rounded-xl text-xs text-[#334155] focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 cursor-pointer"
                 >
-                    <option value="all">All Types</option>
-                    <option value="waitlist">Waitlist</option>
-                    <option value="appointment">Appointment</option>
+                    <option value="all">All Channels</option>
+                    <option value="waitlist">Waitlist Channel</option>
+                    <option value="appointment">Appointment Channel</option>
                 </select>
             </div>
 
             {loading ? (
-                <div className="text-center py-12 text-gray-500">
-                    <svg className="animate-spin h-8 w-8 mx-auto mb-3 text-sky-500" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                    </svg>
-                    Loading...
+                <div className="text-center py-16">
+                    <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#0EA5E9] border-t-transparent mx-auto"></div>
+                    <p className="mt-3 text-xs text-[#94A3B8]">Loading history...</p>
                 </div>
             ) : messages.length === 0 ? (
-                <div className="text-center py-12 text-gray-500">
-                    <p className="text-lg font-medium">No broadcasts sent yet</p>
-                    <p className="text-sm mt-1">Messages you send will appear here for reference.</p>
+                <div className="text-center py-12 text-xs text-[#94A3B8] border border-[#E2E8F0] rounded-xl bg-[#F8FAFC]/50">
+                    <p className="font-bold text-[#475569]">No broadcast logs found</p>
+                    <p className="mt-0.5 font-medium">When you send dynamic broadcast messages, details will appear here.</p>
                 </div>
             ) : (
-                <>
-                    <div className="space-y-3">
-                        {messages.map((msg) => (
-                            <div
-                                key={msg._id}
-                                className="border border-gray-200 rounded-lg overflow-hidden"
-                            >
-                                {/* Row header */}
-                                <button
-                                    onClick={() => setExpandedId(expandedId === msg._id ? null : msg._id)}
-                                    className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 transition"
+                <div className="space-y-3">
+                    <div className="space-y-2">
+                        {messages.map((msg) => {
+                            const isExpanded = expandedId === msg._id;
+                            return (
+                                <div
+                                    key={msg._id}
+                                    className="border border-[#E2E8F0] rounded-xl overflow-hidden bg-white hover:border-[#CBD5E1] transition"
                                 >
-                                    <div className="flex items-center gap-3 min-w-0">
-                                        <span
-                                            className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap ${msg.type === 'waitlist'
-                                                    ? 'bg-purple-100 text-purple-700'
-                                                    : 'bg-blue-100 text-blue-700'
+                                    {/* Header Row */}
+                                    <button
+                                        onClick={() => setExpandedId(isExpanded ? null : msg._id)}
+                                        className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-[#F8FAFC] transition"
+                                    >
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <span
+                                                className={`px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase tracking-wider ${
+                                                    msg.type === 'waitlist'
+                                                        ? 'bg-purple-50 text-purple-700'
+                                                        : 'bg-sky-50 text-sky-700'
                                                 }`}
-                                        >
-                                            {msg.type === 'waitlist' ? 'Waitlist' : 'Appointment'}
-                                        </span>
-                                        <span className="text-sm font-medium text-gray-900 truncate">
-                                            {msg.subject}
-                                        </span>
-                                    </div>
-                                    <div className="flex items-center gap-4 flex-shrink-0 ml-4">
-                                        <span className="text-xs text-gray-500 whitespace-nowrap">
-                                            {formatDate(msg.createdAt)}
-                                        </span>
-                                        <div className="flex items-center gap-2 text-xs">
-                                            <span className="text-green-600 font-medium">{msg.sent} sent</span>
-                                            {msg.failed > 0 && (
-                                                <span className="text-red-500 font-medium">{msg.failed} failed</span>
-                                            )}
+                                            >
+                                                {msg.type}
+                                            </span>
+                                            <span className="text-xs font-bold text-[#334155] truncate">
+                                                {msg.subject}
+                                            </span>
                                         </div>
-                                        <svg
-                                            className={`w-4 h-4 text-gray-400 transition-transform ${expandedId === msg._id ? 'rotate-180' : ''
-                                                }`}
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </div>
-                                </button>
+                                        
+                                        <div className="flex items-center gap-4 flex-shrink-0 ml-4">
+                                            <span className="text-[10px] text-[#94A3B8] font-bold">
+                                                {formatDate(msg.createdAt)}
+                                            </span>
+                                            
+                                            <div className="flex items-center gap-2 text-[10px] font-bold">
+                                                <span className="text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded-lg">{msg.sent} sent</span>
+                                                {msg.failed > 0 && (
+                                                    <span className="text-rose-700 bg-rose-50 px-1.5 py-0.5 rounded-lg">{msg.failed} failed</span>
+                                                )}
+                                            </div>
 
-                                {/* Expanded details */}
-                                {expandedId === msg._id && (
-                                    <div className="border-t border-gray-200 px-4 py-4 bg-gray-50">
-                                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4 text-xs text-gray-600">
-                                            <div>
-                                                <span className="font-medium text-gray-500 block">Sent by</span>
-                                                {msg.sentBy}
+                                            <ChevronDown className={`w-3.5 h-3.5 text-[#94A3B8] transition-transform duration-200 ${
+                                                isExpanded ? 'rotate-180' : ''
+                                            }`} />
+                                        </div>
+                                    </button>
+
+                                    {/* Expanded Detail Panel */}
+                                    {isExpanded && (
+                                        <div className="border-t border-[#E2E8F0] p-4 bg-[#F8FAFC] space-y-4">
+                                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-[10px] font-bold text-[#64748B] uppercase tracking-wider">
+                                                <div>
+                                                    <span className="text-[#94A3B8] block mb-0.5">Author</span>
+                                                    <span className="text-[#334155]">{msg.sentBy || 'Admin'}</span>
+                                                </div>
+                                                <div>
+                                                    <span className="text-[#94A3B8] block mb-0.5">Total Receivers</span>
+                                                    <span className="text-[#334155]">{msg.recipientCount}</span>
+                                                </div>
+                                                <div>
+                                                    <span className="text-[#94A3B8] block mb-0.5">Target Criteria</span>
+                                                    <span className="text-[#334155] lowercase truncate block max-w-[150px]">
+                                                        {msg.targetEmail
+                                                            ? msg.targetEmail
+                                                            : msg.statusFilter === 'all'
+                                                                ? 'All statuses'
+                                                                : msg.statusFilter}
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    <span className="text-[#94A3B8] block mb-0.5">Channel</span>
+                                                    <span className="text-[#334155]">{msg.type}</span>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <span className="font-medium text-gray-500 block">Recipients</span>
-                                                {msg.recipientCount}
-                                            </div>
-                                            <div>
-                                                <span className="font-medium text-gray-500 block">Filter</span>
-                                                {msg.targetEmail
-                                                    ? `Target: ${msg.targetEmail}`
-                                                    : msg.statusFilter === 'all'
-                                                        ? 'All statuses'
-                                                        : msg.statusFilter}
-                                            </div>
-                                            <div>
-                                                <span className="font-medium text-gray-500 block">Type</span>
-                                                {msg.type === 'waitlist' ? 'Waitlist' : 'Appointment'}
+                                            
+                                            <div className="space-y-1">
+                                                <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider">Message Content</span>
+                                                <div className="bg-white border border-[#E2E8F0] rounded-xl p-3.5 text-xs text-[#475569] leading-relaxed whitespace-pre-wrap max-h-60 overflow-y-auto font-medium">
+                                                    {msg.message}
+                                                </div>
                                             </div>
                                         </div>
-                                        <div>
-                                            <span className="font-medium text-gray-500 text-xs block mb-1">Message</span>
-                                            <div className="bg-white border border-gray-200 rounded-lg p-3 text-sm text-gray-700 whitespace-pre-wrap max-h-60 overflow-y-auto">
-                                                {msg.message}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        ))}
+                                    )}
+                                </div>
+                            );
+                        })}
                     </div>
 
-                    {/* Pagination */}
+                    {/* Pagination control */}
                     {pagination.pages > 1 && (
-                        <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-200">
-                            <span className="text-sm text-gray-600">
+                        <div className="flex items-center justify-between pt-4 border-t border-[#F1F5F9]">
+                            <span className="text-xs text-[#64748B] font-semibold">
                                 Page {pagination.page} of {pagination.pages}
                             </span>
                             <div className="flex gap-2">
                                 <button
                                     onClick={() => fetchHistory(pagination.page - 1)}
                                     disabled={pagination.page <= 1}
-                                    className="px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                                    className="px-3.5 py-1.5 text-xs font-bold text-[#334155] bg-white border border-[#E2E8F0] rounded-xl hover:bg-[#F8FAFC] disabled:opacity-50 transition"
                                 >
                                     Previous
                                 </button>
                                 <button
                                     onClick={() => fetchHistory(pagination.page + 1)}
                                     disabled={pagination.page >= pagination.pages}
-                                    className="px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                                    className="px-3.5 py-1.5 text-xs font-bold text-[#334155] bg-white border border-[#E2E8F0] rounded-xl hover:bg-[#F8FAFC] disabled:opacity-50 transition"
                                 >
                                     Next
                                 </button>
                             </div>
                         </div>
                     )}
-                </>
+                </div>
             )}
         </div>
     );

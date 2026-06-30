@@ -1,78 +1,76 @@
+import { Calendar, User, Eye, Edit, Trash2 } from 'lucide-react';
+
 const AnnouncementList = ({ announcements, onEdit, onDelete }) => {
   const getTypeBadge = (type) => {
     const styles = {
-      emergency: 'bg-red-100 text-red-800',
-      warning: 'bg-yellow-100 text-yellow-800',
-      success: 'bg-green-100 text-green-800',
-      update: 'bg-blue-100 text-blue-800',
-      info: 'bg-sky-100 text-sky-800'
+      emergency: 'bg-rose-50 text-rose-800 border-rose-100',
+      warning: 'bg-amber-50 text-amber-800 border-amber-100',
+      success: 'bg-emerald-50 text-emerald-800 border-emerald-100',
+      update: 'bg-sky-50 text-sky-800 border-sky-100',
+      info: 'bg-[#F1F5F9] text-[#334155] border-[#E2E8F0]'
     };
     return (
-      <span className={`px-2 py-1 rounded text-xs font-medium ${styles[type] || styles.info}`}>
-        {type.toUpperCase()}
+      <span className={`px-2 py-0.5 border rounded-lg text-[9px] font-bold uppercase tracking-wider ${styles[type] || styles.info}`}>
+        {type}
       </span>
     );
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {announcements.length === 0 ? (
-        <div className="text-center py-8 text-gray-500">
-          No announcements yet. Create one to display on the homepage.
+        <div className="text-center py-12 text-xs text-[#94A3B8] border border-[#E2E8F0] rounded-2xl bg-[#F8FAFC]/50 font-semibold">
+          No announcements published yet. Click "New Announcement" above to publish one.
         </div>
       ) : (
         announcements.map((announcement) => (
-          <div key={announcement._id} className="border border-gray-200 rounded-lg p-4">
+          <div key={announcement._id} className="border border-[#E2E8F0] rounded-2xl p-4 hover:border-[#CBD5E1] transition bg-white space-y-3">
             <div className="flex justify-between items-start">
-              <div className="flex-1">
-                <div className="flex items-center space-x-3 mb-2">
-                  <h3 className="font-semibold text-gray-900">
+              <div className="flex-1 space-y-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="font-bold text-xs text-[#0F172A]">
                     {announcement.title}
                   </h3>
                   {getTypeBadge(announcement.type)}
-                  <span className={`text-xs px-2 py-1 rounded-full ${
+                  <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${
                     announcement.isActive 
-                      ? 'bg-green-100 text-green-800' 
+                      ? 'bg-emerald-50 text-emerald-800' 
                       : 'bg-gray-100 text-gray-800'
                   }`}>
                     {announcement.isActive ? 'Active' : 'Inactive'}
                   </span>
-                  <span className="text-xs text-gray-500">
-                    Priority: {announcement.priority}
+                  <span className="text-[10px] font-semibold text-[#64748B]">
+                    Priority rank: {announcement.priority}
                   </span>
                 </div>
                 
-                <p className="text-gray-700 text-sm mb-3">
+                <p className="text-[#475569] text-xs leading-relaxed font-medium">
                   {announcement.content}
                 </p>
                 
-                <div className="flex items-center text-xs text-gray-500 space-x-4">
-                  <span>Created: {new Date(announcement.createdAt).toLocaleDateString()}</span>
+                <div className="flex items-center text-[10px] font-bold text-[#94A3B8] space-x-4 pt-1">
+                  <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> Created: {new Date(announcement.createdAt).toLocaleDateString()}</span>
                   {announcement.endDate && (
-                    <span>Expires: {new Date(announcement.endDate).toLocaleDateString()}</span>
+                    <span className="flex items-center gap-1"><Eye className="w-3 h-3" /> Expires: {new Date(announcement.endDate).toLocaleDateString()}</span>
                   )}
-                  <span>By: {announcement.createdBy?.firstName || 'Admin'}</span>
+                  <span className="flex items-center gap-1"><User className="w-3 h-3" /> By: {announcement.createdBy?.firstName || 'Admin'}</span>
                 </div>
               </div>
               
-              <div className="flex space-x-2 ml-4">
+              <div className="flex gap-1.5 ml-4 flex-shrink-0">
                 <button
                   onClick={() => onEdit(announcement)}
-                  className="text-sky-600 hover:text-sky-800"
-                  title="Edit"
+                  className="p-1.5 text-sky-600 hover:bg-sky-50 rounded-lg transition"
+                  title="Edit announcement"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                  </svg>
+                  <Edit className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => onDelete(announcement._id)}
-                  className="text-red-600 hover:text-red-800"
-                  title="Delete"
+                  className="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                  title="Delete announcement"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
+                  <Trash2 className="w-4 h-4" />
                 </button>
               </div>
             </div>
