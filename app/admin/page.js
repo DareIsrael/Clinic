@@ -29,6 +29,16 @@ export default function AdminDashboard() {
     cancelled: 0,
     all: 0
   });
+  const [waitlistCounts, setWaitlistCounts] = useState({
+    active: 0,
+    booked: 0,
+    accepted: 0,
+    rejected: 0,
+    called: 0,
+    leftVoicemail: 0,
+    notReachable: 0,
+    all: 0
+  });
 
   // Load theme preference from localStorage on mount
   useEffect(() => {
@@ -41,7 +51,7 @@ export default function AdminDashboard() {
     localStorage.setItem('admin-theme', newTheme);
   };
 
-  // Fetch counts dynamically from the admin appointments API on load
+  // Fetch appointment counts
   useEffect(() => {
     async function fetchCounts() {
       try {
@@ -55,6 +65,24 @@ export default function AdminDashboard() {
       }
     }
     fetchCounts();
+  }, [activeTab]);
+
+  // Fetch waitlist counts
+  useEffect(() => {
+    async function fetchWaitlistCounts() {
+      try {
+        const response = await fetch('/api/admin/waitlist?limit=1');
+        const data = await response.json();
+        if (data.success && data.counts) {
+          setWaitlistCounts(data.counts);
+        }
+      } catch (error) {
+        console.error('Error fetching waitlist counts:', error);
+      }
+    }
+    if (activeTab === 'waitlist') {
+      fetchWaitlistCounts();
+    }
   }, [activeTab]);
 
   const mainNav = [
@@ -248,70 +276,136 @@ export default function AdminDashboard() {
               <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-[#64748B]'} mt-0.5 font-semibold`}>Manage clinic operations and waitlists efficiently.</p>
             </div>
 
-            {/* Quick KPI stats grid */}
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              
-              <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
-                isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
-              }`}>
-                <div>
-                  <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Appointments</p>
-                  <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{counts.all}</p>
+            {/* Quick KPI stats grid — switches between appointment/waitlist stats */}
+            {activeTab === 'waitlist' ? (
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                
+                <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
+                  isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+                }`}>
+                  <div>
+                    <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Total Waitlist</p>
+                    <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{waitlistCounts.all}</p>
+                  </div>
+                  <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
+                    <ClipboardList className="w-4 h-4 text-blue-600" />
+                  </div>
                 </div>
-                <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
-                  <Calendar className="w-4 h-4 text-blue-600" />
-                </div>
-              </div>
 
-              <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
-                isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
-              }`}>
-                <div>
-                  <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Upcoming</p>
-                  <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{counts.upcoming}</p>
+                <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
+                  isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+                }`}>
+                  <div>
+                    <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Active</p>
+                    <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{waitlistCounts.active}</p>
+                  </div>
+                  <div className="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  </div>
                 </div>
-                <div className="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                </div>
-              </div>
 
-              <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
-                isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
-              }`}>
-                <div>
-                  <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Today</p>
-                  <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{counts.today}</p>
+                <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
+                  isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+                }`}>
+                  <div>
+                    <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Booked</p>
+                    <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{waitlistCounts.booked}</p>
+                  </div>
+                  <div className="w-8 h-8 bg-amber-50 rounded-lg flex items-center justify-center">
+                    <Calendar className="w-4 h-4 text-amber-600" />
+                  </div>
                 </div>
-                <div className="w-8 h-8 bg-amber-50 rounded-lg flex items-center justify-center">
-                  <Clock className="w-4 h-4 text-amber-600" />
-                </div>
-              </div>
 
-              <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
-                isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
-              }`}>
-                <div>
-                  <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Completed</p>
-                  <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{counts.completed}</p>
+                <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
+                  isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+                }`}>
+                  <div>
+                    <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Called</p>
+                    <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{waitlistCounts.called}</p>
+                  </div>
+                  <div className="w-8 h-8 bg-teal-50 rounded-lg flex items-center justify-center">
+                    <Clock className="w-4 h-4 text-teal-600" />
+                  </div>
                 </div>
-                <div className="w-8 h-8 bg-teal-50 rounded-lg flex items-center justify-center">
-                  <CheckCircle2 className="w-4 h-4 text-teal-600" />
-                </div>
-              </div>
 
-              <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
-                isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
-              }`}>
-                <div>
-                  <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Cancelled</p>
-                  <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{counts.cancelled}</p>
+                <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
+                  isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+                }`}>
+                  <div>
+                    <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Rejected</p>
+                    <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{waitlistCounts.rejected}</p>
+                  </div>
+                  <div className="w-8 h-8 bg-rose-50 rounded-lg flex items-center justify-center">
+                    <XCircle className="w-4 h-4 text-rose-600" />
+                  </div>
                 </div>
-                <div className="w-8 h-8 bg-rose-50 rounded-lg flex items-center justify-center">
-                  <XCircle className="w-4 h-4 text-rose-600" />
-                </div>
-              </div>
 
-            </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                
+                <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
+                  isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+                }`}>
+                  <div>
+                    <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Appointments</p>
+                    <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{counts.all}</p>
+                  </div>
+                  <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
+                    <Calendar className="w-4 h-4 text-blue-600" />
+                  </div>
+                </div>
+
+                <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
+                  isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+                }`}>
+                  <div>
+                    <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Upcoming</p>
+                    <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{counts.upcoming}</p>
+                  </div>
+                  <div className="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  </div>
+                </div>
+
+                <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
+                  isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+                }`}>
+                  <div>
+                    <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Today</p>
+                    <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{counts.today}</p>
+                  </div>
+                  <div className="w-8 h-8 bg-amber-50 rounded-lg flex items-center justify-center">
+                    <Clock className="w-4 h-4 text-amber-600" />
+                  </div>
+                </div>
+
+                <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
+                  isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+                }`}>
+                  <div>
+                    <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Completed</p>
+                    <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{counts.completed}</p>
+                  </div>
+                  <div className="w-8 h-8 bg-teal-50 rounded-lg flex items-center justify-center">
+                    <CheckCircle2 className="w-4 h-4 text-teal-600" />
+                  </div>
+                </div>
+
+                <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
+                  isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+                }`}>
+                  <div>
+                    <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Cancelled</p>
+                    <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{counts.cancelled}</p>
+                  </div>
+                  <div className="w-8 h-8 bg-rose-50 rounded-lg flex items-center justify-center">
+                    <XCircle className="w-4 h-4 text-rose-600" />
+                  </div>
+                </div>
+
+              </div>
+            )}
 
             {/* Active Content Window */}
             <div className="w-full">

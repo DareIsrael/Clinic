@@ -46,14 +46,23 @@ export async function GET(request) {
       ];
     }
 
-    const [waitlist, total] = await Promise.all([
-  Waitlist.find(query)
-    .sort({ createdAt: -1 })  // ← NEWEST FIRST (descending order)
-    .skip(skip)
-    .limit(limit)
-    .lean(),
-  Waitlist.countDocuments(query)
-]);
+    const [waitlist, total, activeCount, bookedCount, acceptedCount, rejectedCount, calledCount, leftVoicemailCount, notReachableCount, allCount] = await Promise.all([
+      Waitlist.find(query)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      Waitlist.countDocuments(query),
+      Waitlist.countDocuments({ status: 'Active' }),
+      Waitlist.countDocuments({ status: 'Booked' }),
+      Waitlist.countDocuments({ status: 'Accepted' }),
+      Waitlist.countDocuments({ status: 'Rejected' }),
+      Waitlist.countDocuments({ status: 'Called' }),
+      Waitlist.countDocuments({ status: 'Left Voicemail' }),
+      Waitlist.countDocuments({ status: 'Not Reachable' }),
+      Waitlist.countDocuments({})
+    ]);
+
     return NextResponse.json({
       success: true,
       waitlist,
@@ -62,6 +71,16 @@ export async function GET(request) {
         limit,
         total,
         pages: Math.ceil(total / limit)
+      },
+      counts: {
+        active: activeCount,
+        booked: bookedCount,
+        accepted: acceptedCount,
+        rejected: rejectedCount,
+        called: calledCount,
+        leftVoicemail: leftVoicemailCount,
+        notReachable: notReachableCount,
+        all: allCount
       }
     });
 
