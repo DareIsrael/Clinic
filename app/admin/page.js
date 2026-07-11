@@ -39,6 +39,13 @@ export default function AdminDashboard() {
     notReachable: 0,
     all: 0
   });
+  const [slotCounts, setSlotCounts] = useState({
+    total: 0,
+    available: 0,
+    booked: 0,
+    todaySlots: 0,
+    scheduledDays: 0
+  });
 
   // Load theme preference from localStorage on mount
   useEffect(() => {
@@ -82,6 +89,26 @@ export default function AdminDashboard() {
     }
     if (activeTab === 'waitlist') {
       fetchWaitlistCounts();
+    }
+  }, [activeTab]);
+
+  // Fetch slot counts
+  useEffect(() => {
+    async function fetchSlotCounts() {
+      try {
+        const today = new Date();
+        const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+        const response = await fetch(`/api/slots/admin?startDate=${todayStr}&endDate=${todayStr}`);
+        const data = await response.json();
+        if (data.success && data.counts) {
+          setSlotCounts(data.counts);
+        }
+      } catch (error) {
+        console.error('Error fetching slot counts:', error);
+      }
+    }
+    if (activeTab === 'slots') {
+      fetchSlotCounts();
     }
   }, [activeTab]);
 
@@ -276,7 +303,7 @@ export default function AdminDashboard() {
               <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-[#64748B]'} mt-0.5 font-semibold`}>Manage clinic operations and waitlists efficiently.</p>
             </div>
 
-            {/* Quick KPI stats grid — switches between appointment/waitlist stats */}
+            {/* Quick KPI stats grid — switches between appointment/waitlist/slot stats */}
             {activeTab === 'waitlist' ? (
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 
@@ -337,6 +364,70 @@ export default function AdminDashboard() {
                   </div>
                   <div className="w-8 h-8 bg-rose-50 rounded-lg flex items-center justify-center">
                     <XCircle className="w-4 h-4 text-rose-600" />
+                  </div>
+                </div>
+
+              </div>
+            ) : activeTab === 'slots' ? (
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                
+                <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
+                  isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+                }`}>
+                  <div>
+                    <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Total Slots</p>
+                    <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{slotCounts.total}</p>
+                  </div>
+                  <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
+                    <Clock className="w-4 h-4 text-blue-600" />
+                  </div>
+                </div>
+
+                <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
+                  isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+                }`}>
+                  <div>
+                    <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Available</p>
+                    <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{slotCounts.available}</p>
+                  </div>
+                  <div className="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  </div>
+                </div>
+
+                <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
+                  isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+                }`}>
+                  <div>
+                    <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Booked</p>
+                    <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{slotCounts.booked}</p>
+                  </div>
+                  <div className="w-8 h-8 bg-rose-50 rounded-lg flex items-center justify-center">
+                    <XCircle className="w-4 h-4 text-rose-600" />
+                  </div>
+                </div>
+
+                <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
+                  isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+                }`}>
+                  <div>
+                    <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Today's Slots</p>
+                    <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{slotCounts.todaySlots}</p>
+                  </div>
+                  <div className="w-8 h-8 bg-amber-50 rounded-lg flex items-center justify-center">
+                    <CalendarDays className="w-4 h-4 text-amber-600" />
+                  </div>
+                </div>
+
+                <div className={`rounded-xl border p-4 flex items-center justify-between transition-colors duration-200 ${
+                  isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+                }`}>
+                  <div>
+                    <p className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-wider">Scheduled Days</p>
+                    <p className={`text-lg font-extrabold mt-0.5 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{slotCounts.scheduledDays}</p>
+                  </div>
+                  <div className="w-8 h-8 bg-teal-50 rounded-lg flex items-center justify-center">
+                    <Calendar className="w-4 h-4 text-teal-600" />
                   </div>
                 </div>
 

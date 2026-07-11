@@ -24,17 +24,33 @@ export async function GET(request) {
       };
     }
     
-    const slots = await AvailableSlot.find(query)
-      .populate('bookedBy', 'firstName lastName email')
-      .sort({ date: 1, time: 1 });
+    // Build today's date string for today's slot count
+    const now = new Date();
+    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+
+    // Get counts in parallel with slots query
+    const [slots, totalCount, availableCount, bookedCount, todaySlotsCount, uniqueDates] = await Promise.all([
+      AvailableSlot.find(query)
+        .populate('bookedBy', 'firstName lastName email')
+        .sort({ date: 1, time: 1 }),
+      AvailableSlot.countDocuments({}),
+      AvailableSlot.countDocuments({ isAvailable: true }),
+      AvailableSlot.countDocuments({ isAvailable: false }),
+      AvailableSlot.countDocuments({ date: todayStr }),
+      AvailableSlot.distinct('date')
+    ]);
     
-    // console.log(`Found ${slots.length} slots in database`);
-    
-    // SIMPLE: Just return the slots as they are
     return NextResponse.json({
       success: true,
       slots: slots,
-      count: slots.length
+      count: slots.length,
+      counts: {
+        total: totalCount,
+        available: availableCount,
+        booked: bookedCount,
+        todaySlots: todaySlotsCount,
+        scheduledDays: uniqueDates.length
+      }
     });
   } catch (error) {
     console.error('Error getting slots:', error);
