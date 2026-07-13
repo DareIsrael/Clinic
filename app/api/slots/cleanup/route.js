@@ -17,7 +17,7 @@ export async function POST(request) {
             );
         }
 
-        if (session.user.role !== 'admin') {
+        if (!['admin', 'doctor'].includes(session.user.role)) {
             return NextResponse.json(
                 { success: false, message: 'Admin access required' },
                 { status: 403 }

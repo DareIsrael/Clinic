@@ -35,7 +35,7 @@ export async function DELETE(req, { params }) {
 
     // Check if user owns the appointment or is admin
     // Use session.user.id instead of user._id
-    if (appointment.user.toString() !== session.user.id && session.user.role !== 'admin') {
+    if (appointment.user.toString() !== session.user.id && !['admin', 'doctor'].includes(session.user.role)) {
       return NextResponse.json(
         { success: false, message: 'Not authorized to cancel this appointment' },
         { status: 403 }
@@ -71,7 +71,7 @@ export async function PUT(req, { params }) {
     }
 
     // Check if user is admin
-    if (session.user.role !== 'admin') {
+    if (!['admin', 'doctor'].includes(session.user.role)) {
       return NextResponse.json(
         { success: false, message: 'Admin access required' },
         { status: 403 }

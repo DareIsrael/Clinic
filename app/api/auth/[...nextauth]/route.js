@@ -78,7 +78,7 @@ export const authOptions = {
               throw new Error('Invalid login token');
             }
             const user = await User.findById(decoded.userId);
-            if (!user || user.role !== 'admin') {
+            if (!user || !['admin', 'doctor'].includes(user.role)) {
               throw new Error('Invalid login token');
             }
             return {
@@ -125,6 +125,11 @@ export const authOptions = {
         const isPasswordCorrect = await user.correctPassword(password);
         if (!isPasswordCorrect) {
           throw new Error('Invalid email or password');
+        }
+
+        // Block deactivated admin/doctor accounts
+        if (['admin', 'doctor'].includes(user.role) && user.status === 'Deactivated') {
+          throw new Error('Your admin access has been deactivated. Please contact the doctor.');
         }
 
         // Successful login - reset the rate limit for this IP

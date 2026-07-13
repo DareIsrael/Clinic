@@ -234,7 +234,7 @@ export default function AdminDashboard() {
                 </div>
                 <div className="min-w-0">
                   <p className={`text-[11px] font-bold leading-none truncate ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{user?.firstName || 'Israel'}</p>
-                  <p className="text-[9px] text-[#94A3B8] font-bold mt-0.5">Administrator</p>
+                  <p className="text-[9px] text-[#94A3B8] font-bold mt-0.5">{user?.role === 'doctor' ? 'Doctor' : 'Administrator'}</p>
                 </div>
               </div>
               <ChevronDown className="w-3 h-3 text-[#94A3B8]" />
@@ -508,7 +508,7 @@ export default function AdminDashboard() {
               {activeTab === 'waitlist-broadcast' && <WaitlistBroadcastTab />}
               {activeTab === 'appointment-broadcast' && <AppointmentBroadcastTab />}
               {activeTab === 'broadcast-history' && <BroadcastHistoryTab />}
-              {activeTab === 'settings' && <SettingsTab theme={theme} onThemeChange={handleThemeChange} />}
+              {activeTab === 'settings' && <SettingsTab theme={theme} onThemeChange={handleThemeChange} userRole={user?.role} />}
             </div>
 
           </main>

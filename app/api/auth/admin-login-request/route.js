@@ -63,7 +63,7 @@ export async function POST(request) {
     // If NOT an admin, tell the client to proceed with normal login.
     // IMPORTANT: The response shape is identical to the admin case
     // so an attacker can't distinguish admin from non-admin accounts.
-    if (user.role !== 'admin') {
+    if (!['admin', 'doctor'].includes(user.role)) {
       return NextResponse.json({
         success: true,
         requiresConfirmation: false,

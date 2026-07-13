@@ -16,7 +16,7 @@ export async function GET(request) {
       );
     }
 
-    if (session.user.role !== 'admin') {
+    if (!['admin', 'doctor'].includes(session.user.role)) {
       return NextResponse.json(
         { success: false, message: 'Admin access required' },
         { status: 403 }
@@ -28,15 +28,26 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit')) || 10;
     const page = parseInt(searchParams.get('page')) || 1;
+    const search = searchParams.get('search') || '';
+
+    // Build query
+    let query = { role: 'patient' };
+    if (search) {
+      query.$or = [
+        { firstName: { $regex: search, $options: 'i' } },
+        { lastName: { $regex: search, $options: 'i' } },
+        { email: { $regex: search, $options: 'i' } },
+      ];
+    }
 
     // Select ALL user fields except password
-    const users = await User.find({ role: 'patient' })
+    const users = await User.find(query)
       .select('-password') // Exclude password field
       .sort({ createdAt: -1 })
       .limit(limit)
       .skip((page - 1) * limit);
 
-    const total = await User.countDocuments({ role: 'patient' });
+    const total = await User.countDocuments(query);
 
     return NextResponse.json({
       success: true,

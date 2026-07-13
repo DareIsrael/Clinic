@@ -16,7 +16,7 @@ export async function PATCH(request, { params }) {
       );
     }
 
-    if (session.user.role !== 'admin') {
+    if (!['admin', 'doctor'].includes(session.user.role)) {
       return NextResponse.json(
         { success: false, message: 'Admin access required' },
         { status: 403 }
@@ -89,7 +89,7 @@ export async function GET(request, { params }) {
       );
     }
 
-    if (session.user.role !== 'admin') {
+    if (!['admin', 'doctor'].includes(session.user.role)) {
       return NextResponse.json(
         { success: false, message: 'Admin access required' },
         { status: 403 }

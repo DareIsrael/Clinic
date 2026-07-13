@@ -14,7 +14,7 @@ export async function POST(request) {
     try {
         // Auth check
         const session = await getServerSession(authOptions);
-        if (!session || session.user.role !== 'admin') {
+        if (!session || !['admin', 'doctor'].includes(session.user.role)) {
             return NextResponse.json(
                 { success: false, message: 'Admin access required' },
                 { status: 403 }
@@ -153,7 +153,7 @@ export async function POST(request) {
 export async function GET(request) {
     try {
         const session = await getServerSession(authOptions);
-        if (!session || session.user.role !== 'admin') {
+        if (!session || !['admin', 'doctor'].includes(session.user.role)) {
             return NextResponse.json(
                 { success: false, message: 'Admin access required' },
                 { status: 403 }

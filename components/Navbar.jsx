@@ -503,6 +503,20 @@ export default function Navbar() {
                     Admin
                   </Link>
                 )}
+
+                {user?.role === 'doctor' && (
+                  <Link 
+                    href="/admin" 
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink('/admin')} whitespace-nowrap`}
+                  >
+                    Doctor
+                  </Link>
+                )}
+
+
+               
+
+              
                 
                 <div className="relative group ml-1">
                   <button className="flex items-center space-x-2 text-gray-700 hover:text-sky-600 px-2 py-2 rounded-lg text-xs font-medium transition-all duration-200 hover:bg-gray-50">

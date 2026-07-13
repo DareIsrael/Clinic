@@ -163,7 +163,7 @@ const userSchema = new mongoose.Schema({
   // Add status field with the desired options
   status: {
     type: String,
-    enum: ['Active', 'Booked', 'Accepted', 'Rejected'],
+    enum: ['Active', 'Booked', 'Accepted', 'Rejected', 'Deactivated'],
     default: 'Active'
   },
   resetPasswordToken: String,
