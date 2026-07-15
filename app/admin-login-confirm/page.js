@@ -3,6 +3,8 @@ import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { CheckCircle2, XCircle, Loader2, ArrowLeft, Home } from 'lucide-react';
 
 function AdminLoginConfirmContent() {
     const [status, setStatus] = useState('verifying'); // verifying | success | error
@@ -66,63 +68,80 @@ function AdminLoginConfirmContent() {
     };
 
     return (
-        <div className="min-h-screen bg-white flex items-center justify-center p-4">
+        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
             <div className="max-w-md w-full">
-                <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 text-center">
-                    {/* Status icon */}
-                    <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 ${status === 'verifying' ? 'bg-sky-100' :
-                            status === 'success' ? 'bg-green-100' :
-                                'bg-red-100'
-                        }`}>
+                {/* Logo section */}
+                <div className="flex justify-center mb-8">
+                    <Image
+                        src="/St.MaryLOGO2.svg"
+                        alt="St Mary Rideau Clinic Logo"
+                        width={220}
+                        height={60}
+                        className="object-contain"
+                        priority
+                    />
+                </div>
+
+                <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 text-center space-y-6">
+                    {/* Status Icon */}
+                    <div className="flex justify-center">
                         {status === 'verifying' && (
-                            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-sky-600"></div>
+                            <div className="w-16 h-16 bg-sky-50 rounded-2xl flex items-center justify-center text-sky-600">
+                                <Loader2 className="w-8 h-8 stroke-[1.5] animate-spin" />
+                            </div>
                         )}
                         {status === 'success' && (
-                            <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
+                            <div className="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 animate-bounce">
+                                <CheckCircle2 className="w-8 h-8 stroke-[1.5]" />
+                            </div>
                         )}
                         {status === 'error' && (
-                            <svg className="w-10 h-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
+                            <div className="w-16 h-16 bg-rose-50 rounded-2xl flex items-center justify-center text-rose-600">
+                                <XCircle className="w-8 h-8 stroke-[1.5]" />
+                            </div>
                         )}
                     </div>
 
-                    <h1 className={`text-2xl font-bold mb-3 ${status === 'verifying' ? 'text-gray-900' :
-                            status === 'success' ? 'text-green-800' :
-                                'text-red-800'
+                    {/* Status Heading */}
+                    <div className="space-y-2">
+                        <h1 className={`text-xl font-bold ${
+                            status === 'verifying' ? 'text-slate-900' :
+                            status === 'success' ? 'text-emerald-800' : 'text-rose-800'
                         }`}>
-                        {status === 'verifying' ? 'Confirming Login...' :
-                            status === 'success' ? 'Login Confirmed!' :
-                                'Confirmation Failed'}
-                    </h1>
-
-                    <p className={`mb-6 ${status === 'error' ? 'text-red-600' : 'text-gray-600'
+                            {status === 'verifying' ? 'Confirming Login...' :
+                             status === 'success' ? 'Login Confirmed!' : 'Confirmation Failed'}
+                        </h1>
+                        <p className={`text-sm leading-relaxed ${
+                            status === 'error' ? 'text-rose-600 font-medium' : 'text-slate-500'
                         }`}>
-                        {message}
-                    </p>
+                            {message}
+                        </p>
+                    </div>
 
-                    {status === 'error' && (
-                        <div className="space-y-3">
+                    {/* Actions and status-specific display */}
+                    {status === 'error' ? (
+                        <div className="pt-2 space-y-3">
                             <Link
                                 href="/login"
-                                className="block w-full bg-sky-600 text-white py-3 rounded-lg hover:bg-sky-700 transition-colors text-center font-medium"
+                                className="w-full py-2.5 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-sm"
                             >
-                                Go to Login
+                                <ArrowLeft className="w-3.5 h-3.5" /> Back to Login
                             </Link>
                             <Link
                                 href="/"
-                                className="block text-gray-500 hover:text-gray-700 text-sm transition-colors"
+                                className="w-full py-2.5 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2"
                             >
-                                Go to Homepage
+                                <Home className="w-3.5 h-3.5 text-slate-400" /> Go to Homepage
                             </Link>
                         </div>
-                    )}
-
-                    {status === 'success' && (
-                        <p className="text-gray-500 text-sm">
-                            Redirecting to admin dashboard...
+                    ) : status === 'success' ? (
+                        <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 flex items-center justify-center gap-2 text-xs font-medium text-slate-500">
+                            <div className="animate-spin rounded-full h-3 w-3 border-2 border-slate-500 border-t-transparent"></div>
+                            Auto-redirecting to dashboard...
+                        </div>
+                    ) : (
+                        <p className="text-xs text-slate-400">
+                            Please wait while we establish your secure session.
                         </p>
                     )}
                 </div>
@@ -135,14 +154,13 @@ export default function AdminLoginConfirm() {
     return (
         <Suspense
             fallback={
-                <div className="min-h-screen bg-white flex items-center justify-center p-4">
+                <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
                     <div className="max-w-md w-full">
-                        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 text-center">
-                            <div className="w-20 h-20 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-sky-600"></div>
+                        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 text-center">
+                            <div className="w-16 h-16 bg-sky-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                <Loader2 className="w-6 h-6 stroke-[1.5] text-sky-600 animate-spin" />
                             </div>
-                            <h1 className="text-2xl font-bold text-gray-900 mb-3">Confirming Login...</h1>
-                            <p className="text-gray-600">Verifying your confirmation link...</p>
+                            <h1 className="text-lg font-bold text-slate-900 mb-2">Loading...</h1>
                         </div>
                     </div>
                 </div>
