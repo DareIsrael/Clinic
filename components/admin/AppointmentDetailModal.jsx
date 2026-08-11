@@ -1,5 +1,7 @@
 'use client';
 import AppointmentStatusDropdown from './AppointmentStatusDropdown';
+import { useAuth } from '@/hooks/useAuth';
+import { exportAppointmentToExcel } from '@/utils/excelExport';
 import {
   User,
   Mail,
@@ -11,9 +13,12 @@ import {
   FileText,
   ClipboardList,
   X,
+  Download,
 } from 'lucide-react';
 
 const AppointmentDetailModal = ({ appointment, onClose, onStatusChange }) => {
+  const { user } = useAuth();
+  const isDoctor = user?.role === 'doctor';
   const formatDate = (dateString) => {
   if (!dateString) return '';
   
@@ -295,10 +300,22 @@ const AppointmentDetailModal = ({ appointment, onClose, onStatusChange }) => {
           </div>
 
           {/* ── Footer Actions ── */}
-          <div className="flex justify-end pt-2">
+          <div className="flex items-center justify-between pt-2">
+            <div>
+              {isDoctor && (
+                <button
+                  onClick={() => exportAppointmentToExcel(appointment)}
+                  className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-white bg-emerald-600 rounded-xl hover:bg-emerald-700 transition-all duration-200 shadow-sm cursor-pointer"
+                  title="Download Patient Appointment Information as Excel"
+                >
+                  <Download className="w-4 h-4" />
+                  Download Patient
+                </button>
+              )}
+            </div>
             <button
               onClick={onClose}
-              className="px-6 py-2.5 text-sm font-medium text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 hover:text-gray-800 transition-all duration-200"
+              className="px-6 py-2.5 text-sm font-medium text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 hover:text-gray-800 transition-all duration-200 cursor-pointer"
             >
               Close
             </button>

@@ -4,11 +4,16 @@ import { dashboardService } from '@/services/dashboardService';
 import debounce from 'lodash/debounce';
 import WaitlistStatusDropdown from './WaitlistStatusDropdown';
 import WaitlistDetailModal from './WaitlistDetailModal';
-import { Search, RefreshCw, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { exportWaitlistToExcel } from '@/utils/excelExport';
+import { Search, RefreshCw, X, ChevronLeft, ChevronRight, Download } from 'lucide-react';
 
 export default function WaitlistTab() {
+  const { user } = useAuth();
+  const isDoctor = user?.role === 'doctor';
   const [waitlist, setWaitlist] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isExporting, setIsExporting] = useState(false);
   const [error, setError] = useState('');
   const [selectedWaitlistEntry, setSelectedWaitlistEntry] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -117,6 +122,28 @@ export default function WaitlistTab() {
     setIsModalOpen(false);
   };
 
+  const handleDownloadAll = async () => {
+    try {
+      setIsExporting(true);
+      const response = await dashboardService.getWaitlist({ 
+        page: 1, 
+        limit: pagination.total || 1000, 
+        search: searchQuery, 
+        status: searchStatus === 'all' ? null : searchStatus 
+      });
+      if (response.success && response.waitlist) {
+        exportWaitlistToExcel(response.waitlist, 'waitlist.xlsx');
+      } else {
+        exportWaitlistToExcel(waitlist, 'waitlist.xlsx');
+      }
+    } catch (err) {
+      console.error('Export error:', err);
+      exportWaitlistToExcel(waitlist, 'waitlist.xlsx');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   useEffect(() => {
     fetchWaitlist();
   }, []);
@@ -134,6 +161,18 @@ export default function WaitlistTab() {
         </div>
         
         <div className="flex items-center gap-2">
+          {isDoctor && (
+            <button
+              onClick={handleDownloadAll}
+              disabled={loading || isExporting || waitlist.length === 0}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold shadow-xs transition disabled:opacity-50 cursor-pointer"
+              title="Download All Waitlist Patients as Excel"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>{isExporting ? 'Exporting...' : 'Download All'}</span>
+            </button>
+          )}
+
           <select
             value={pagination.limit}
             onChange={(e) => handleLimitChange(parseInt(e.target.value))}

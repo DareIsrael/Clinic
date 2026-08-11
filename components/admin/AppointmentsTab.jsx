@@ -3,11 +3,16 @@ import { useState, useEffect, useCallback } from 'react';
 import debounce from 'lodash/debounce';
 import AppointmentDetailModal from './AppointmentDetailModal';
 import AppointmentStatusDropdown from './AppointmentStatusDropdown';
-import { Search, Calendar, RefreshCw, X, ChevronLeft, ChevronRight, User } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { exportAppointmentsToExcel } from '@/utils/excelExport';
+import { Search, Calendar, RefreshCw, X, ChevronLeft, ChevronRight, User, Download } from 'lucide-react';
 
 export default function AppointmentsTab() {
+  const { user } = useAuth();
+  const isDoctor = user?.role === 'doctor';
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isExporting, setIsExporting] = useState(false);
   const [error, setError] = useState('');
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -201,6 +206,37 @@ export default function AppointmentsTab() {
     }
   };
 
+  const handleDownloadAll = async () => {
+    try {
+      setIsExporting(true);
+      const params = new URLSearchParams();
+      params.append('page', 1);
+      params.append('limit', pagination.total || 1000);
+      params.append('filter', activeFilter);
+      if (searchQuery) params.append('search', searchQuery);
+      if (searchStatus !== 'all') params.append('status', searchStatus);
+      if (searchDate) params.append('date', searchDate);
+
+      const response = await fetch(`/api/appointments/admin?${params.toString()}`);
+      const data = await response.json();
+      if (data.success && data.appointments) {
+        const processed = data.appointments.map(app => ({
+          ...app,
+          displayDate: app.displayDate || formatDateString(app.appointmentDate),
+          canadaDate: app.canadaDate || app.appointmentDate
+        }));
+        exportAppointmentsToExcel(processed, 'appointments.xlsx');
+      } else {
+        exportAppointmentsToExcel(appointments, 'appointments.xlsx');
+      }
+    } catch (err) {
+      console.error('Export error:', err);
+      exportAppointmentsToExcel(appointments, 'appointments.xlsx');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   useEffect(() => {
     fetchAppointments();
   }, []);
@@ -218,6 +254,18 @@ export default function AppointmentsTab() {
         </div>
         
         <div className="flex items-center gap-2">
+          {isDoctor && (
+            <button
+              onClick={handleDownloadAll}
+              disabled={loading || isExporting || appointments.length === 0}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold shadow-xs transition disabled:opacity-50 cursor-pointer"
+              title="Download All Appointments as Excel"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>{isExporting ? 'Exporting...' : 'Download All'}</span>
+            </button>
+          )}
+
           <select
             value={pagination.limit}
             onChange={(e) => handleLimitChange(parseInt(e.target.value))}
