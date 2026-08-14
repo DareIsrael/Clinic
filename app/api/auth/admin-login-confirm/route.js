@@ -25,33 +25,42 @@ export async function POST(request) {
 
         await dbConnect();
 
-        const { token, email } = await request.json();
+        const { code, email } = await request.json();
 
-        if (!token || !email) {
+        if (!code || !email) {
             return NextResponse.json(
-                { success: false, message: 'Invalid confirmation link.' },
+                { success: false, message: 'Verification code and email are required.' },
                 { status: 400 }
             );
         }
 
-        // Hash the raw token to compare with the stored hash
-        const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+        // Validate that code is a 6-digit numeric string
+        const trimmedCode = String(code).trim();
+        if (!/^\d{6}$/.test(trimmedCode)) {
+            return NextResponse.json(
+                { success: false, message: 'Invalid verification code format.' },
+                { status: 400 }
+            );
+        }
 
-        // Find user with matching token and non-expired timestamp
+        // Hash the code to compare with the stored hash
+        const hashedCode = crypto.createHash('sha256').update(trimmedCode).digest('hex');
+
+        // Find user with matching hashed code and non-expired timestamp
         const user = await User.findOne({
             email: email.trim().toLowerCase(),
-            adminLoginToken: hashedToken,
+            adminLoginToken: hashedCode,
             adminLoginTokenExpires: { $gt: new Date() },
         });
 
         if (!user) {
             return NextResponse.json(
-                { success: false, message: 'Invalid or expired confirmation link. Please log in again.' },
+                { success: false, message: 'Invalid or expired verification code. Please request a new one.' },
                 { status: 401 }
             );
         }
 
-        // Clear the token so it can't be reused
+        // Clear the code so it can't be reused
         user.adminLoginToken = undefined;
         user.adminLoginTokenExpires = undefined;
         await user.save({ validateBeforeSave: false });

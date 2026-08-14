@@ -70,28 +70,24 @@ export async function POST(request) {
       });
     }
 
-    // --- Admin flow: generate a confirmation token ---
-    const rawToken = crypto.randomBytes(32).toString('hex');
-    const hashedToken = crypto.createHash('sha256').update(rawToken).digest('hex');
+    // --- Admin flow: generate a secure 6-digit verification code ---
+    const rawCode = crypto.randomInt(100000, 999999).toString();
+    const hashedCode = crypto.createHash('sha256').update(rawCode).digest('hex');
 
-    // Save hashed token and 15-minute expiry
-    user.adminLoginToken = hashedToken;
-    user.adminLoginTokenExpires = new Date(Date.now() + 15 * 60 * 1000);
+    // Save hashed code and 10-minute expiry
+    user.adminLoginToken = hashedCode;
+    user.adminLoginTokenExpires = new Date(Date.now() + 10 * 60 * 1000);
     await user.save({ validateBeforeSave: false });
 
-    // Build confirmation URL
-    const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
-    const confirmUrl = `${baseUrl}/admin-login-confirm?token=${rawToken}&email=${encodeURIComponent(trimmedEmail)}`;
-
-    // Send confirmation email
+    // Send verification code email
     await sendEmail({
       to: trimmedEmail,
-      subject: 'Admin Login Confirmation — St Mary Rideau Clinic',
+      subject: 'Your Login Verification Code — St Mary Rideau Clinic',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="text-align: center; margin-bottom: 30px;">
             <h1 style="color: #0284c7; margin-bottom: 5px;">St Mary Rideau Clinic</h1>
-            <p style="color: #6b7280; font-size: 14px;">Admin Login Confirmation</p>
+            <p style="color: #6b7280; font-size: 14px;">Admin Login Verification</p>
           </div>
           
           <div style="background-color: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 24px; margin-bottom: 24px;">
@@ -99,16 +95,17 @@ export async function POST(request) {
               Hello <strong>${user.firstName}</strong>,
             </p>
             <p style="color: #475569; font-size: 14px; margin-bottom: 20px;">
-              A login attempt was made to the admin dashboard. If this was you, click the button below to complete your login.
+              A login attempt was made to the admin dashboard. If this was you, enter the verification code below to complete your login.
             </p>
             <div style="text-align: center; margin: 24px 0;">
-              <a href="${confirmUrl}" 
-                 style="background-color: #0284c7; color: white; padding: 12px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px; display: inline-block;">
-                Confirm Login
-              </a>
+              <div style="background-color: #ffffff; border: 2px solid #0284c7; border-radius: 12px; padding: 20px 32px; display: inline-block;">
+                <span style="font-family: 'Courier New', monospace; font-size: 36px; font-weight: 700; letter-spacing: 12px; color: #0284c7;">
+                  ${rawCode}
+                </span>
+              </div>
             </div>
             <p style="color: #94a3b8; font-size: 12px; text-align: center;">
-              This link expires in <strong>15 minutes</strong>.
+              This code expires in <strong>10 minutes</strong>.
             </p>
           </div>
 
@@ -119,8 +116,7 @@ export async function POST(request) {
           </div>
           
           <p style="color: #94a3b8; font-size: 12px; text-align: center;">
-            If the button doesn't work, copy and paste this link into your browser:<br/>
-            <a href="${confirmUrl}" style="color: #0284c7; word-break: break-all;">${confirmUrl}</a>
+            Do not share this code with anyone. St Mary Rideau Clinic staff will never ask for your verification code.
           </p>
         </div>
       `,
@@ -129,7 +125,7 @@ export async function POST(request) {
     return NextResponse.json({
       success: true,
       requiresConfirmation: true,
-      message: 'A confirmation link has been sent to your email.',
+      message: 'A verification code has been sent to your email.',
     });
   } catch (error) {
     console.error('Admin login request error:', error);

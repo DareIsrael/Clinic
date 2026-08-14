@@ -81,8 +81,12 @@ export default function LoginPage() {
         return;
       }
 
-      // If admin — redirect to the pending confirmation page
+      // If admin — redirect to the verification code entry page
       if (checkData.requiresConfirmation) {
+        // Store password temporarily in sessionStorage so the verification
+        // page can support "Resend Code" without re-entering credentials.
+        // sessionStorage is cleared when the tab/browser closes.
+        sessionStorage.setItem('_adminLoginPwd', formData.password);
         router.push(`/admin-login-pending?email=${encodeURIComponent(formData.email)}`);
         return;
       }
