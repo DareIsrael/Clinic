@@ -1,6 +1,7 @@
 import { Calendar, User, Eye, Edit, Trash2 } from 'lucide-react';
 
-const AnnouncementList = ({ announcements, onEdit, onDelete }) => {
+const AnnouncementList = ({ announcements, onEdit, onDelete, theme }) => {
+  const isDark = theme === 'dark';
   const getTypeBadge = (type) => {
     const styles = {
       emergency: 'bg-rose-50 text-rose-800 border-rose-100',
@@ -19,16 +20,20 @@ const AnnouncementList = ({ announcements, onEdit, onDelete }) => {
   return (
     <div className="space-y-3">
       {announcements.length === 0 ? (
-        <div className="text-center py-12 text-xs text-[#94A3B8] border border-[#E2E8F0] rounded-2xl bg-[#F8FAFC]/50 font-semibold">
+        <div className={`text-center py-12 text-xs border rounded-2xl font-semibold ${
+          isDark ? 'bg-[#1E293B] border-[#334155] text-slate-400' : 'bg-[#F8FAFC]/50 border-[#E2E8F0] text-[#94A3B8]'
+        }`}>
           No announcements published yet. Click "New Announcement" above to publish one.
         </div>
       ) : (
         announcements.map((announcement) => (
-          <div key={announcement._id} className="border border-[#E2E8F0] rounded-2xl p-4 hover:border-[#CBD5E1] transition bg-white space-y-3">
+          <div key={announcement._id} className={`border rounded-2xl p-4 transition space-y-3 ${
+            isDark ? 'bg-[#1E293B] border-[#334155] hover:border-[#475569]' : 'bg-white border-[#E2E8F0] hover:border-[#CBD5E1]'
+          }`}>
             <div className="flex justify-between items-start">
               <div className="flex-1 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="font-bold text-xs text-[#0F172A]">
+                  <h3 className={`font-bold text-xs ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>
                     {announcement.title}
                   </h3>
                   {getTypeBadge(announcement.type)}
@@ -39,12 +44,12 @@ const AnnouncementList = ({ announcements, onEdit, onDelete }) => {
                   }`}>
                     {announcement.isActive ? 'Active' : 'Inactive'}
                   </span>
-                  <span className="text-[10px] font-semibold text-[#64748B]">
+                  <span className={`text-[10px] font-semibold ${isDark ? 'text-slate-400' : 'text-[#64748B]'}`}>
                     Priority rank: {announcement.priority}
                   </span>
                 </div>
                 
-                <p className="text-[#475569] text-xs leading-relaxed font-medium">
+                <p className={`text-xs leading-relaxed font-medium ${isDark ? 'text-slate-300' : 'text-[#475569]'}`}>
                   {announcement.content}
                 </p>
                 
@@ -60,14 +65,14 @@ const AnnouncementList = ({ announcements, onEdit, onDelete }) => {
               <div className="flex gap-1.5 ml-4 flex-shrink-0">
                 <button
                   onClick={() => onEdit(announcement)}
-                  className="p-1.5 text-sky-600 hover:bg-sky-50 rounded-lg transition"
+                  className={`p-1.5 text-sky-600 rounded-lg transition ${isDark ? 'hover:bg-[#334155]' : 'hover:bg-sky-50'}`}
                   title="Edit announcement"
                 >
                   <Edit className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => onDelete(announcement._id)}
-                  className="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                  className={`p-1.5 text-rose-600 rounded-lg transition ${isDark ? 'hover:bg-[#334155]' : 'hover:bg-rose-50'}`}
                   title="Delete announcement"
                 >
                   <Trash2 className="w-4 h-4" />

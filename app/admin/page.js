@@ -14,7 +14,7 @@ import SettingsTab from '@/components/admin/SettingsTab';
 import {
   LayoutGrid, ClipboardList, Calendar, Clock, BarChart3, Megaphone,
   Mail, Send, History, Search, Bell, ChevronDown, CalendarDays,
-  CheckCircle2, XCircle, Settings
+  CheckCircle2, XCircle, Settings, Sun, Moon
 } from 'lucide-react';
 
 export default function AdminDashboard() {
@@ -292,6 +292,30 @@ export default function AdminDashboard() {
                 <CalendarDays className="w-3 h-3" />
                 <span>{shortDateString}</span>
               </div>
+
+              {/* Theme Toggle Button */}
+              <button
+                onClick={() => handleThemeChange(isDark ? 'light' : 'dark')}
+                title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                aria-label="Toggle visual theme"
+                className={`flex items-center gap-1.5 px-3 py-1.5 border rounded-lg text-xs font-semibold transition ${
+                  isDark
+                    ? 'bg-[#0F172A] border-[#334155] text-amber-400 hover:bg-[#334155]'
+                    : 'bg-[#F8FAFC] border-[#E2E8F0] text-sky-700 hover:bg-[#F1F5F9]'
+                }`}
+              >
+                {isDark ? (
+                  <>
+                    <Sun className="w-3.5 h-3.5 text-amber-400" />
+                    <span className="hidden sm:inline text-slate-200">Light Mode</span>
+                  </>
+                ) : (
+                  <>
+                    <Moon className="w-3.5 h-3.5 text-sky-600" />
+                    <span className="hidden sm:inline text-[#0F172A]">Dark Mode</span>
+                  </>
+                )}
+              </button>
             </div>
           </header>
           
@@ -500,14 +524,14 @@ export default function AdminDashboard() {
 
             {/* Active Content Window */}
             <div className="w-full">
-              {activeTab === 'waitlist' && <WaitlistTab />}
-              {activeTab === 'reports' && <ReportsTab />}
-              {activeTab === 'announcements' && <AnnouncementsTab />}
-              {activeTab === 'appointments' && <AppointmentsTab />}
-              {activeTab === 'slots' && <SlotManagement />}
-              {activeTab === 'waitlist-broadcast' && <WaitlistBroadcastTab />}
-              {activeTab === 'appointment-broadcast' && <AppointmentBroadcastTab />}
-              {activeTab === 'broadcast-history' && <BroadcastHistoryTab />}
+              {activeTab === 'waitlist' && <WaitlistTab theme={theme} />}
+              {activeTab === 'reports' && <ReportsTab theme={theme} />}
+              {activeTab === 'announcements' && <AnnouncementsTab theme={theme} />}
+              {activeTab === 'appointments' && <AppointmentsTab theme={theme} />}
+              {activeTab === 'slots' && <SlotManagement theme={theme} />}
+              {activeTab === 'waitlist-broadcast' && <WaitlistBroadcastTab theme={theme} />}
+              {activeTab === 'appointment-broadcast' && <AppointmentBroadcastTab theme={theme} />}
+              {activeTab === 'broadcast-history' && <BroadcastHistoryTab theme={theme} />}
               {activeTab === 'settings' && <SettingsTab theme={theme} onThemeChange={handleThemeChange} userRole={user?.role} />}
             </div>
 

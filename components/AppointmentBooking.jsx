@@ -1,7 +1,9 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function AppointmentBooking() {
+  const { t } = useLanguage();
   // State management
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -255,8 +257,8 @@ export default function AppointmentBooking() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
           </svg>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-bold text-sky-900 mb-2">Book Your Appointment</h1>
-        <p className="text-gray-600 text-md">Book your appointment from available time slots.</p>
+        <h1 className="text-3xl sm:text-4xl font-bold text-sky-900 mb-2">{t('book_app_title')}</h1>
+        <p className="text-gray-600 text-md">{t('book_app_sub')}</p>
       </div>
 
       {/* Main Card */}
@@ -279,10 +281,10 @@ export default function AppointmentBooking() {
                   <div className={`text-sm font-medium ${
                     step >= stepNumber ? 'text-gray-900' : 'text-gray-500'
                   }`}>
-                    {stepNumber === 1 && 'Select Date'}
-                    {stepNumber === 2 && 'Select Time'}
-                    {stepNumber === 3 && 'Your Details'}
-                    {stepNumber === 4 && 'Confirmation'}
+                    {stepNumber === 1 && t('step_select_date')}
+                    {stepNumber === 2 && t('step_select_time')}
+                    {stepNumber === 3 && t('step_your_details')}
+                    {stepNumber === 4 && t('step_confirmation')}
                   </div>
                 </div>
                 {stepNumber < 4 && (
@@ -324,8 +326,8 @@ export default function AppointmentBooking() {
           {step === 1 && (
             <div>
               <div className="text-center mb-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-3">Select Appointment Date</h2>
-                <p className="text-gray-600">Choose from available dates below</p>
+                <h2 className="text-2xl font-bold text-gray-900 mb-3">{t('select_app_date_title')}</h2>
+                <p className="text-gray-600">{t('choose_from_available_dates')}</p>
               </div>
               
               {/* Clinic Schedule Card */}
@@ -363,7 +365,7 @@ export default function AppointmentBooking() {
               {loading ? (
                 <div className="text-center py-12">
                   <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-sky-200 border-t-sky-600"></div>
-                  <p className="mt-4 text-gray-600 font-medium">Loading available dates...</p>
+                  <p className="mt-4 text-gray-600 font-medium">{t('loading_available_dates')}</p>
                 </div>
               ) : availableDates.length > 0 ? (
                 <div>
@@ -394,11 +396,11 @@ export default function AppointmentBooking() {
                               ? 'bg-green-100 text-green-800'
                               : 'bg-gray-100 text-gray-800'
                           }`}>
-                            {dateInfo.isToday ? 'Today' : dateInfo.isTomorrow ? 'Tomorrow' : dateInfo.dayName}
+                            {dateInfo.isToday ? t('date_today') : dateInfo.isTomorrow ? t('date_tomorrow') : dateInfo.dayName}
                           </div>
                         </div>
                         <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-                          <span className="text-sm text-gray-600">Available slots</span>
+                          <span className="text-sm text-gray-600">{t('available_slots')}</span>
                           <span className="font-semibold text-sky-600">{dateInfo.availableSlots || 0}</span>
                         </div>
                       </button>
@@ -410,12 +412,12 @@ export default function AppointmentBooking() {
                   <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  <p className="text-gray-500 text-lg font-medium">No available dates found</p>
+                  <p className="text-gray-500 text-lg font-medium">{t('no_available_dates')}</p>
                   <button
                     onClick={fetchClinicData}
                     className="mt-6 px-6 py-3 bg-sky-600 text-white font-medium rounded-lg hover:bg-sky-700 transition-colors shadow-sm"
                   >
-                    Refresh Available Dates
+                    {t('refresh_available_dates')}
                   </button>
                 </div>
               )}
@@ -433,10 +435,10 @@ export default function AppointmentBooking() {
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
-                  Back to dates
+                  {t('back_to_dates')}
                 </button>
                 <div className="ml-auto text-right">
-                  <h2 className="text-2xl font-bold text-gray-900">Select Time</h2>
+                  <h2 className="text-2xl font-bold text-gray-900">{t('step_select_time')}</h2>
                   <p className="text-gray-600">{selectedDate && formatDateDisplay(selectedDate)}</p>
                 </div>
               </div>
@@ -444,12 +446,12 @@ export default function AppointmentBooking() {
               {loading ? (
                 <div className="text-center py-12">
                   <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-sky-200 border-t-sky-600"></div>
-                  <p className="mt-4 text-gray-600 font-medium">Loading available time slots...</p>
+                  <p className="mt-4 text-gray-600 font-medium">{t('loading_time_slots')}</p>
                 </div>
               ) : availableSlots.length > 0 ? (
                 <div>
                   <div className="mb-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3">Available Time Slots</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-3">{t('available_time_slots')}</h3>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
                       {availableSlots.map((slot, index) => (
                         <button
@@ -469,12 +471,12 @@ export default function AppointmentBooking() {
                             {slot.available ? (
                               <span className="inline-flex items-center">
                                 <span className="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
-                                Available
+                                {t('slot_status_available')}
                               </span>
                             ) : (
                               <span className="inline-flex items-center">
                                 <span className="w-2 h-2 bg-gray-400 rounded-full mr-1"></span>
-                                Booked
+                                {t('slot_status_booked')}
                               </span>
                             )}
                           </div>
@@ -496,14 +498,14 @@ export default function AppointmentBooking() {
                     <div className="mt-8 pt-6 border-t border-gray-200">
                       <div className="flex justify-between items-center">
                         <div>
-                          <p className="text-gray-600">Selected time:</p>
+                          <p className="text-gray-600">{t('selected_time_label')}</p>
                           <p className="text-xl font-bold text-gray-900">{selectedTime}</p>
                         </div>
                         <button
                           onClick={() => setStep(3)}
                           className="px-8 py-3 bg-sky-600 text-white font-medium rounded-lg hover:bg-sky-700 transition-colors shadow-sm flex items-center"
                         >
-                          Continue to Details
+                          {t('continue_to_details')}
                           <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                           </svg>
@@ -517,13 +519,13 @@ export default function AppointmentBooking() {
                   <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <p className="text-gray-500 text-lg font-medium mb-2">No available time slots for this date</p>
-                  <p className="text-gray-400 mb-6">Please select another date</p>
+                  <p className="text-gray-500 text-lg font-medium mb-2">{t('no_slots_for_date')}</p>
+                  <p className="text-gray-400 mb-6">{t('please_select_another_date')}</p>
                   <button
                     onClick={() => setStep(1)}
                     className="px-6 py-3 bg-sky-600 text-white font-medium rounded-lg hover:bg-sky-700 transition-colors shadow-sm"
                   >
-                    Choose Another Date
+                    {t('choose_another_date')}
                   </button>
                 </div>
               )}
@@ -541,11 +543,11 @@ export default function AppointmentBooking() {
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
-                  Back to time selection
+                  {t('back_to_time')}
                 </button>
                 <div className="ml-auto text-right">
-                  <h2 className="text-2xl font-bold text-gray-900">Your Information</h2>
-                  <p className="text-gray-600">Complete your appointment details</p>
+                  <h2 className="text-2xl font-bold text-gray-900">{t('your_information_title')}</h2>
+                  <p className="text-gray-600">{t('complete_app_details')}</p>
                 </div>
               </div>
 
@@ -559,8 +561,8 @@ export default function AppointmentBooking() {
                       </svg>
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-900">Appointment Details</h3>
-                      <p className="text-sm text-gray-600">Review your selected appointment</p>
+                      <h3 className="font-bold text-gray-900">{t('booking_app_details')}</h3>
+                      <p className="text-sm text-gray-600">{t('review_selected_app')}</p>
                     </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -570,7 +572,7 @@ export default function AppointmentBooking() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                         <div>
-                          <p className="text-sm text-gray-600">Date</p>
+                          <p className="text-sm text-gray-600">{t('label_date')}</p>
                           <p className="font-semibold text-gray-900">{selectedDate && formatDateDisplay(selectedDate)}</p>
                         </div>
                       </div>
@@ -579,7 +581,7 @@ export default function AppointmentBooking() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <div>
-                          <p className="text-sm text-gray-600">Time</p>
+                          <p className="text-sm text-gray-600">{t('label_time')}</p>
                           <p className="font-semibold text-gray-900">{selectedTime}</p>
                         </div>
                       </div>
@@ -590,8 +592,8 @@ export default function AppointmentBooking() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         </svg>
                         <div>
-                          <p className="text-sm text-gray-600">Location</p>
-                          <p className="font-semibold text-gray-900">St Mary Rideau Clinic, Ottawa</p>
+                          <p className="text-sm text-gray-600">{t('label_location')}</p>
+                          <p className="font-semibold text-gray-900">{t('clinic_location_name')}</p>
                         </div>
                       </div>
                     </div>
@@ -606,13 +608,13 @@ export default function AppointmentBooking() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900">Personal Information</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">{t('booking_personal_info')}</h3>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        First Name *
+                        {t('form_first_name')} *
                       </label>
                       <input
                         type="text"
@@ -621,12 +623,12 @@ export default function AppointmentBooking() {
                         onChange={handleInputChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 text-gray-700 focus:border-sky-500 transition-colors"
-                        placeholder="Enter your first name"
+                        placeholder="John"
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Last Name *
+                        {t('form_last_name')} *
                       </label>
                       <input
                         type="text"
@@ -635,12 +637,12 @@ export default function AppointmentBooking() {
                         onChange={handleInputChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 text-gray-700 focus:border-sky-500 transition-colors"
-                        placeholder="Enter your last name"
+                        placeholder="Doe"
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Email Address *
+                        {t('form_email')} *
                       </label>
                       <input
                         type="email"
@@ -654,7 +656,7 @@ export default function AppointmentBooking() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Phone Number *
+                        {t('form_phone')} *
                       </label>
                       <input
                         type="tel"
@@ -668,7 +670,7 @@ export default function AppointmentBooking() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Date of Birth *
+                        {t('form_dob')} *
                       </label>
                       <input
                         type="date"
@@ -682,7 +684,7 @@ export default function AppointmentBooking() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Gender *
+                        {t('form_gender')} *
                       </label>
                       <select
                         name="gender"
@@ -691,10 +693,10 @@ export default function AppointmentBooking() {
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 text-gray-700 focus:border-sky-500 transition-colors"
                       >
-                        <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
+                        <option value="">{t('select_gender')}</option>
+                        <option value="Male">{t('gender_male')}</option>
+                        <option value="Female">{t('gender_female')}</option>
+                        <option value="Other">{t('gender_other')}</option>
                       </select>
                     </div>
                   </div>
@@ -708,13 +710,13 @@ export default function AppointmentBooking() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                       </svg>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900">Address Information</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">{t('booking_address_info')}</h3>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="md:col-span-2">
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Street Address *
+                        {t('form_address')} *
                       </label>
                       <input
                         type="text"
@@ -728,12 +730,12 @@ export default function AppointmentBooking() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Country
+                        {t('form_country')}
                       </label>
                       <div className="relative">
                         <input
                           type="text"
-                          value="Canada"
+                          value={t('country_canada')}
                           readOnly
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700"
                         />
@@ -741,7 +743,7 @@ export default function AppointmentBooking() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Postal Code *
+                        {t('form_postal')} *
                       </label>
                       <input
                         type="text"
@@ -764,13 +766,13 @@ export default function AppointmentBooking() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                       </svg>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900">Healthcare Information</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">{t('booking_healthcare_info')}</h3>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Healthcare Number *
+                        {t('form_health_num')} *
                       </label>
                       <input
                         type="text"
@@ -784,7 +786,7 @@ export default function AppointmentBooking() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Healthcare Province *
+                        {t('form_province')} *
                       </label>
                       <select
                         name="healthcareProvince"
@@ -793,11 +795,11 @@ export default function AppointmentBooking() {
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 text-gray-700 focus:border-sky-500 transition-colors"
                       >
-                        <option value="">Select Province/Territory</option>
+                        <option value="">{t('form_province')}</option>
                         {canadianProvinces.map(province => (
                           <option key={province} value={province}>{province}</option>
                         ))}
-                        <option value="Other">Other (Please specify)</option>
+                        <option value="Other">Other</option>
                       </select>
                     </div>
                   </div>
@@ -806,7 +808,7 @@ export default function AppointmentBooking() {
                   {formData.healthcareProvince === 'Other' && (
                     <div className="mt-6">
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Specify Your Province/Territory *
+                        {t('form_province')} *
                       </label>
                       <input
                         type="text"
@@ -828,13 +830,13 @@ export default function AppointmentBooking() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                       </svg>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900">Appointment Details</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">{t('booking_app_details')}</h3>
                   </div>
                   
                   <div className="space-y-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Reason for Appointment *
+                        {t('booking_reason')} *
                       </label>
                       <textarea
                         name="reason"
@@ -843,7 +845,7 @@ export default function AppointmentBooking() {
                         required
                         rows="4"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 text-gray-700 focus:border-sky-500 transition-colors"
-                        placeholder="Please describe the reason for your visit in detail..."
+                        placeholder={t('booking_reason_placeholder')}
                       />
                     </div>
                   </div>
@@ -860,7 +862,7 @@ export default function AppointmentBooking() {
                       <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                       </svg>
-                      Back to Time Selection
+                      {t('btn_back')}
                     </button>
                     <div className="flex gap-3 w-full sm:w-auto">
                       <button
@@ -871,7 +873,7 @@ export default function AppointmentBooking() {
                         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>
-                        Cancel
+                        {t('btn_cancel')}
                       </button>
                       <button
                         type="submit"
@@ -881,14 +883,14 @@ export default function AppointmentBooking() {
                         {loading ? (
                           <>
                             <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
-                            Processing...
+                            {t('btn_processing')}
                           </>
                         ) : (
                           <>
                             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                             </svg>
-                            Confirm Appointment
+                            {t('btn_confirm_app')}
                           </>
                         )}
                       </button>
@@ -908,14 +910,14 @@ export default function AppointmentBooking() {
                 </svg>
               </div>
               
-              <h2 className="text-3xl font-bold text-gray-900 mb-3">Appointment Confirmed!</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-3">{t('booking_confirmed_title')}</h2>
               <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
-                Your appointment has been successfully booked. You will receive a confirmation email shortly with all the details.
+                {t('booking_confirmed_sub')}
               </p>
               
               {/* Appointment Card */}
               <div className="bg-gradient-to-r from-sky-50 to-white rounded-2xl p-8 max-w-2xl mx-auto mb-10 border border-sky-100 shadow-sm">
-                <h3 className="font-bold text-gray-900 text-xl mb-6">Appointment Details</h3>
+                <h3 className="font-bold text-gray-900 text-xl mb-6">{t('booking_app_details')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div className="text-left">
@@ -931,19 +933,19 @@ export default function AppointmentBooking() {
                       <p className="font-semibold text-gray-900">{formData.firstName} {formData.lastName}</p>
                     </div>
                     <div className="text-left">
-                      <p className="text-sm text-gray-600 mb-1">Healthcare Number</p>
+                      <p className="text-sm text-gray-600 mb-1">{t('form_health_num')}</p>
                       <p className="font-semibold text-gray-900">{formData.healthcareNumber}</p>
                     </div>
                   </div>
                   <div className="space-y-4">
                     <div className="text-left">
-                      <p className="text-sm text-gray-600 mb-1">Healthcare Province</p>
+                      <p className="text-sm text-gray-600 mb-1">{t('form_province')}</p>
                       <p className="font-semibold text-gray-900">
                         {formData.healthcareProvince === 'Other' ? otherProvince : formData.healthcareProvince}
                       </p>
                     </div>
                     <div className="text-left">
-                      <p className="text-sm text-gray-600 mb-1">Reason for Visit</p>
+                      <p className="text-sm text-gray-600 mb-1">{t('booking_reason')}</p>
                       <p className="font-semibold text-gray-900">{formData.reason}</p>
                     </div>
                   </div>
@@ -963,13 +965,13 @@ export default function AppointmentBooking() {
 
               {/* Next Steps */}
               <div className="max-w-2xl mx-auto mb-10">
-                <h4 className="font-semibold text-gray-900 text-lg mb-4">Next Steps & Important Information</h4>
+                <h4 className="font-semibold text-gray-900 text-lg mb-4">{t('next_steps_title')}</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
-                    { icon: '✉️', text: 'Check your email for confirmation' },
-                    { icon: '⏰', text: 'Arrive 15 minutes before your appointment' },
-                    { icon: '🆔', text: 'Bring your healthcare card and photo ID' },
-                    { icon: '📋', text: 'Bring your provincial healthcare information' }
+                    { icon: '✉️', text: t('next_step_email') },
+                    { icon: '⏰', text: t('next_step_arrive') },
+                    { icon: '🆔', text: t('next_step_id') },
+                    { icon: '📋', text: t('next_step_info') }
                   ].map((item, index) => (
                     <div key={index} className="flex items-center p-3 bg-gray-50 rounded-lg">
                       <span className="text-2xl mr-3">{item.icon}</span>
@@ -988,7 +990,7 @@ export default function AppointmentBooking() {
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
-                  Book Another Appointment
+                  {t('walkin_book_another')}
                 </button>
               </div>
             </div>

@@ -6,7 +6,8 @@ import MonthlyChart from './MonthlyChart';
 import StatusProgress from './StatusProgress';
 import { BarChart3, RefreshCw, Layers, Calendar, Star, Info } from 'lucide-react';
 
-export default function ReportsTab() {
+export default function ReportsTab({ theme }) {
+  const isDark = theme === 'dark';
   const [reportsData, setReportsData] = useState(null);
   const [reportsOverview, setReportsOverview] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -40,68 +41,91 @@ export default function ReportsTab() {
     }
   };
 
-  const handlePeriodChange = (newMonth, newYear) => {
-    setSelectedMonth(newMonth);
-    setSelectedYear(newYear);
-    fetchMonthlyReports(newMonth, newYear);
-  };
-
   useEffect(() => {
     fetchMonthlyReports();
     fetchReportsOverview();
   }, []);
 
+  const handleMonthChange = (e) => {
+    const month = parseInt(e.target.value);
+    setSelectedMonth(month);
+    fetchMonthlyReports(month, selectedYear);
+  };
+
+  const handleYearChange = (e) => {
+    const year = parseInt(e.target.value);
+    setSelectedYear(year);
+    fetchMonthlyReports(selectedMonth, year);
+  };
+
+  const months = [
+    { value: 1, label: 'January' },
+    { value: 2, label: 'February' },
+    { value: 3, label: 'March' },
+    { value: 4, label: 'April' },
+    { value: 5, label: 'May' },
+    { value: 6, label: 'June' },
+    { value: 7, label: 'July' },
+    { value: 8, label: 'August' },
+    { value: 9, label: 'September' },
+    { value: 10, label: 'October' },
+    { value: 11, label: 'November' },
+    { value: 12, label: 'December' }
+  ];
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 5 }, (_, i) => currentYear - 2 + i);
+
   return (
     <div className="space-y-6">
       
-      {/* Header bar */}
-      <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center">
-            <BarChart3 className="w-5 h-5 text-blue-600" />
-          </div>
-          <div>
-            <h2 className="text-[16px] font-bold text-[#0F172A]">Reports & Analytics</h2>
-            <p className="text-xs text-[#64748B] mt-0.5">Track patient registrations and status distribution</p>
-          </div>
+      {/* Top Controls */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h2 className={`text-base font-extrabold ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>
+            System Reports & Analytics
+          </h2>
+          <p className={`text-xs font-medium ${isDark ? 'text-slate-400' : 'text-[#64748B]'}`}>
+            Monitor patient intake trends and clinic operations
+          </p>
         </div>
 
-        <div className="flex items-center gap-2 w-full sm:w-auto">
+        <div className="flex items-center gap-2">
           <select
             value={selectedMonth}
-            onChange={(e) => handlePeriodChange(parseInt(e.target.value), selectedYear)}
-            className="px-3 py-1.5 border border-[#E2E8F0] rounded-xl text-xs text-[#334155] focus:outline-none bg-white cursor-pointer"
+            onChange={handleMonthChange}
+            className={`px-3 py-1.5 border rounded-xl text-xs focus:outline-none cursor-pointer ${
+              isDark ? 'bg-[#1E293B] border-[#334155] text-slate-200' : 'bg-white border-[#E2E8F0] text-[#334155]'
+            }`}
+            disabled={loading}
           >
-            <option value="1">January</option>
-            <option value="2">February</option>
-            <option value="3">March</option>
-            <option value="4">April</option>
-            <option value="5">May</option>
-            <option value="6">June</option>
-            <option value="7">July</option>
-            <option value="8">August</option>
-            <option value="9">September</option>
-            <option value="10">October</option>
-            <option value="11">November</option>
-            <option value="12">December</option>
+            {months.map(m => (
+              <option key={m.value} value={m.value}>{m.label}</option>
+            ))}
           </select>
-          
+
           <select
             value={selectedYear}
-            onChange={(e) => handlePeriodChange(selectedMonth, parseInt(e.target.value))}
-            className="px-3 py-1.5 border border-[#E2E8F0] rounded-xl text-xs text-[#334155] focus:outline-none bg-white cursor-pointer"
+            onChange={handleYearChange}
+            className={`px-3 py-1.5 border rounded-xl text-xs focus:outline-none cursor-pointer ${
+              isDark ? 'bg-[#1E293B] border-[#334155] text-slate-200' : 'bg-white border-[#E2E8F0] text-[#334155]'
+            }`}
+            disabled={loading}
           >
-            <option value={new Date().getFullYear() - 1}>{new Date().getFullYear() - 1}</option>
-            <option value={new Date().getFullYear()}>{new Date().getFullYear()}</option>
+            {years.map(y => (
+              <option key={y} value={y}>{y}</option>
+            ))}
           </select>
 
           <button
-            onClick={() => fetchMonthlyReports()}
+            onClick={() => fetchMonthlyReports(selectedMonth, selectedYear)}
             disabled={loading}
-            className="p-1.5 border border-[#E2E8F0] hover:bg-[#F8FAFC] rounded-xl transition disabled:opacity-50"
+            className={`p-1.5 border rounded-xl transition disabled:opacity-50 ${
+              isDark ? 'border-[#334155] hover:bg-[#334155] text-slate-300' : 'border-[#E2E8F0] hover:bg-[#F8FAFC] text-[#64748B]'
+            }`}
             title="Refresh reports"
           >
-            <RefreshCw className="w-3.5 h-3.5 text-[#64748B]" />
+            <RefreshCw className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
@@ -111,14 +135,18 @@ export default function ReportsTab() {
         {/* Main Stats column */}
         <div className="lg:col-span-2 space-y-6">
           {loading ? (
-            <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-6 text-center py-16">
+            <div className={`rounded-2xl border p-6 text-center py-16 ${
+              isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+            }`}>
               <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#0EA5E9] border-t-transparent mx-auto"></div>
               <p className="mt-3 text-xs text-[#94A3B8]">Loading report data…</p>
             </div>
           ) : reportsData ? (
             <>
-              <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-6 space-y-6">
-                <h3 className="text-xs font-bold text-[#0F172A] uppercase tracking-wider">
+              <div className={`rounded-2xl border shadow-sm p-6 space-y-6 ${
+                isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+              }`}>
+                <h3 className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>
                   {reportsData.period.monthName} {reportsData.period.year} Summary
                 </h3>
 
@@ -142,9 +170,9 @@ export default function ReportsTab() {
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3.5">
-                  <div className="bg-[#EEF2F6] border border-[#E2E8F0] p-4 rounded-xl">
-                    <p className="text-[10px] font-bold text-[#334155] uppercase tracking-wide">Booked</p>
-                    <p className="text-xl font-black text-[#334155] mt-1">{reportsData.patients?.byStatus?.Booked || 0}</p>
+                  <div className={`p-4 rounded-xl border ${isDark ? 'bg-[#0F172A] border-[#334155]' : 'bg-[#EEF2F6] border-[#E2E8F0]'}`}>
+                    <p className={`text-[10px] font-bold uppercase tracking-wide ${isDark ? 'text-slate-300' : 'text-[#334155]'}`}>Booked</p>
+                    <p className={`text-xl font-black mt-1 ${isDark ? 'text-white' : 'text-[#334155]'}`}>{reportsData.patients?.byStatus?.Booked || 0}</p>
                   </div>
                   <div className="bg-[#ECFEFF] border border-[#A5F3FC]/20 p-4 rounded-xl">
                     <p className="text-[10px] font-bold text-[#0891B2] uppercase tracking-wide">New registrations</p>
@@ -154,8 +182,8 @@ export default function ReportsTab() {
                   </div>
                 </div>
 
-                <div className="space-y-3 pt-4 border-t border-[#F1F5F9]">
-                  <h4 className="text-xs font-bold text-[#0F172A] uppercase tracking-wide">Waitlist Status Distribution</h4>
+                <div className={`space-y-3 pt-4 border-t ${isDark ? 'border-[#334155]' : 'border-[#F1F5F9]'}`}>
+                  <h4 className={`text-xs font-bold uppercase tracking-wide ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>Waitlist Status Distribution</h4>
                   <StatusProgress 
                     statusData={reportsData.patients?.byStatus || {}} 
                     total={reportsData.patients?.total || 0} 
@@ -164,8 +192,10 @@ export default function ReportsTab() {
               </div>
 
               {reportsData?.trends && (
-                <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-6">
-                  <h3 className="text-xs font-bold text-[#0F172A] uppercase tracking-wider mb-4">Registration Trends & Growth</h3>
+                <div className={`rounded-2xl border shadow-sm p-6 ${
+                  isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+                }`}>
+                  <h3 className={`text-xs font-bold uppercase tracking-wider mb-4 ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>Registration Trends & Growth</h3>
                   <MonthlyTrendsChart 
                     trendsData={reportsData.trends} 
                     year={reportsData.trends.year} 
@@ -174,7 +204,9 @@ export default function ReportsTab() {
               )}
             </>
           ) : (
-            <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-6 text-center py-12 text-xs text-[#94A3B8]">
+            <div className={`rounded-2xl border shadow-sm p-6 text-center py-12 text-xs ${
+              isDark ? 'bg-[#1E293B] border-[#334155] text-slate-500' : 'bg-white border-[#E2E8F0] text-[#94A3B8]'
+            }`}>
               No report metrics found.
             </div>
           )}
@@ -182,8 +214,12 @@ export default function ReportsTab() {
 
         {/* Right Definitions and Performance column */}
         <div className="space-y-6">
-          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-6 space-y-4">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-[#0F172A] uppercase tracking-wide pb-2 border-b border-[#F1F5F9]">
+          <div className={`rounded-2xl border shadow-sm p-6 space-y-4 ${
+            isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+          }`}>
+            <div className={`flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide pb-2 border-b ${
+              isDark ? 'border-[#334155] text-white' : 'border-[#F1F5F9] text-[#0F172A]'
+            }`}>
               <Star className="w-3.5 h-3.5 text-amber-500" />
               <span>Performance Metrics</span>
             </div>
@@ -220,31 +256,35 @@ export default function ReportsTab() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-6 space-y-4">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-[#0F172A] uppercase tracking-wide pb-2 border-b border-[#F1F5F9]">
+          <div className={`rounded-2xl border shadow-sm p-6 space-y-4 ${
+            isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
+          }`}>
+            <div className={`flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide pb-2 border-b ${
+              isDark ? 'border-[#334155] text-white' : 'border-[#F1F5F9] text-[#0F172A]'
+            }`}>
               <Info className="w-3.5 h-3.5 text-blue-600" />
               <span>Report Definitions</span>
             </div>
             
-            <div className="space-y-3 text-xs text-[#64748B] leading-relaxed">
+            <div className={`space-y-3 text-xs leading-relaxed ${isDark ? 'text-slate-400' : 'text-[#64748B]'}`}>
               <div>
-                <p className="font-bold text-[#334155]">Total Waitlist</p>
+                <p className={`font-bold ${isDark ? 'text-slate-200' : 'text-[#334155]'}`}>Total Waitlist</p>
                 <p className="mt-0.5">All registered patients in the waitlist database.</p>
               </div>
               <div>
-                <p className="font-bold text-[#334155]">Active Waitlist</p>
+                <p className={`font-bold ${isDark ? 'text-slate-200' : 'text-[#334155]'}`}>Active Waitlist</p>
                 <p className="mt-0.5">Patients currently waiting for booking availability.</p>
               </div>
               <div>
-                <p className="font-bold text-[#334155]">New Patients</p>
+                <p className={`font-bold ${isDark ? 'text-slate-200' : 'text-[#334155]'}`}>New Patients</p>
                 <p className="mt-0.5">Patients registered within the selected calendar month.</p>
               </div>
-              <div className="pt-3 border-t border-[#F1F5F9] text-[10px] space-y-1.5 font-semibold">
-                <p className="text-xs font-bold text-[#334155] uppercase tracking-wide">Status Legend:</p>
-                <p>• <strong className="text-[#0F172A]">Active:</strong> New registrations waiting</p>
-                <p>• <strong className="text-[#0F172A]">Booked:</strong> Appointed slot confirmed</p>
-                <p>• <strong className="text-[#0F172A]">Accepted:</strong> Intake validated by admin</p>
-                <p>• <strong className="text-[#0F172A]">Rejected:</strong> Denied entry or closed</p>
+              <div className={`pt-3 border-t text-[10px] space-y-1.5 font-semibold ${isDark ? 'border-[#334155]' : 'border-[#F1F5F9]'}`}>
+                <p className={`text-xs font-bold uppercase tracking-wide ${isDark ? 'text-slate-200' : 'text-[#334155]'}`}>Status Legend:</p>
+                <p>• <strong className={isDark ? 'text-white' : 'text-[#0F172A]'}>Active:</strong> New registrations waiting</p>
+                <p>• <strong className={isDark ? 'text-white' : 'text-[#0F172A]'}>Booked:</strong> Appointed slot confirmed</p>
+                <p>• <strong className={isDark ? 'text-white' : 'text-[#0F172A]'}>Accepted:</strong> Intake validated by admin</p>
+                <p>• <strong className={isDark ? 'text-white' : 'text-[#0F172A]'}>Rejected:</strong> Denied entry or closed</p>
               </div>
             </div>
           </div>

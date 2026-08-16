@@ -5,7 +5,8 @@ import AnnouncementForm from './AnnouncementForm';
 import AnnouncementList from './AnnouncementList';
 import { Megaphone, Plus, Sparkles } from 'lucide-react';
 
-export default function AnnouncementsTab() {
+export default function AnnouncementsTab({ theme }) {
+  const isDark = theme === 'dark';
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -38,7 +39,6 @@ export default function AnnouncementsTab() {
       }
     } catch (error) {
       setError(error.response?.data?.message || 'Failed to create announcement');
-      console.error('Error creating announcement:', error);
     }
   };
 
@@ -53,28 +53,26 @@ export default function AnnouncementsTab() {
       }
     } catch (error) {
       setError(error.response?.data?.message || 'Failed to update announcement');
-      console.error('Error updating announcement:', error);
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this announcement?')) return;
-
+    if (!confirm('Are you sure you want to delete this announcement?')) return;
     try {
       const response = await dashboardService.deleteAnnouncement(id);
       if (response.success) {
         await fetchAnnouncements();
       } else {
-        alert(response.message || 'Failed to delete announcement');
+        setError(response.message || 'Failed to delete announcement');
       }
     } catch (error) {
-      alert(error.response?.data?.message || 'Failed to delete announcement');
-      console.error('Error deleting announcement:', error);
+      setError(error.response?.data?.message || 'Failed to delete announcement');
     }
   };
 
   const handleEdit = (announcement) => {
     setEditingAnnouncement(announcement);
+    setIsCreating(false);
   };
 
   useEffect(() => {
@@ -82,17 +80,18 @@ export default function AnnouncementsTab() {
   }, []);
 
   return (
-    <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-6 space-y-6">
-      
+    <div className="space-y-6">
       {/* Header */}
-      <div className="pb-4 border-b border-[#F1F5F9] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 bg-sky-50 rounded-xl flex items-center justify-center flex-shrink-0">
             <Megaphone className="w-5 h-5 text-sky-600" />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-[#0F172A] uppercase tracking-wider">Homepage Announcements</h2>
-            <p className="text-xs text-[#64748B] mt-0.5 font-semibold">
+            <h2 className={`text-base font-extrabold ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>
+              Homepage Announcements
+            </h2>
+            <p className={`text-xs font-medium ${isDark ? 'text-slate-400' : 'text-[#64748B]'}`}>
               Manage notifications and priorities displayed on the patient home portal
             </p>
           </div>
@@ -113,7 +112,9 @@ export default function AnnouncementsTab() {
       )}
 
       {(isCreating || editingAnnouncement) && (
-        <div className="p-5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl">
+        <div className={`p-5 border rounded-2xl ${
+          isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-[#F8FAFC] border-[#E2E8F0]'
+        }`}>
           <AnnouncementForm
             announcement={editingAnnouncement}
             onSubmit={editingAnnouncement ? 
@@ -123,6 +124,7 @@ export default function AnnouncementsTab() {
               setIsCreating(false);
               setEditingAnnouncement(null);
             }}
+            theme={theme}
           />
         </div>
       )}
@@ -137,6 +139,7 @@ export default function AnnouncementsTab() {
           announcements={announcements}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          theme={theme}
         />
       )}
     </div>

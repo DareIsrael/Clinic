@@ -248,8 +248,30 @@ import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/contexts/LanguageContext';
+
+function LanguageSelector() {
+  const { language, setLanguage } = useLanguage();
+
+  return (
+    <div className="relative inline-flex items-center">
+      <select
+        value={language}
+        onChange={(e) => setLanguage(e.target.value)}
+        aria-label="Select Language"
+        className="bg-white border border-gray-200 text-gray-700 text-xs font-semibold rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm cursor-pointer hover:border-gray-300 transition-colors"
+      >
+        <option value="en">🇨🇦 English</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="de">🇩🇪 Deutsch</option>
+        <option value="es">🇪🇸 Español</option>
+      </select>
+    </div>
+  );
+}
 
 export default function Navbar() {
+  const { t } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isOnlineBookingDropdownOpen, setIsOnlineBookingDropdownOpen] = useState(false);
   const pathname = usePathname();
@@ -342,7 +364,7 @@ export default function Navbar() {
                 </a>
               </div>
               <div className="text-xs text-gray-600 leading-tight">
-                158 Rideau St, Ottawa
+                {t('address')}
               </div>
             </div>
           </div>
@@ -395,18 +417,18 @@ export default function Navbar() {
                 </a>
               </div>
               <div className="text-xs text-gray-500 mt-0.5 whitespace-nowrap">
-                Call for appointments
+                {t('nav_call_appointments')}
               </div>
             </div>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex  items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-1">
             <Link 
               href="/" 
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink('/')} whitespace-nowrap`}
             >
-              Home
+              {t('nav_home')}
             </Link>
 
 
@@ -416,7 +438,7 @@ export default function Navbar() {
                 onClick={() => setIsOnlineBookingDropdownOpen(!isOnlineBookingDropdownOpen)}
                 className="ml-2 px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-sky-600 to-sky-700 text-white hover:from-sky-700 hover:to-sky-800 transition-all duration-200 shadow-sm hover:shadow-md flex items-center space-x-1.5 whitespace-nowrap"
               >
-                <span>Book Now</span>
+                <span>{t('nav_book_now')}</span>
                 <svg 
                   className={`w-3 h-3 transition-transform duration-200 ${isOnlineBookingDropdownOpen ? 'rotate-180' : ''}`}
                   fill="none" 
@@ -431,8 +453,8 @@ export default function Navbar() {
               {isOnlineBookingDropdownOpen && (
                 <div className="absolute right-0 mt-1 w-56 bg-white rounded-lg shadow-lg py-1 z-50 border border-gray-200">
                   <div className="px-3 py-2 border-b border-gray-100">
-                    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Book Appointment</div>
-                    <div className="text-xs text-gray-600 mt-0.5">Select your appointment type</div>
+                    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{t('nav_book')}</div>
+                    <div className="text-xs text-gray-600 mt-0.5">{t('book_subtitle')}</div>
                   </div>
                   
                   <Link
@@ -446,8 +468,8 @@ export default function Navbar() {
                       </svg>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-sm font-medium text-gray-900 ">For Rostered Patients Only</div>
-                      <div className="text-xs text-gray-500 mt-0.5 ">For existing patients</div>
+                      <div className="text-sm font-medium text-gray-900 ">{t('nav_rostered')}</div>
+                      <div className="text-xs text-gray-500 mt-0.5 ">{t('nav_rostered_sub')}</div>
                     </div>
                     <svg className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -467,8 +489,8 @@ export default function Navbar() {
                       </svg>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-sm font-medium text-gray-900 truncate">Walk-In Care</div>
-                      <div className="text-xs text-gray-500 mt-0.5 ">For walk-in patients</div>
+                      <div className="text-sm font-medium text-gray-900 truncate">{t('nav_walkin')}</div>
+                      <div className="text-xs text-gray-500 mt-0.5 ">{t('nav_walkin_sub')}</div>
                     </div>
                     <svg className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -482,13 +504,13 @@ export default function Navbar() {
               href="/about" 
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink('/about')} whitespace-nowrap`}
             >
-              About
+              {t('nav_about')}
             </Link>
             <Link 
               href="/contact" 
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink('/contact')} whitespace-nowrap`}
             >
-              Contact
+              {t('nav_contact')}
             </Link>
 
             
@@ -500,7 +522,7 @@ export default function Navbar() {
                     href="/admin" 
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink('/admin')} whitespace-nowrap`}
                   >
-                    Admin
+                    {t('nav_admin')}
                   </Link>
                 )}
 
@@ -509,7 +531,7 @@ export default function Navbar() {
                     href="/admin" 
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActiveLink('/admin')} whitespace-nowrap`}
                   >
-                    Doctor
+                    {t('nav_doctor_role')}
                   </Link>
                 )}
 
@@ -540,7 +562,7 @@ export default function Navbar() {
                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                         </svg>
-                        <span>Sign out</span>
+                        <span>{t('nav_signout')}</span>
                       </div>
                     </button>
                   </div>
@@ -552,23 +574,20 @@ export default function Navbar() {
                   href="/waitlist" 
                   className="px-3 py-2 rounded-lg text-xs font-semibold bg-gradient-to-r from-sky-600 to-sky-700 text-white hover:from-sky-700 hover:to-sky-800 transition-all duration-200 shadow-sm hover:shadow-md whitespace-nowrap"
                 >
-                  Join Waitlist
+                  {t('hero_join_waitlist')}
                 </Link>
               </div>
             )}
+
+            {/* Language Selector */}
+            <div className="ml-2">
+              <LanguageSelector />
+            </div>
           </div>
 
           {/* Mobile menu button - Only shows on mobile */}
-          <div className="md:hidden flex items-center space-x-3">
-            {/* Mobile Contact Info - Additional for consistency */}
-            <div className="hidden sm:block text-right">
-              <a 
-                href="tel:3438873470" 
-                className="text-xs font-semibold text-sky-700 hover:text-sky-800 transition-colors whitespace-nowrap"
-              >
-                (343) 887-3470
-              </a>
-            </div>
+          <div className="md:hidden flex items-center space-x-2">
+            <LanguageSelector />
             
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -598,7 +617,7 @@ export default function Navbar() {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
-                <span>Home</span>
+                <span>{t('nav_home')}</span>
               </Link>
               
               <Link
@@ -609,7 +628,7 @@ export default function Navbar() {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span>About</span>
+                <span>{t('nav_about')}</span>
               </Link>
               
               <Link
@@ -620,12 +639,12 @@ export default function Navbar() {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <span>Contact</span>
+                <span>{t('nav_contact')}</span>
               </Link>
 
               {/* Online Booking Dropdown for Mobile */}
               <div className="px-1 pt-2">
-                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-3 mb-1">Online Booking</div>
+                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-3 mb-1">{t('nav_book')}</div>
                 
                 <Link
                   href="https://ocean.cognisantmd.com/online-booking/7b15e604-ee55-4d68-909f-a6b8d6039554"
@@ -635,7 +654,7 @@ export default function Navbar() {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
-                  <span>Registered Patients</span>
+                  <span>{t('nav_rostered')}</span>
                 </Link>
                 
                 <Link
@@ -646,7 +665,7 @@ export default function Navbar() {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <span>Walk-In Care</span>
+                  <span>{t('nav_walkin')}</span>
                 </Link>
               </div>
               
@@ -662,7 +681,7 @@ export default function Navbar() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
-                      <span>Admin</span>
+                      <span>{t('nav_admin')}</span>
                     </Link>
                   )}
                   
@@ -678,7 +697,7 @@ export default function Navbar() {
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                       </svg>
-                      <span>Sign out</span>
+                      <span>{t('nav_signout')}</span>
                     </button>
                   </div>
                 </>
@@ -692,7 +711,7 @@ export default function Navbar() {
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13-5.197a6 6 0 00-9 5.197" />
                     </svg>
-                    <span>Join Waitlist</span>
+                    <span>{t('hero_join_waitlist')}</span>
                   </Link>
                 </>
               )}

@@ -4,8 +4,10 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function LoginPage() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -40,15 +42,15 @@ export default function LoginPage() {
   const validateForm = () => {
     const errors = {};
     if (!formData.email.trim()) {
-      errors.email = 'Email is required';
+      errors.email = t('err_email_req');
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errors.email = 'Please enter a valid email address';
+      errors.email = t('err_email_valid');
     }
 
     if (!formData.password) {
-      errors.password = 'Password is required';
+      errors.password = t('err_password_req');
     } else if (formData.password.length < 6) {
-      errors.password = 'Password must be at least 6 characters';
+      errors.password = t('err_password_min');
     }
 
     setValidationErrors(errors);
@@ -136,8 +138,8 @@ export default function LoginPage() {
             <div className="lg:w-1/2 p-8">
               <div className="max-w-md mx-auto">
                 <div className="text-center mb-8">
-                  <h1 className="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h1>
-                  <p className="text-gray-600 text-sm">Sign in to your admin portal</p>
+                  <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('auth_welcome_back')}</h1>
+                  <p className="text-gray-600 text-sm">{t('auth_login_sub')}</p>
                 </div>
 
                 {error && (
@@ -150,7 +152,7 @@ export default function LoginPage() {
                   {/* Email */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address
+                      {t('form_email')}
                     </label>
                     <input
                       type="email"
@@ -162,7 +164,7 @@ export default function LoginPage() {
                         ? 'border-red-500 focus:ring-red-500'
                         : 'border-gray-600 focus:ring-sky-500'
                         }`}
-                      placeholder="Enter your email"
+                      placeholder={t('contact_placeholder_email')}
                     />
                     {validationErrors.email && (
                       <p className="text-red-500 text-xs mt-1">{validationErrors.email}</p>
@@ -172,7 +174,7 @@ export default function LoginPage() {
                   {/* Password */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Password
+                      {t('form_password')}
                     </label>
                     <div className="relative">
                       <input
@@ -185,7 +187,7 @@ export default function LoginPage() {
                           ? 'border-red-500 focus:ring-red-500'
                           : 'border-gray-600 focus:ring-sky-500'
                           }`}
-                        placeholder="Enter your password"
+                        placeholder={t('form_password')}
                       />
                       <button
                         type="button"
@@ -214,29 +216,29 @@ export default function LoginPage() {
                   <div className="flex items-center justify-between text-sm">
                     <label className="flex items-center">
                       <input type="checkbox" className="h-4 w-4 text-sky-600" />
-                      <span className="ml-2 text-gray-600">Remember me</span>
+                      <span className="ml-2 text-gray-600">{t('auth_remember_me')}</span>
                     </label>
                     <Link
                       href="/forgot-password"
                       className="text-sky-600 hover:text-sky-500 font-medium"
                     >
-                      Forgot password?
+                      {t('auth_forgot_password')}
                     </Link>
                   </div>
 
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-sky-600 text-white py-3 rounded-lg hover:bg-sky-700 disabled:opacity-50 transition-colors"
+                    className="w-full bg-sky-600 text-white py-3 rounded-lg hover:bg-sky-700 disabled:opacity-50 transition-colors font-semibold"
                   >
-                    {loading ? 'Signing in...' : 'Sign In'}
+                    {loading ? t('auth_signing_in') : t('auth_sign_in')}
                   </button>
                 </form>
 
                 <div className="text-gray-600 mt-6 text-center text-sm">
-                  New Admin Staff?{' '}
+                  {t('auth_new_staff')}{' '}
                   <Link href="/signup" className="text-sky-600 hover:text-sky-500 font-medium">
-                    Create account
+                    {t('auth_create_account')}
                   </Link>
                 </div>
 

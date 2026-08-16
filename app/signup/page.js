@@ -4,8 +4,10 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import InputField from '@/components/InputField';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function SignupPage() {
+  const { t } = useLanguage();
   const { register, signIn } = useAuth();
   const [formData, setFormData] = useState({
     firstName: '',
@@ -31,16 +33,16 @@ export default function SignupPage() {
   const router = useRouter();
 
   const genderOptions = [
-    { value: 'Male', label: 'Male' },
-    { value: 'Female', label: 'Female' },
-    { value: 'Other', label: 'Other' }
+    { value: 'Male', label: t('signup_gender_male') },
+    { value: 'Female', label: t('signup_gender_female') },
+    { value: 'Other', label: t('signup_gender_other') }
   ];
 
   const countryOptions = [
-    { value: 'USA', label: 'United States' },
-    { value: 'Canada', label: 'Canada' },
-    { value: 'UK', label: 'United Kingdom' },
-    { value: 'Australia', label: 'Australia' }
+    { value: 'USA', label: t('signup_country_usa') },
+    { value: 'Canada', label: t('signup_country_canada') },
+    { value: 'UK', label: t('signup_country_uk') },
+    { value: 'Australia', label: t('signup_country_aus') }
   ];
 
   const handleChange = (e) => {
@@ -202,8 +204,8 @@ export default function SignupPage() {
                       </svg>
                     </div>
                   </div>
-                  <h1 className="text-xl font-bold text-gray-900 mb-1">Join Our Clinic</h1>
-                  <p className="text-gray-600 text-xs">Register</p>
+                  <h1 className="text-xl font-bold text-gray-900 mb-1">{t('signup_hero_title')}</h1>
+                  <p className="text-gray-600 text-xs">{t('signup_hero_sub')}</p>
                 </div>
 
                 {/* Success Message */}
@@ -230,7 +232,7 @@ export default function SignupPage() {
                   {/* Personal Information */}
                   <div className="grid grid-cols-2 gap-3 text-gray-700">
                     <InputField
-                      label="First Name"
+                      label={t('signup_first_name')}
                       type="text"
                       name="firstName"
                       value={formData.firstName}
@@ -242,7 +244,7 @@ export default function SignupPage() {
                     />
 
                     <InputField
-                      label="Last Name"
+                      label={t('signup_last_name')}
                       type="text"
                       name="lastName"
                       value={formData.lastName}
@@ -255,7 +257,7 @@ export default function SignupPage() {
                   </div>
 
                   <InputField
-                    label="Email Address"
+                    label={t('signup_email')}
                     type="email"
                     name="email"
                     value={formData.email}
@@ -268,7 +270,7 @@ export default function SignupPage() {
 
                   <div className="grid grid-cols-2 gap-3 text-gray-700">
                     <InputField
-                      label="Gender"
+                      label={t('signup_gender')}
                       type="select"
                       name="gender"
                       value={formData.gender}
@@ -278,24 +280,10 @@ export default function SignupPage() {
                       options={genderOptions}
                       compact={true}
                     />
-
-                    {/* <InputField
-                      label="Age"
-                      type="number"
-                      name="age"
-                      value={formData.age}
-                      onChange={handleChange}
-                      error={errors.age}
-                      required={true}
-                      placeholder="30"
-                      min="0"
-                      max="120"
-                      compact={true}
-                    /> */}
                   </div>
 
                   <InputField
-                    label="Date of Birth"
+                    label={t('signup_dob')}
                     type="date"
                     name="dateOfBirth"
                     value={formData.dateOfBirth}
@@ -307,7 +295,7 @@ export default function SignupPage() {
 
                   {/* Contact Information */}
                   <InputField
-                    label="Cell Phone"
+                    label={t('signup_cell')}
                     type="tel"
                     name="cellPhone"
                     value={formData.cellPhone}
@@ -319,7 +307,7 @@ export default function SignupPage() {
                   />
 
                   <InputField
-                    label="Address"
+                    label={t('signup_address')}
                     type="text"
                     name="address"
                     value={formData.address}
@@ -332,7 +320,7 @@ export default function SignupPage() {
 
                   <div className="grid grid-cols-2 gap-3 text-gray-700">
                     <InputField
-                      label="Country"
+                      label={t('signup_country')}
                       type="select"
                       name="country"
                       value={formData.country}
@@ -344,7 +332,7 @@ export default function SignupPage() {
                     />
 
                     <InputField
-                      label="Postal Code"
+                      label={t('signup_postal')}
                       type="text"
                       name="postalCode"
                       value={formData.postalCode}
@@ -359,7 +347,7 @@ export default function SignupPage() {
                   {/* Healthcare Information */}
                   <div className="grid grid-cols-2 gap-3 text-gray-700">
                     <InputField
-                      label="Healthcare Province"
+                      label={t('signup_province')}
                       type="text"
                       name="healthcareProvince"
                       value={formData.healthcareProvince}
@@ -371,7 +359,7 @@ export default function SignupPage() {
                     />
 
                     <InputField
-                      label="Healthcare Number"
+                      label={t('signup_hc_number')}
                       type="text"
                       name="healthcareNumber"
                       value={formData.healthcareNumber}
@@ -387,7 +375,7 @@ export default function SignupPage() {
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                        Password
+                        {t('signup_password')}
                       </label>
                       <div className="relative">
                         <input
@@ -431,7 +419,7 @@ export default function SignupPage() {
 
                     <div>
                       <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                        Confirm Password
+                        {t('signup_confirm_pwd')}
                       </label>
                       <div className="relative">
                         <input
@@ -476,31 +464,31 @@ export default function SignupPage() {
 
                   {/* Password Requirements */}
                   <div className="bg-sky-50 rounded-lg p-3 border border-sky-200">
-                    <p className="text-xs text-sky-800 font-medium mb-1">Password Requirements:</p>
+                    <p className="text-xs text-sky-800 font-medium mb-1">{t('signup_req_title')}</p>
                     <ul className="text-xs text-sky-600 space-y-1">
                       <li className={`flex items-center ${formData.password.length >= 8 ? 'text-green-600' : ''}`}>
                         <svg className={`w-3 h-3 mr-1 ${formData.password.length >= 8 ? 'text-green-500' : 'text-sky-400'}`} fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
-                        At least 8 characters long
+                        {t('signup_req_length')}
                       </li>
                       <li className={`flex items-center ${/(?=.*[a-z])/.test(formData.password) ? 'text-green-600' : ''}`}>
                         <svg className={`w-3 h-3 mr-1 ${/(?=.*[a-z])/.test(formData.password) ? 'text-green-500' : 'text-sky-400'}`} fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
-                        One lowercase letter
+                        {t('signup_req_lower')}
                       </li>
                       <li className={`flex items-center ${/(?=.*[A-Z])/.test(formData.password) ? 'text-green-600' : ''}`}>
                         <svg className={`w-3 h-3 mr-1 ${/(?=.*[A-Z])/.test(formData.password) ? 'text-green-500' : 'text-sky-400'}`} fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
-                        One uppercase letter
+                        {t('signup_req_upper')}
                       </li>
                       <li className={`flex items-center ${/(?=.*\d)/.test(formData.password) ? 'text-green-600' : ''}`}>
                         <svg className={`w-3 h-3 mr-1 ${/(?=.*\d)/.test(formData.password) ? 'text-green-500' : 'text-sky-400'}`} fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
-                        One number
+                        {t('signup_req_number')}
                       </li>
                     </ul>
                   </div>
@@ -516,10 +504,10 @@ export default function SignupPage() {
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Registering...
+                        {t('signup_btn_loading')}
                       </span>
                     ) : (
-                      'Register'
+                      t('signup_btn')
                     )}
                   </button>
                 </form>

@@ -292,14 +292,18 @@
 
 
 
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function AboutPage() {
+  const { t } = useLanguage();
   const credentials = [
     { 
-      title: 'Medical Degree', 
-      value: 'MD - Doctor of Medicine',
+      title: t('about_doc1_degree_title'), 
+      value: t('about_doc1_degree_val'),
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
@@ -309,8 +313,8 @@ export default function AboutPage() {
       )
     },
     { 
-      title: 'Canadian Certification', 
-      value: 'CCFP - Canadian College of Family Physicians',
+      title: t('about_doc1_cad_title'), 
+      value: t('about_doc1_cad_val'),
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -318,8 +322,8 @@ export default function AboutPage() {
       )
     },
     { 
-      title: 'UK Certification', 
-      value: 'MRCGP - Member of Royal College of General Practitioners',
+      title: t('about_doc1_uk_title'), 
+      value: t('about_doc1_uk_val'),
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -335,8 +339,8 @@ export default function AboutPage() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
         </svg>
       ),
-      title: 'Patient-Centered Care',
-      description: 'Every treatment plan is tailored to your unique health needs and lifestyle'
+      title: t('val_patient_centered'),
+      description: t('val_patient_centered_desc')
     },
     {
       icon: (
@@ -344,8 +348,8 @@ export default function AboutPage() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
         </svg>
       ),
-      title: 'Continuity of Care',
-      description: 'Build a long-term relationship with your dedicated family physician'
+      title: t('val_continuity'),
+      description: t('val_continuity_desc')
     },
     {
       icon: (
@@ -353,8 +357,8 @@ export default function AboutPage() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
         </svg>
       ),
-      title: 'Evidence-Based Medicine',
-      description: 'Treatment decisions based on the latest medical research and guidelines'
+      title: t('val_evidence'),
+      description: t('val_evidence_desc')
     },
     {
       icon: (
@@ -362,8 +366,8 @@ export default function AboutPage() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
         </svg>
       ),
-      title: 'Compassionate Approach',
-      description: 'Healthcare delivered with empathy, respect, and understanding'
+      title: t('val_compassionate'),
+      description: t('val_compassionate_desc')
     }
   ];
 
@@ -374,8 +378,8 @@ export default function AboutPage() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       ),
-      title: 'Same-Day Appointments',
-      description: 'Urgent care needs addressed promptly'
+      title: t('feat_sameday'),
+      description: t('feat_sameday_desc')
     },
     {
       icon: (
@@ -383,8 +387,8 @@ export default function AboutPage() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
         </svg>
       ),
-      title: 'OHIP Billed Services',
-      description: 'Most medical services covered by Ontario Health Insurance'
+      title: t('feat_ohip'),
+      description: t('feat_ohip_desc')
     },
     {
       icon: (
@@ -392,8 +396,8 @@ export default function AboutPage() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
         </svg>
       ),
-      title: 'Comprehensive Care',
-      description: 'Full-spectrum family medicine for all ages'
+      title: t('feat_comprehensive'),
+      description: t('feat_comprehensive_desc')
     },
     {
       icon: (
@@ -401,8 +405,8 @@ export default function AboutPage() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
         </svg>
       ),
-      title: 'Welcoming Environment',
-      description: 'Comfortable clinic designed for patient relaxation'
+      title: t('feat_welcoming'),
+      description: t('feat_welcoming_desc')
     }
   ];
 
@@ -423,16 +427,16 @@ export default function AboutPage() {
         {/* Sky Blue Text Box */}
         <div className="relative z-10 max-w-md mx-4 lg:mx-16 xl:mx-24 bg-white-700/90 backdrop-blur-sm rounded-2xl p-6 lg:p-8 border border-sky-400/40 shadow-xl">
           <h1 className="text-2xl lg:text-3xl font-bold text-white mb-4">
-            About St Mary Rideau Family Clinic
+            {t('about_title')}
           </h1>
           <div className="w-12 h-0.5 bg-sky-300 rounded-full mb-4"></div>
           
           <p className="text-sm text-white leading-relaxed mb-4">
-            Providing compassionate, comprehensive family medicine to the Ottawa community with personalized care from experienced physicians.
+            {t('about_subtitle')}
           </p>
           <div className="p-3 bg-sky-600/60 rounded-lg border-l-2 border-sky-300">
             <p className="text-sm text-white font-light italic">
-              "Building healthier families through dedicated, personalized medical care."
+              "{t('footer_tagline')}"
             </p>
           </div>
         </div>
@@ -446,18 +450,15 @@ export default function AboutPage() {
             <div className="bg-white rounded-2xl border border-sky-200 shadow-lg overflow-hidden">
               <div className="p-6 md:p-8">
                 <div className="mb-6">
-                  <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-4">Meets Your Family Physician</h2>
+                  <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-4">{t('about_meets_physician')}</h2>
                   <div className="w-16 h-1 bg-sky-500 mb-6"></div>
                 </div>
                 
                 <div className="mb-8">
                   <h3 className="text-xl font-bold text-sky-900 mb-4">Dr. Oluwaseun FAGBOLAGUN</h3>
-                  <p className="text-lg text-sky-600 font-medium mb-6">Family Physician</p>
+                  <p className="text-lg text-sky-600 font-medium mb-6">{t('about_physician_title')}</p>
                   <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-6">
-                    Dr. Fagbolagun brings over a decade experience of medical practice. He is certified
-                    in family medicine by both Canadian and UK medical boards. With a commitment to excellence
-                    and a compassionate approach to patient care, Dr. Fagbolagun provides comprehensive medical
-                    services for patients of all ages.
+                    {t('about_dr_fagbolagun_bio')}
                   </p>
                 </div>
 
@@ -480,22 +481,12 @@ export default function AboutPage() {
             {/* Dr. Babundo Okwechime - Right Column */}
             <div className="bg-white rounded-2xl border border-sky-200 shadow-lg overflow-hidden">
               <div className="p-6 md:p-8">
-                {/* <div className="mb-6">
-                  <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-semibold mb-4">
-                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                    </svg>
-                    <span>Welcoming New Physician</span>
-                  </div>
-                  <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-4">New Family Physician</h2>
-                  <div className="w-16 h-1 bg-sky-500 mb-6"></div>
-                </div> */}
                 
                 <div className="mb-8">
                   <h3 className="text-xl font-bold text-sky-900 mb-4">Dr. Babundo Okwechime</h3>
-                  <p className="text-lg text-sky-600 font-medium mb-6">Family Physician</p>
+                  <p className="text-lg text-sky-600 font-medium mb-6">{t('about_physician_title')}</p>
                   <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-6">
-                    Dr. Babundo Okwechime is an experienced clinician who bridges the gap between individual patient care and global medical standards. With an M.Sc. in Global Health Science, he applies a holistic, evidence-based lens to his practice, partnering with patients on their long-term wellness journeys. His clinical scope is further enhanced by specialized expertise in orthopaedics, including joint injections and minor surgical procedures. Dr. Okwechime is dually certified in family medicine by both the Canadian and UK medical boards.
+                    {t('about_dr_okwechime_bio')}
                   </p>
                 </div>
 
@@ -509,8 +500,8 @@ export default function AboutPage() {
                       </svg>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">Medical Degree</h4>
-                      <p className="text-sky-700 text-sm sm:text-base leading-relaxed">MD - Doctor of Medicine</p>
+                      <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">{t('about_med_degree')}</h4>
+                      <p className="text-sky-700 text-sm sm:text-base leading-relaxed">{t('about_doc1_degree_val')}</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
@@ -520,8 +511,8 @@ export default function AboutPage() {
                       </svg>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">Advanced Degree</h4>
-                      <p className="text-sky-700 text-sm sm:text-base leading-relaxed">M.Sc. in Global Health Science</p>
+                      <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">{t('about_adv_degree')}</h4>
+                      <p className="text-sky-700 text-sm sm:text-base leading-relaxed">{t('about_doc2_adv_degree_val')}</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
@@ -531,8 +522,8 @@ export default function AboutPage() {
                       </svg>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">Certifications</h4>
-                      <p className="text-sky-700 text-sm sm:text-base leading-relaxed">CCFP & MRCGP - Dual Certified</p>
+                      <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">{t('about_certifications')}</h4>
+                      <p className="text-sky-700 text-sm sm:text-base leading-relaxed">{t('about_doc2_cert_val')}</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
@@ -542,8 +533,8 @@ export default function AboutPage() {
                       </svg>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">Specialized Expertise</h4>
-                      <p className="text-sky-700 text-sm sm:text-base leading-relaxed">Orthopaedics - Joint Injections & Minor Surgical Procedures</p>
+                      <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">{t('about_specialty')}</h4>
+                      <p className="text-sky-700 text-sm sm:text-base leading-relaxed">{t('about_doc2_spec_val')}</p>
                     </div>
                   </div>
                 </div>
@@ -563,7 +554,7 @@ export default function AboutPage() {
 
           {/* Practice Philosophy Section - Full Width Below Both Doctors */}
           <div className="mt-12 bg-white rounded-2xl p-8 border border-sky-200 shadow-lg">
-            <h3 className="text-2xl font-bold text-sky-900 mb-6">Our Practice Philosophy</h3>
+            <h3 className="text-2xl font-bold text-sky-900 mb-6">{t('philosophy_title')}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {values.map((value, index) => (
                 <div key={index} className="flex items-start space-x-4">
@@ -585,10 +576,10 @@ export default function AboutPage() {
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-4">Our Practice Features</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-4">{t('features_title')}</h2>
             <div className="w-16 h-1 bg-sky-500 mx-auto mb-6"></div>
             <p className="text-sky-700 max-w-2xl mx-auto">
-              Designed with your comfort and convenience in mind
+              {t('features_subtitle')}
             </p>
           </div>
 
@@ -611,49 +602,45 @@ export default function AboutPage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-6">Our Mission</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-6">{t('about_mission_title')}</h2>
               <div className="w-16 h-1 bg-sky-500 mb-6"></div>
               <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-6">
-                To serve our patients, team, and community with excellence - grounded in integrity,
-                guided by professionalism, and driven by patient-centred innovation. We are committed
-                to delivering accessible, comprehensive healthcare that evolves with the needs of the families we serve.
+                {t('about_mission_text')}
               </p>
               <div className="bg-sky-100 rounded-lg p-6 border border-sky-200">
-                <h3 className="font-semibold text-sky-800 mb-3">Our Commitment</h3>
+                <h3 className="font-semibold text-sky-800 mb-3">{t('about_commitment_title')}</h3>
                 <ul className="space-y-2 text-sky-700 text-sm sm:text-base leading-relaxed">
                   <li className="flex items-center">
                     <svg className="w-4 h-4 mr-3 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
-                    Personalized care for every patient
+                    {t('about_commit_1')}
                   </li>
                   <li className="flex items-center">
                     <svg className="w-4 h-4 mr-3 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
-                    Evidence-based medical practice
+                    {t('about_commit_2')}
                   </li>
                   <li className="flex items-center">
                     <svg className="w-4 h-4 mr-3 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
-                    Continuity of care through long-term relationships
+                    {t('about_commit_3')}
                   </li>
                 </ul>
               </div>
             </div>
 
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-6">Our Vision</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-6">{t('about_vision_title')}</h2>
               <div className="w-16 h-1 bg-sky-500 mb-6"></div>
               <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-6">
-                To provide compassionate, efficient, and high-quality family medical care in Ottawa- blending
-                modern technology, premium service, and accessible care. We believe every family deserves care
-                they can trust - care that grows with them and supports their health at every stage of life.
+                {t('about_vision_text')}
               </p>
               <div className="border-l-4 border-sky-500 pl-6">
                 <p className="text-lg italic text-sky-800 text-sm sm:text-base md:text-lg leading-relaxed">
-                  "Building healthier families through dedicated, personalized medical care."
+                  "{t('footer_tagline')}"
                 </p>
               </div>
             </div>

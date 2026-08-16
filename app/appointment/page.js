@@ -1,15 +1,18 @@
 "use client";
 
 import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function BookAppointment() {
+  const { t } = useLanguage();
+
   const options = [
     {
       id: 1,
-      title: "Dr. Fagbolagun's Rostered Patients",
-      description: "For patients already registered with Dr. Fagbolagun for ongoing care.",
-      note: "(Existing patients only)",
-      buttonText: "Book as Existing Patient",
+      title: t('appt_doc1_title'),
+      description: t('appt_doc1_desc'),
+      note: t('appt_existing_note'),
+      buttonText: t('appt_book_existing_btn'),
       link: "https://ocean.cognisantmd.com/online-booking/7b15e604-ee55-4d68-909f-a6b8d6039554",
       icon: (
         <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -19,10 +22,10 @@ export default function BookAppointment() {
     },
     {
       id: 2,
-      title: "Dr. Okwechime Rostered Patients",
-      description: "For patients already registered with Dr. Okwechime for ongoing care.",
-      note: "(Existing patients only)",
-      buttonText: "Book as Existing Patient",
+      title: t('appt_doc2_title'),
+      description: t('appt_doc2_desc'),
+      note: t('appt_existing_note'),
+      buttonText: t('appt_book_existing_btn'),
       link: " https://ocean.cognisantmd.com/intake/patients.html?linkRef=5b641f80-4b63-4511-a6c9-5f04c97199c6#/online-booking",
       icon: (
         <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,10 +35,10 @@ export default function BookAppointment() {
     },
     {
       id: 3,
-      title: "Same-Day Walk-In Appointments",
-      description: "For new or unregistered patients who need to be seen today.",
-      note: "(Urgent or one-time visits)",
-      buttonText: "Book Walk-In Appointment",
+      title: t('appt_walkin_title'),
+      description: t('appt_walkin_desc'),
+      note: t('appt_walkin_note'),
+      buttonText: t('appt_book_walkin_btn'),
       link: "/book-appointment",
       icon: (
         <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,10 +48,10 @@ export default function BookAppointment() {
     },
     {
       id: 4,
-      title: "Register with a Family Doctor",
-      description: "Join the list to become a permanent patient for long-term care.",
-      note: "(Not for same-day visits)",
-      buttonText: "Join Waitlist",
+      title: t('appt_waitlist_title'),
+      description: t('appt_waitlist_desc'),
+      note: t('appt_waitlist_note'),
+      buttonText: t('nav_join_waitlist'),
       link: "/waitlist",
       icon: (
         <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -71,22 +74,17 @@ export default function BookAppointment() {
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              Back to Home
+              {t('back_to_home')}
             </Link>
-            
-            {/* <div className="text-right">
-              <p className="text-sm text-gray-500">St Mary Rideau Family Clinic</p>
-              <p className="text-xs text-gray-400">158 Rideau Street, Ottawa</p>
-            </div> */}
           </div>
           
           <div className="text-center mb-12">
             <h1 className="text-3xl font-light text-gray-900 mb-4">
-              Book an Appointment
+              {t('appt_select_title')}
             </h1>
             <div className="h-px w-20 bg-sky-900 mx-auto mb-5"></div>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              Select the option that best fits your needs
+              {t('appt_select_sub')}
             </p>
           </div>
         </div>
@@ -94,37 +92,39 @@ export default function BookAppointment() {
 
       {/* Main Content - Clean Booking Options */}
       <main className="max-w-5xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {options.map((option) => (
             <div 
               key={option.id}
               className="
                 bg-white border border-gray-200 rounded-xl p-8 
                 transition-all duration-200 hover:border-gray-300 
-                hover:shadow-sm cursor-pointer
+                hover:shadow-sm cursor-pointer flex flex-col justify-between
               "
             >
-              {/* Icon */}
-              <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-6 bg-sky-50">
-                <div className="text-sky-900">
-                  {option.icon}
+              <div>
+                {/* Icon */}
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-6 bg-sky-50">
+                  <div className="text-sky-900">
+                    {option.icon}
+                  </div>
                 </div>
+
+                {/* Title */}
+                <h3 className="text-xl font-medium text-gray-900 mb-4">
+                  {option.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-gray-600 mb-4 text-base leading-relaxed">
+                  {option.description}
+                </p>
+
+                {/* Note */}
+                <p className="text-sm text-gray-500 mb-8">
+                  {option.note}
+                </p>
               </div>
-
-              {/* Title */}
-              <h3 className="text-xl font-medium text-gray-900 mb-4">
-                {option.title}
-              </h3>
-
-              {/* Description */}
-              <p className="text-gray-600 mb-4 text-base leading-relaxed">
-                {option.description}
-              </p>
-
-              {/* Note */}
-              <p className="text-sm text-gray-500 mb-8">
-                {option.note}
-              </p>
 
               {/* Sky-900 Button - Always visible with sky color */}
               <Link
@@ -142,45 +142,40 @@ export default function BookAppointment() {
         </div>
 
         {/* Help Note - Responsive with Call Button */}
-<div className="text-center mb-12">
-  <div className="inline-flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full">
-    {/* Information Note */}
-    <div className="inline-flex items-center text-sm sm:text-base text-gray-600 bg-gray-50 rounded-full px-4 sm:px-6 py-3 sm:py-3 w-full sm:w-auto">
-      <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      <span className="text-center sm:text-left">Need help choosing?</span>
-    </div>
-    
-    {/* Call Button - White background with sky border */}
-    <a 
-      href="tel:+13438873470"
-      className="
-        inline-flex items-center justify-center 
-        text-sm sm:text-base text-sky-900 
-        bg-white border border-sky-300 
-        rounded-full px-5 sm:px-8 py-3 sm:py-3
-        hover:bg-sky-50 hover:border-sky-400 
-        transition-all duration-200
-        shadow-sm hover:shadow
-        w-full sm:w-auto
-      "
-    >
-      <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-sky-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-      </svg>
-      Call (343) 887-3470
-    </a>
-  </div>
-</div>
+        <div className="text-center mb-12">
+          <div className="inline-flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full">
+            {/* Information Note */}
+            <div className="inline-flex items-center text-sm sm:text-base text-gray-600 bg-gray-50 rounded-full px-4 sm:px-6 py-3 sm:py-3 w-full sm:w-auto">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-center sm:text-left">{t('appt_need_help')}</span>
+            </div>
+            
+            {/* Call Button - White background with sky border */}
+            <a 
+              href="tel:+13438873470"
+              className="
+                inline-flex items-center justify-center 
+                text-sm sm:text-base text-sky-900 
+                bg-white border border-sky-300 
+                rounded-full px-5 sm:px-8 py-3 sm:py-3
+                hover:bg-sky-50 hover:border-sky-400 
+                transition-all duration-200
+                shadow-sm hover:shadow
+                w-full sm:w-auto
+              "
+            >
+              <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-sky-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+              {t('call_now')} (343) 887-3470
+            </a>
+          </div>
+        </div>
 
         {/* Simple Footer */}
         <div className="border-t border-gray-100 pt-10 mt-16">
-          {/* <div className="text-center text-base text-gray-500">
-            <p className="font-medium">St Mary Rideau Family Clinic</p>
-            <p className="mt-2">158 Rideau Street, Ottawa, K1N 5X6</p>
-            <p className="mt-1">(343) 887-3470</p>
-          </div> */}
         </div>
       </main>
     </div>

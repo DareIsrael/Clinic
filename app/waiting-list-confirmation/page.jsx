@@ -1,7 +1,10 @@
-// app/waiting-list/confirmation/page.jsx
+'use client';
 import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function WaitingListConfirmation() {
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 flex items-center justify-center p-6">
       <div className="w-full max-w-xs">
@@ -28,10 +31,10 @@ export default function WaitingListConfirmation() {
           {/* Compact Content */}
           <div className="text-center space-y-3 mb-4">
             <p className="text-sm text-gray-700 leading-tight">
-              Thank you for joining our waiting list.
+              {t('waitlist_confirm_title')}
             </p>
             <p className="text-sm text-gray-600 leading-tight">
-              Our team will contact you shortly to schedule your appointment.
+              {t('waitlist_confirm_sub')}
             </p>
           </div>
 
@@ -40,7 +43,7 @@ export default function WaitingListConfirmation() {
             href="/"
             className="w-full bg-sky-600 text-white py-2 px-3 rounded-lg text-xs font-medium hover:bg-sky-700 focus:outline-none focus:ring-1 focus:ring-sky-500 transition duration-200 block text-center"
           >
-            Back to Home
+            {t('back_to_home')}
           </Link>
 
           {/* Tiny Footer */}
