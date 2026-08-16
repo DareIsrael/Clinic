@@ -2,8 +2,7 @@
 import { useState } from 'react';
 import { Sparkles, Calendar, FileText } from 'lucide-react';
 
-const AnnouncementForm = ({ announcement, onSubmit, onCancel, theme }) => {
-  const isDark = theme === 'dark';
+const AnnouncementForm = ({ announcement, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
     title: announcement?.title || '',
     content: announcement?.content || '',
@@ -31,9 +30,9 @@ const AnnouncementForm = ({ announcement, onSubmit, onCancel, theme }) => {
 
   return (
     <div className="space-y-4">
-      <div className={`flex items-center gap-2 pb-2 border-b ${isDark ? 'border-[#334155]' : 'border-[#E2E8F0]'}`}>
+      <div className="flex items-center gap-2 pb-2 border-b border-[#E2E8F0]">
         <FileText className="w-4 h-4 text-sky-600" />
-        <h3 className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>
+        <h3 className="text-xs font-bold text-[#0F172A] uppercase tracking-wider">
           {announcement ? 'Edit Announcement Form' : 'Create New Announcement Form'}
         </h3>
       </div>
@@ -46,31 +45,27 @@ const AnnouncementForm = ({ announcement, onSubmit, onCancel, theme }) => {
         )}
 
         <div>
-          <label className={`block text-xs font-bold mb-1.5 uppercase ${isDark ? 'text-slate-300' : 'text-[#475569]'}`}>
+          <label className="block text-xs font-bold text-[#475569] mb-1.5 uppercase">
             Title *
           </label>
           <input
             type="text"
             value={formData.title}
             onChange={(e) => setFormData({...formData, title: e.target.value})}
-            className={`w-full text-xs px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 ${
-              isDark ? 'bg-[#0F172A] border-[#334155] text-slate-200 placeholder-slate-500' : 'bg-white border-[#E2E8F0] text-[#334155]'
-            }`}
+            className="w-full text-xs text-[#334155] px-3 py-2 bg-white border border-[#E2E8F0] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20"
             required
             placeholder="e.g. Holiday hours reminder"
           />
         </div>
 
         <div>
-          <label className={`block text-xs font-bold mb-1.5 uppercase ${isDark ? 'text-slate-300' : 'text-[#475569]'}`}>
+          <label className="block text-xs font-bold text-[#475569] mb-1.5 uppercase">
             Content Description *
           </label>
           <textarea
             value={formData.content}
             onChange={(e) => setFormData({...formData, content: e.target.value})}
-            className={`w-full text-xs px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 resize-y ${
-              isDark ? 'bg-[#0F172A] border-[#334155] text-slate-200 placeholder-slate-500' : 'bg-white border-[#E2E8F0] text-[#334155]'
-            }`}
+            className="w-full text-xs text-[#334155] px-3 py-2 bg-white border border-[#E2E8F0] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 resize-y"
             rows="4"
             required
             placeholder="Write announcement description here..."
@@ -79,15 +74,13 @@ const AnnouncementForm = ({ announcement, onSubmit, onCancel, theme }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className={`block text-xs font-bold mb-1.5 uppercase ${isDark ? 'text-slate-300' : 'text-[#475569]'}`}>
+            <label className="block text-xs font-bold text-[#475569] mb-1.5 uppercase">
               Category Type
             </label>
             <select
               value={formData.type}
               onChange={(e) => setFormData({...formData, type: e.target.value})}
-              className={`w-full text-xs px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 cursor-pointer ${
-                isDark ? 'bg-[#0F172A] border-[#334155] text-slate-200' : 'bg-white border-[#E2E8F0] text-[#334155]'
-              }`}
+              className="w-full text-xs text-[#334155] px-3 py-2 bg-white border border-[#E2E8F0] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 cursor-pointer"
             >
               <option value="info">Info</option>
               <option value="update">Update</option>
@@ -98,15 +91,13 @@ const AnnouncementForm = ({ announcement, onSubmit, onCancel, theme }) => {
           </div>
 
           <div>
-            <label className={`block text-xs font-bold mb-1.5 uppercase ${isDark ? 'text-slate-300' : 'text-[#475569]'}`}>
+            <label className="block text-xs font-bold text-[#475569] mb-1.5 uppercase">
               Priority Rank (1-5)
             </label>
             <select
               value={formData.priority}
               onChange={(e) => setFormData({...formData, priority: parseInt(e.target.value)})}
-              className={`w-full text-xs px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 cursor-pointer ${
-                isDark ? 'bg-[#0F172A] border-[#334155] text-slate-200' : 'bg-white border-[#E2E8F0] text-[#334155]'
-              }`}
+              className="w-full text-xs text-[#334155] px-3 py-2 bg-white border border-[#E2E8F0] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 cursor-pointer"
             >
               <option value="1">1 - Highest Priority</option>
               <option value="2">2</option>
@@ -117,16 +108,14 @@ const AnnouncementForm = ({ announcement, onSubmit, onCancel, theme }) => {
           </div>
 
           <div>
-            <label className={`block text-xs font-bold mb-1.5 uppercase ${isDark ? 'text-slate-300' : 'text-[#475569]'}`}>
+            <label className="block text-xs font-bold text-[#475569] mb-1.5 uppercase">
               Expiration Date (Optional)
             </label>
             <input
               type="date"
               value={formData.endDate}
               onChange={(e) => setFormData({...formData, endDate: e.target.value})}
-              className={`w-full text-xs px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 ${
-                isDark ? 'bg-[#0F172A] border-[#334155] text-slate-200' : 'bg-white border-[#E2E8F0] text-[#334155]'
-              }`}
+              className="w-full text-xs text-[#334155] px-3 py-2 bg-white border border-[#E2E8F0] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20"
             />
           </div>
         </div>
@@ -139,7 +128,7 @@ const AnnouncementForm = ({ announcement, onSubmit, onCancel, theme }) => {
             onChange={(e) => setFormData({...formData, isActive: e.target.checked})}
             className="h-4 w-4 text-sky-600 focus:ring-sky-500 border-gray-300 rounded cursor-pointer"
           />
-          <label htmlFor="isActive" className={`text-xs font-bold cursor-pointer ${isDark ? 'text-slate-300' : 'text-[#475569]'}`}>
+          <label htmlFor="isActive" className="text-xs font-bold text-[#475569] cursor-pointer">
             Active and visible on patients portal homepage
           </label>
         </div>
@@ -148,9 +137,7 @@ const AnnouncementForm = ({ announcement, onSubmit, onCancel, theme }) => {
           <button
             type="button"
             onClick={onCancel}
-            className={`px-4 py-2 text-xs font-bold rounded-xl transition ${
-              isDark ? 'bg-[#334155] text-slate-200 hover:bg-[#475569]' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
+            className="px-4 py-2 text-xs font-bold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition"
           >
             Cancel
           </button>

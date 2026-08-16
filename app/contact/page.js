@@ -1,9 +1,7 @@
 'use client';
 import { useState } from 'react';
-import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function ContactPage() {
-  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -63,8 +61,8 @@ export default function ContactPage() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
       ),
-      title: t('contact_visit_us'),
-      details: [t('about_title'), t('address')],
+      title: 'Visit Our Clinic',
+      details: ['St Mary Rideau Family Clinic', '158 Rideau Street', 'Ottawa, K1N5X6'],
     },
     {
       icon: (
@@ -72,9 +70,9 @@ export default function ContactPage() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
         </svg>
       ),
-      title: t('contact_call_us'),
-      details: [`Main: ${t('phone')}`, `${t('fax_label')}: ${t('fax')}`],
-      description: t('feat_sameday')
+      title: 'Call Us',
+      details: ['Main: (343) 887-3470', 'Fax: (888)-615-1221'],
+      description: 'Same-day appointments available'
     },
     {
       icon: (
@@ -82,9 +80,9 @@ export default function ContactPage() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
         </svg>
       ),
-      title: t('contact_email_us'),
-      details: [t('email')],
-      description: t('contact_respond_24h')
+      title: 'Email Us',
+      details: ['contact@stmaryrideauclinic.com'],
+      description: 'We respond within 24 hours'
     },
     {
       icon: (
@@ -92,9 +90,9 @@ export default function ContactPage() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       ),
-      title: t('contact_hours'),
-      details: [`${t('day_monday')} - ${t('day_thursday')}: ${t('hours_mon_thu')}`, `${t('day_friday')}: ${t('hours_fri')}`, `${t('day_saturday')}: ${t('hours_sat')}`],
-      description: t('contact_ext_hours')
+      title: 'Opening Hours',
+      details: ['Monday to Thursday: 10am-7pm', 'Friday: 10am-5pm', 'Saturday: 10am-3pm'],
+      description: 'Extended hours by appointment'
     }
   ];
 
@@ -115,12 +113,12 @@ export default function ContactPage() {
         {/* Sky Blue Text Box */}
         <div className="relative z-10 max-w-md mx-4 lg:mx-16 xl:mx-24 bg-white-700/90 backdrop-blur-sm rounded-2xl p-6 lg:p-8 border border-sky-400/40 shadow-xl">
           <h1 className="text-2xl lg:text-3xl font-bold text-white mb-4">
-            {t('contact_title')}
+            Contact St Mary Rideau Clinic
           </h1>
           <div className="w-12 h-0.5 bg-sky-300 rounded-full mb-4"></div>
           
           <p className="text-sm text-white leading-relaxed">
-            {t('contact_subtitle')}
+            We're here to help you with all your healthcare needs. Get in touch with us today for appointments, inquiries, or medical concerns.
           </p>
         </div>
       </section>
@@ -149,25 +147,25 @@ export default function ContactPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-sky-200">
-              <h2 className="text-2xl font-bold text-sky-900 mb-2">{t('contact_title')}</h2>
+              <h2 className="text-2xl font-bold text-sky-900 mb-2">Send Us a Message</h2>
               <div className="w-12 h-1 bg-sky-500 mb-6"></div>
               
               {submitStatus === 'success' && (
                 <div className="bg-emerald-100 border border-emerald-400 text-emerald-700 px-4 py-3 rounded-lg mb-6">
-                  {t('contact_success')}
+                  Thank you for your message! We'll get back to you within 24 hours.
                 </div>
               )}
 
               {submitStatus === 'error' && (
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
-                  {t('contact_error')}
+                  There was an error sending your message. Please try again or contact us directly.
                 </div>
               )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-sky-800 mb-2">
-                    {t('contact_form_name')} *
+                    Full Name *
                   </label>
                   <input
                     type="text"
@@ -176,14 +174,14 @@ export default function ContactPage() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-sky-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 text-gray-700 focus:border-sky-500 transition duration-200 bg-white"
-                    placeholder={t('contact_placeholder_name')}
+                    className="w-full px-4 py-3 border border-sky-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 text-gray-400 focus:border-sky-500 transition duration-200 bg-white"
+                    placeholder="Your full name"
                   />
                 </div>
 
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-sky-800 mb-2">
-                    {t('contact_form_email')} *
+                    Email Address *
                   </label>
                   <input
                     type="email"
@@ -192,14 +190,14 @@ export default function ContactPage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-sky-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-gray-700 transition duration-200 bg-white"
-                    placeholder={t('contact_placeholder_email')}
+                    className="w-full px-4 py-3 border border-sky-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-gray-400 transition duration-200 bg-white"
+                    placeholder="your.email@example.com"
                   />
                 </div>
 
                 <div>
                   <label htmlFor="subject" className="block text-sm font-medium text-sky-800 mb-2">
-                    {t('contact_form_subject')} *
+                    Subject *
                   </label>
                   <select
                     id="subject"
@@ -207,21 +205,21 @@ export default function ContactPage() {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-sky-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition duration-200 bg-white text-gray-700"
+                    className="w-full px-4 py-3 border border-sky-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition duration-200 bg-white"
                   >
-                    <option value="">{t('contact_placeholder_subject')}</option>
-                    <option value="appointment">{t('contact_subj_appt')}</option>
-                    <option value="prescription">{t('contact_subj_rx')}</option>
-                    <option value="medical-records">{t('contact_subj_records')}</option>
-                    <option value="billing">{t('contact_subj_billing')}</option>
-                    <option value="referral">{t('contact_subj_referral')}</option>
-                    <option value="general">{t('contact_subj_general')}</option>
+                    <option value="">Select a subject</option>
+                    <option value="appointment">Appointment Inquiry</option>
+                    <option value="prescription">Prescription Refill</option>
+                    <option value="medical-records">Medical Records</option>
+                    <option value="billing">Billing Question</option>
+                    <option value="referral">Specialist Referral</option>
+                    <option value="general">General Inquiry</option>
                   </select>
                 </div>
 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-sky-800 mb-2">
-                    {t('contact_form_message')} *
+                    Message *
                   </label>
                   <textarea
                     id="message"
@@ -230,8 +228,8 @@ export default function ContactPage() {
                     value={formData.message}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-sky-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition text-gray-700 duration-200 resize-none bg-white"
-                    placeholder={t('contact_placeholder_message')}
+                    className="w-full px-4 py-3 border border-sky-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition text-gray-400 duration-200 resize-none bg-white"
+                    placeholder="Please describe your inquiry in detail..."
                   />
                 </div>
 
@@ -246,10 +244,10 @@ export default function ContactPage() {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      {t('contact_sending')}
+                      Sending Message...
                     </span>
                   ) : (
-                    t('contact_send_btn')
+                    'Send Message'
                   )}
                 </button>
               </form>
@@ -259,7 +257,7 @@ export default function ContactPage() {
             <div className="space-y-8">
               {/* Google Map - Embedded */}
               <div className="bg-white rounded-2xl p-8 shadow-sm border border-sky-200">
-                <h3 className="text-xl font-semibold text-sky-900 mb-4">{t('our_location')}</h3>
+                <h3 className="text-xl font-semibold text-sky-900 mb-4">Our Location</h3>
                 <div className="rounded-lg overflow-hidden">
                   <iframe 
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d65330892.70839294!2d-121.6671295229436!3d1.9611855444281743!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cce0541295cb737%3A0x3131f3ac0865135a!2sSt%20Mary%20Rideau%20Family%20Clinic!5e0!3m2!1sen!2sng!4v1776965870377!5m2!1sen!2sng" 
@@ -280,7 +278,7 @@ export default function ContactPage() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center text-sky-600 hover:text-sky-700 font-medium text-sm transition-colors"
                   >
-                    {t('contact_get_directions')}
+                    Get Directions
                     <svg
                       className="w-4 h-4 ml-1"
                       fill="none"
@@ -305,26 +303,26 @@ export default function ContactPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
                   </svg>
                   <div>
-                    <h3 className="text-lg font-semibold text-red-800 mb-2">{t('contact_med_emergency')}</h3>
+                    <h3 className="text-lg font-semibold text-red-800 mb-2">Medical Emergency</h3>
                     <p className="text-red-700 text-sm mb-3">
-                      {t('contact_emergency_text')}
+                      For urgent medical concerns that require immediate attention, please call 911 or visit your nearest emergency department.
                     </p>
-                    <div className="text-lg font-bold text-red-800">{t('contact_call_911')}</div>
+                    <div className="text-lg font-bold text-red-800">Call 911 for Emergencies</div>
                   </div>
                 </div>
               </div>
 
               {/* Quick Contact */}
               <div className="bg-sky-100 rounded-2xl p-6 border border-sky-200">
-                <h3 className="text-lg font-semibold text-sky-900 mb-3">{t('contact_quick_contact')}</h3>
+                <h3 className="text-lg font-semibold text-sky-900 mb-3">Quick Contact</h3>
                 <div className="space-y-2 text-sm text-sky-700">
                   <p className="flex items-center">
                     <span className="w-6">📞</span>
-                    <span><span className="font-medium">{t('contact_lbl_appointments')}</span> (343) 887-3470</span>
+                    <span><span className="font-medium">Appointments:</span> (343) 887-3470</span>
                   </p>
                   <p className="flex items-center">
                     <span className="w-6">📠</span>
-                    <span><span className="font-medium">{t('fax_label')}:</span> (888)-615-1221</span>
+                    <span><span className="font-medium">Fax:</span> (888)-615-1221</span>
                   </p>
                   <p className="flex items-center">
                     <span className="w-6">📧</span>

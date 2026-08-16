@@ -3,8 +3,7 @@ import { useState, useEffect } from 'react';
 import { dashboardService } from '@/services/dashboardService';
 import { Mail, Send, Sparkles } from 'lucide-react';
 
-export default function AppointmentBroadcastTab({ theme }) {
-    const isDark = theme === 'dark';
+export default function AppointmentBroadcastTab() {
     const [subject, setSubject] = useState('');
     const [message, setMessage] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
@@ -44,45 +43,43 @@ export default function AppointmentBroadcastTab({ theme }) {
         setResult(null);
 
         try {
-            const payload = {
-                subject,
-                message,
-                statusFilter: targetEmail ? undefined : statusFilter,
-                targetEmail: targetEmail || undefined,
-            };
+            const payload = { subject, message };
+            if (targetEmail) {
+                payload.targetEmail = targetEmail;
+            } else {
+                payload.statusFilter = statusFilter;
+            }
 
-            const response = await dashboardService.sendAppointmentBroadcast(payload);
+            const response = await dashboardService.broadcastToAppointments(payload);
             if (response.success) {
                 setResult(response);
                 setSubject('');
                 setMessage('');
                 setTargetEmail('');
             } else {
-                setError(response.message || 'Failed to send broadcast');
+                setError(response.message || 'Failed to send emails');
             }
         } catch (err) {
-            setError(err.response?.data?.message || 'Error sending broadcast');
+            setError(err.response?.data?.message || 'An error occurred while sending emails');
         } finally {
             setLoading(false);
         }
     };
 
-    const canSend = subject.trim() && message.trim() && (targetEmail.trim() || recipientCount > 0);
+    const canSend = subject.trim() && message.trim() && (targetEmail || recipientCount > 0);
 
     return (
-        <div className={`rounded-2xl border shadow-sm p-6 space-y-6 ${
-            isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-white border-[#E2E8F0]'
-        }`}>
+        <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-6 space-y-6">
             
             {/* Header */}
-            <div className={`pb-4 border-b flex items-center gap-3 ${isDark ? 'border-[#334155]' : 'border-[#F1F5F9]'}`}>
+            <div className="pb-4 border-b border-[#F1F5F9] flex items-center gap-3">
                 <div className="w-9 h-9 bg-sky-50 rounded-xl flex items-center justify-center flex-shrink-0">
                     <Mail className="w-5 h-5 text-sky-600" />
                 </div>
                 <div>
-                    <h2 className={`text-base font-extrabold ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>Appointment Broadcast Messages</h2>
-                    <p className={`text-xs font-medium ${isDark ? 'text-slate-400' : 'text-[#64748B]'}`}>
-                        Send clinical updates and appointment reminders to scheduled patients
+                    <h2 className="text-sm font-bold text-[#0F172A] uppercase tracking-wider">Appointment Broadcast Messages</h2>
+                    <p className="text-xs text-[#64748B] mt-0.5 font-semibold">
+                        Send automated updates and broadcast announcements directly to patient email records
                     </p>
                 </div>
             </div>
@@ -105,7 +102,7 @@ export default function AppointmentBroadcastTab({ theme }) {
             <div className="space-y-4">
                 {/* Target email input */}
                 <div>
-                    <label className={`block text-xs font-bold mb-1.5 uppercase ${isDark ? 'text-slate-300' : 'text-[#475569]'}`}>
+                    <label className="block text-xs font-bold text-[#475569] mb-1.5 uppercase">
                         Target Email Address <span className="text-gray-400 font-normal lowercase">(optional — leave empty to broadcast to group)</span>
                     </label>
                     <input
@@ -113,23 +110,19 @@ export default function AppointmentBroadcastTab({ theme }) {
                         value={targetEmail}
                         onChange={(e) => setTargetEmail(e.target.value)}
                         placeholder="e.g. patient@example.com"
-                        className={`w-full px-3 py-2 border rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 ${
-                            isDark ? 'bg-[#0F172A] border-[#334155] text-slate-200 placeholder-slate-500' : 'bg-white border-[#E2E8F0] text-[#334155] placeholder-[#94A3B8]'
-                        }`}
+                        className="w-full px-3 py-2 bg-white border border-[#E2E8F0] rounded-xl text-xs text-[#334155] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20"
                     />
                 </div>
 
                 {/* Status filter — hidden when targeting a specific email */}
                 {!targetEmail && (
                     <div>
-                        <label className={`block text-xs font-bold mb-1.5 uppercase ${isDark ? 'text-slate-300' : 'text-[#475569]'}`}>Filter by Appointment Status</label>
+                        <label className="block text-xs font-bold text-[#475569] mb-1.5 uppercase">Filter by Appointment Status</label>
                         <div className="flex items-center gap-3">
                             <select
                                 value={statusFilter}
                                 onChange={(e) => setStatusFilter(e.target.value)}
-                                className={`flex-1 px-3 py-2 border rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 cursor-pointer ${
-                                    isDark ? 'bg-[#0F172A] border-[#334155] text-slate-200' : 'bg-white border-[#E2E8F0] text-[#334155]'
-                                }`}
+                                className="flex-1 px-3 py-2 bg-white border border-[#E2E8F0] rounded-xl text-xs text-[#334155] focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 cursor-pointer"
                             >
                                 <option value="all">All Statuses</option>
                                 <option value="scheduled">Scheduled</option>
@@ -138,9 +131,7 @@ export default function AppointmentBroadcastTab({ theme }) {
                                 <option value="cancelled">Cancelled</option>
                                 <option value="no_show">No Show</option>
                             </select>
-                            <div className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap border ${
-                                isDark ? 'bg-sky-950/60 border-sky-800/60 text-sky-400' : 'bg-sky-50 border-sky-100 text-sky-700'
-                            }`}>
+                            <div className="bg-sky-50 border border-sky-100 text-sky-700 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap">
                                 {previewLoading ? (
                                     <span className="animate-pulse">Calculating recipients...</span>
                                 ) : (
@@ -153,69 +144,71 @@ export default function AppointmentBroadcastTab({ theme }) {
 
                 {/* Subject */}
                 <div>
-                    <label className={`block text-xs font-bold mb-1.5 uppercase ${isDark ? 'text-slate-300' : 'text-[#475569]'}`}>Subject Line *</label>
+                    <label className="block text-xs font-bold text-[#475569] mb-1.5 uppercase">Subject Line *</label>
                     <input
                         type="text"
                         value={subject}
                         onChange={(e) => setSubject(e.target.value)}
                         placeholder="Enter email subject header"
-                        className={`w-full px-3 py-2 border rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 ${
-                            isDark ? 'bg-[#0F172A] border-[#334155] text-slate-200 placeholder-slate-500' : 'bg-white border-[#E2E8F0] text-[#334155] placeholder-[#94A3B8]'
-                        }`}
+                        className="w-full px-3 py-2 bg-white border border-[#E2E8F0] rounded-xl text-xs text-[#334155] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20"
                     />
                 </div>
 
                 {/* Message */}
                 <div>
-                    <label className={`block text-xs font-bold mb-1.5 uppercase ${isDark ? 'text-slate-300' : 'text-[#475569]'}`}>Message Body *</label>
+                    <label className="block text-xs font-bold text-[#475569] mb-1.5 uppercase">Message Body *</label>
                     <textarea
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder="Compose clinical message text here..."
                         rows={8}
-                        className={`w-full px-3 py-2 border rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 resize-y ${
-                            isDark ? 'bg-[#0F172A] border-[#334155] text-slate-200 placeholder-slate-500' : 'bg-white border-[#E2E8F0] text-[#334155] placeholder-[#94A3B8]'
-                        }`}
+                        className="w-full px-3 py-2 bg-white border border-[#E2E8F0] rounded-xl text-xs text-[#334155] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 resize-y"
                     />
                 </div>
             </div>
 
             {/* Send button */}
-            <div className={`flex justify-end pt-3 border-t ${isDark ? 'border-[#334155]' : 'border-[#F1F5F9]'}`}>
+            <div className="flex justify-end pt-3 border-t border-[#F1F5F9]">
                 <button
                     onClick={() => setShowConfirm(true)}
                     disabled={!canSend || loading}
-                    className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2.5 rounded-xl text-xs font-bold transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 shadow-sm cursor-pointer"
+                    className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2.5 rounded-xl text-xs font-bold transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 shadow-sm"
                 >
                     <Send className="w-3.5 h-3.5" />
                     {loading ? 'Sending Emails...' : 'Send Broadcast'}
                 </button>
             </div>
 
-            {/* Confirmation Modal */}
+            {/* Confirmation modal */}
             {showConfirm && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                    <div className="absolute inset-0 bg-black/60 backdrop-blur-xs" onClick={() => setShowConfirm(false)}></div>
-                    <div className={`rounded-2xl max-w-md w-full p-6 relative shadow-2xl border space-y-4 ${
-                        isDark ? 'bg-[#1E293B] border-[#334155] text-slate-100' : 'bg-white border-gray-100 text-gray-900'
-                    }`}>
-                        <h3 className="font-bold text-sm text-[#0F172A]">Confirm Broadcast Send</h3>
-                        <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-300' : 'text-[#64748B]'}`}>
-                            Are you sure you want to send this broadcast email to{' '}
-                            <strong className={isDark ? 'text-white' : 'text-[#0F172A]'}>{targetEmail ? `1 recipient (${targetEmail})` : `${recipientCount} appointment patient(s)`}</strong>?
-                        </p>
+                    <div className="absolute inset-0 bg-black/10 backdrop-blur-sm" onClick={() => setShowConfirm(false)} />
+                    <div className="bg-white rounded-2xl max-w-md w-full p-6 relative shadow-xl border border-[#E2E8F0] space-y-4">
+                        <div>
+                            <h3 className="text-sm font-bold text-[#0F172A] uppercase tracking-wider">Confirm Send</h3>
+                            <p className="text-xs text-gray-500 mt-1">Please review the details below before sending.</p>
+                        </div>
+                        
+                        <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-3.5 rounded-xl text-xs space-y-2 text-[#334155]">
+                            <p><strong>Subject:</strong> {subject}</p>
+                            <p>
+                                <strong>To:</strong>{' '}
+                                {targetEmail
+                                    ? targetEmail
+                                    : `${recipientCount} patient${recipientCount !== 1 ? 's' : ''} (${statusFilter === 'all' ? 'all statuses' : statusFilter})`}
+                            </p>
+                        </div>
+
                         <div className="flex justify-end gap-2 pt-2">
                             <button
                                 onClick={() => setShowConfirm(false)}
-                                className={`px-4 py-2 text-xs font-bold rounded-xl ${
-                                    isDark ? 'bg-[#334155] text-slate-200 hover:bg-[#475569]' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                }`}
+                                className="px-4 py-2 text-xs font-bold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleSend}
-                                className="px-4 py-2 text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 rounded-xl"
+                                className="px-4 py-2 text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 rounded-xl transition"
                             >
                                 Confirm & Send
                             </button>

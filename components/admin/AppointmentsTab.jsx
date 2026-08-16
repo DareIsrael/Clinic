@@ -7,8 +7,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { exportAppointmentsToExcel } from '@/utils/excelExport';
 import { Search, Calendar, RefreshCw, X, ChevronLeft, ChevronRight, User, Download } from 'lucide-react';
 
-export default function AppointmentsTab({ theme }) {
-  const isDark = theme === 'dark';
+export default function AppointmentsTab() {
   const { user } = useAuth();
   const isDoctor = user?.role === 'doctor';
   const [appointments, setAppointments] = useState([]);
@@ -39,62 +38,48 @@ export default function AppointmentsTab({ theme }) {
   const [activeFilter, setSearchFilter] = useState('upcoming');
 
   const formatDateString = (dateString) => {
-    if (!dateString) return 'N/A';
-    try {
-      if (dateString.includes('T')) {
-        const [datePart] = dateString.split('T');
-        const [year, month, day] = datePart.split('-');
-        return `${month}/${day}/${year}`;
-      }
-      if (dateString.includes('-')) {
-        const [year, month, day] = dateString.split('-');
-        return `${month}/${day}/${year}`;
-      }
-      return dateString;
-    } catch (e) {
-      return dateString;
-    }
+    if (!dateString) return '';
+    const dateObj = new Date(dateString);
+    return dateObj.toLocaleDateString('en-US', {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
   };
 
   const isToday = (dateString) => {
     if (!dateString) return false;
-    try {
-      const today = new Date();
-      const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-      return dateString.startsWith(todayStr);
-    } catch (e) {
-      return false;
-    }
+    const today = new Date();
+    const appointmentDate = new Date(dateString);
+    return (
+      appointmentDate.getFullYear() === today.getFullYear() &&
+      appointmentDate.getMonth() === today.getMonth() &&
+      appointmentDate.getDate() === today.getDate()
+    );
   };
 
   const isPast = (dateString) => {
     if (!dateString) return false;
-    try {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const apptDate = new Date(dateString);
-      apptDate.setHours(0, 0, 0, 0);
-      return apptDate < today;
-    } catch (e) {
-      return false;
-    }
+    const today = new Date();
+    const appointmentDate = new Date(dateString);
+    return appointmentDate < new Date(today.getFullYear(), today.getMonth(), today.getDate());
   };
 
-  const fetchAppointments = async (
-    page = 1, 
-    limit = 10, 
-    search = searchQuery, 
-    status = searchStatus, 
-    date = searchDate,
-    filter = activeFilter
-  ) => {
+  const isFuture = (dateString) => {
+    if (!dateString) return false;
+    const today = new Date();
+    const appointmentDate = new Date(dateString);
+    return appointmentDate > new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  };
+
+  const fetchAppointments = async (page = 1, limit = 10, search = '', status = 'all', date = '', filter = 'upcoming') => {
     try {
       setLoading(true);
       const params = new URLSearchParams();
       params.append('page', page);
       params.append('limit', limit);
       params.append('filter', filter);
-
       if (search) params.append('search', search);
       if (status !== 'all') params.append('status', status);
       if (date) params.append('date', date);
@@ -103,20 +88,21 @@ export default function AppointmentsTab({ theme }) {
       const data = await response.json();
 
       if (data.success) {
-        const processedAppointments = (data.appointments || []).map(app => ({
+        const processedAppointments = data.appointments?.map(app => ({
           ...app,
           displayDate: app.displayDate || formatDateString(app.appointmentDate),
           canadaDate: app.canadaDate || app.appointmentDate
-        }));
-
+        })) || [];
         setAppointments(processedAppointments);
         setPagination(data.pagination || { page, limit, total: 0, pages: 0 });
         if (data.counts) {
           setCounts(data.counts);
         }
+      } else {
+        setError(data.message || 'Failed to load appointments');
       }
     } catch (error) {
-      console.error('Error fetching appointments:', error);
+      console.error(error);
       setError('Failed to load appointments');
     } finally {
       setLoading(false);
@@ -124,8 +110,8 @@ export default function AppointmentsTab({ theme }) {
   };
 
   const debouncedSearch = useCallback(
-    debounce((search, status, date, filter) => {
-      fetchAppointments(1, pagination.limit, search, status, date, filter);
+    debounce((searchValue, statusValue, dateValue, filterValue) => {
+      fetchAppointments(1, pagination.limit, searchValue, statusValue, dateValue, filterValue);
     }, 300),
     [pagination.limit]
   );
@@ -150,14 +136,17 @@ export default function AppointmentsTab({ theme }) {
 
   const handleFilterChange = (filter) => {
     setSearchFilter(filter);
-    fetchAppointments(1, pagination.limit, searchQuery, searchStatus, searchDate, filter);
+    setSearchStatus('all');
+    setSearchDate('');
+    fetchAppointments(1, pagination.limit, searchQuery, 'all', '', filter);
   };
 
   const handleClearSearch = () => {
     setSearchQuery('');
     setSearchStatus('all');
     setSearchDate('');
-    fetchAppointments(1, pagination.limit, '', 'all', '', activeFilter);
+    setSearchFilter('upcoming');
+    fetchAppointments(1, pagination.limit, '', 'all', '', 'upcoming');
   };
 
   const handlePageChange = (newPage) => {
@@ -172,25 +161,27 @@ export default function AppointmentsTab({ theme }) {
 
   const handleStatusUpdate = async (appointmentId, newStatus) => {
     try {
-      const response = await fetch(`/api/appointments/admin/${appointmentId}/status`, {
-        method: 'PATCH',
+      const response = await fetch('/api/appointments', {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus })
+        body: JSON.stringify({ appointmentId, status: newStatus }),
       });
       const data = await response.json();
       if (data.success) {
-        setAppointments(prev => prev.map(app => 
-          app._id === appointmentId ? { ...app, status: newStatus } : app
-        ));
+        setAppointments(prev =>
+          prev.map(app => app._id === appointmentId ? { ...app, status: newStatus } : app)
+        );
         if (selectedAppointment && selectedAppointment._id === appointmentId) {
           setSelectedAppointment(prev => ({ ...prev, status: newStatus }));
         }
         fetchAppointments(pagination.page, pagination.limit, searchQuery, searchStatus, searchDate, activeFilter);
+        alert(`Appointment status updated to ${newStatus}.`);
       } else {
         alert(data.message || 'Failed to update appointment status');
       }
     } catch (error) {
       console.error(error);
+      alert('Error updating appointment status');
     }
   };
 
@@ -220,7 +211,7 @@ export default function AppointmentsTab({ theme }) {
       setIsExporting(true);
       const params = new URLSearchParams();
       params.append('page', 1);
-      params.append('limit', 10000);
+      params.append('limit', pagination.total || 1000);
       params.append('filter', activeFilter);
       if (searchQuery) params.append('search', searchQuery);
       if (searchStatus !== 'all') params.append('status', searchStatus);
@@ -228,19 +219,19 @@ export default function AppointmentsTab({ theme }) {
 
       const response = await fetch(`/api/appointments/admin?${params.toString()}`);
       const data = await response.json();
-      if (data.success && data.appointments && data.appointments.length > 0) {
+      if (data.success && data.appointments) {
         const processed = data.appointments.map(app => ({
           ...app,
           displayDate: app.displayDate || formatDateString(app.appointmentDate),
           canadaDate: app.canadaDate || app.appointmentDate
         }));
-        exportAppointmentsToExcel(processed, 'St_Mary_Rideau_Appointments_All.xlsx');
+        exportAppointmentsToExcel(processed, 'appointments.xlsx');
       } else {
-        alert('No appointments available to export.');
+        exportAppointmentsToExcel(appointments, 'appointments.xlsx');
       }
     } catch (err) {
       console.error('Export error:', err);
-      alert('Failed to export appointments.');
+      exportAppointmentsToExcel(appointments, 'appointments.xlsx');
     } finally {
       setIsExporting(false);
     }
@@ -251,14 +242,13 @@ export default function AppointmentsTab({ theme }) {
   }, []);
 
   return (
-    <div className="space-y-4">
+    <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm overflow-hidden space-y-6 p-6">
+      
       {/* Header bar */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-[#F1F5F9]">
         <div>
-          <h2 className={`text-base font-extrabold ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>
-            Appointment Management
-          </h2>
-          <p className={`text-xs font-medium ${isDark ? 'text-slate-400' : 'text-[#64748B]'}`}>
+          <h2 className="text-sm font-bold text-[#0F172A] uppercase tracking-wider">Appointment Management</h2>
+          <p className="text-xs text-[#64748B] mt-0.5 font-semibold">
             Showing {appointments.length > 0 ? (pagination.page - 1) * pagination.limit + 1 : 0} - {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total} entries
           </p>
         </div>
@@ -279,9 +269,7 @@ export default function AppointmentsTab({ theme }) {
           <select
             value={pagination.limit}
             onChange={(e) => handleLimitChange(parseInt(e.target.value))}
-            className={`px-3 py-1.5 border rounded-xl text-xs focus:outline-none cursor-pointer ${
-              isDark ? 'bg-[#1E293B] border-[#334155] text-slate-200' : 'bg-white border-[#E2E8F0] text-[#334155]'
-            }`}
+            className="px-3 py-1.5 border border-[#E2E8F0] rounded-xl text-xs text-[#334155] focus:outline-none bg-white cursor-pointer"
             disabled={loading}
           >
             <option value="5">5 rows</option>
@@ -293,20 +281,16 @@ export default function AppointmentsTab({ theme }) {
           <button
             onClick={() => fetchAppointments(pagination.page, pagination.limit, searchQuery, searchStatus, searchDate, activeFilter)}
             disabled={loading}
-            className={`p-1.5 border rounded-xl transition disabled:opacity-50 ${
-              isDark ? 'border-[#334155] hover:bg-[#334155] text-slate-300' : 'border-[#E2E8F0] hover:bg-[#F8FAFC] text-[#64748B]'
-            }`}
+            className="p-1.5 border border-[#E2E8F0] hover:bg-[#F8FAFC] rounded-xl transition disabled:opacity-50"
             title="Refresh list"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
+            <RefreshCw className="w-3.5 h-3.5 text-[#64748B]" />
           </button>
         </div>
       </div>
 
       {/* Filter Tabs */}
-      <div className={`flex flex-wrap gap-1.5 p-1.5 rounded-xl border ${
-        isDark ? 'bg-[#1E293B] border-[#334155]' : 'bg-[#F8FAFC] border-[#E2E8F0]/80'
-      }`}>
+      <div className="flex flex-wrap gap-1.5 bg-[#F8FAFC] p-1.5 rounded-xl border border-[#E2E8F0]/80">
         {['upcoming', 'today', 'completed', 'cancelled', 'all'].map((filter) => {
           const label = filter.charAt(0).toUpperCase() + filter.slice(1).replace('_', ' ');
           const count = counts[filter] || 0;
@@ -318,7 +302,7 @@ export default function AppointmentsTab({ theme }) {
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
                 isActive 
                   ? 'bg-sky-600 text-white shadow-xs' 
-                  : isDark ? 'text-slate-400 hover:text-white hover:bg-[#334155]' : 'text-[#64748B] hover:text-[#334155] hover:bg-white/60'
+                  : 'text-[#64748B] hover:text-[#334155] hover:bg-white/60'
               }`}
             >
               {label} ({count})
@@ -327,7 +311,7 @@ export default function AppointmentsTab({ theme }) {
         })}
       </div>
 
-      {/* SEARCH FILTERS */}
+      {/* 🔍 PREMIUM ENHANCED SEARCH FILTERS 🔍 */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <div className="relative group">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#94A3B8]" />
@@ -336,9 +320,7 @@ export default function AppointmentsTab({ theme }) {
             value={searchQuery}
             onChange={handleSearchChange}
             placeholder="Search by name, email, phone..."
-            className={`w-full pl-9 pr-8 py-2 border rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 focus:border-[#0EA5E9] transition-all ${
-              isDark ? 'bg-[#1E293B] border-[#334155] text-slate-200 placeholder-slate-500' : 'bg-white border-[#E2E8F0] text-[#334155] placeholder-[#94A3B8]'
-            }`}
+            className="w-full pl-9 pr-8 py-2 bg-white border border-[#E2E8F0] rounded-xl text-xs text-[#334155] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 focus:border-[#0EA5E9] transition-all"
           />
           {searchQuery && (
             <button
@@ -353,9 +335,7 @@ export default function AppointmentsTab({ theme }) {
         <select
           value={searchStatus}
           onChange={handleStatusChange}
-          className={`w-full px-3 py-2 border rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 focus:border-[#0EA5E9] cursor-pointer ${
-            isDark ? 'bg-[#1E293B] border-[#334155] text-slate-200' : 'bg-white border-[#E2E8F0] text-[#334155]'
-          }`}
+          className="w-full px-3 py-2 bg-white border border-[#E2E8F0] rounded-xl text-xs text-[#334155] focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 focus:border-[#0EA5E9] cursor-pointer"
         >
           <option value="all">All Statuses</option>
           <option value="scheduled">Scheduled</option>
@@ -369,33 +349,31 @@ export default function AppointmentsTab({ theme }) {
           type="date"
           value={searchDate}
           onChange={handleDateChange}
-          className={`w-full px-3 py-2 border rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 focus:border-[#0EA5E9] ${
-            isDark ? 'bg-[#1E293B] border-[#334155] text-slate-200' : 'bg-white border-[#E2E8F0] text-[#334155]'
-          }`}
+          className="w-full px-3 py-2 bg-white border border-[#E2E8F0] rounded-xl text-xs text-[#334155] focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/20 focus:border-[#0EA5E9]"
         />
       </div>
 
       {/* Table List View */}
-      <div className={`overflow-x-auto border rounded-xl ${isDark ? 'border-[#334155]' : 'border-[#E2E8F0]'}`}>
+      <div className="overflow-x-auto border border-[#E2E8F0] rounded-xl">
         {loading ? (
           <div className="text-center py-16">
             <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#0EA5E9] border-t-transparent mx-auto"></div>
             <p className="mt-3 text-xs text-[#94A3B8]">Loading appointments…</p>
           </div>
         ) : appointments.length === 0 ? (
-          <div className={`text-center py-16 text-xs ${isDark ? 'text-slate-500' : 'text-[#94A3B8]'}`}>No appointments matching query found.</div>
+          <div className="text-center py-16 text-xs text-[#94A3B8]">No appointments matching query found.</div>
         ) : (
-          <table className={`min-w-full divide-y text-xs ${isDark ? 'divide-[#334155]' : 'divide-[#E2E8F0]'}`}>
-            <thead className={isDark ? 'bg-[#1E293B]' : 'bg-[#F8FAFC]'}>
+          <table className="min-w-full divide-y divide-[#E2E8F0] text-xs">
+            <thead className="bg-[#F8FAFC]">
               <tr>
-                <th className={`px-4 py-3 text-left font-bold uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-[#475569]'}`}>No</th>
-                <th className={`px-4 py-3 text-left font-bold uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-[#475569]'}`}>Patient Details</th>
-                <th className={`px-4 py-3 text-left font-bold uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-[#475569]'}`}>Date & Time</th>
-                <th className={`px-4 py-3 text-left font-bold uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-[#475569]'}`}>Status Badge</th>
-                <th className={`px-4 py-3 text-left font-bold uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-[#475569]'}`}>Actions</th>
+                <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">No</th>
+                <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">Patient Details</th>
+                <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">Date & Time</th>
+                <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">Status Badge</th>
+                <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
-            <tbody className={`divide-y ${isDark ? 'bg-[#0F172A] divide-[#334155]' : 'bg-white divide-[#F1F5F9]'}`}>
+            <tbody className="bg-white divide-y divide-[#F1F5F9]">
               {appointments.map((appointment, index) => {
                 const appointmentDate = appointment.canadaDate || appointment.appointmentDate;
                 const isAppointmentToday = isToday(appointmentDate);
@@ -404,37 +382,33 @@ export default function AppointmentsTab({ theme }) {
                 return (
                   <tr 
                     key={appointment._id} 
-                    className={`transition-colors ${
-                      isDark 
-                        ? (isAppointmentToday ? 'bg-sky-950/40' : isAppointmentPast && appointment.status === 'scheduled' ? 'bg-rose-950/40' : 'hover:bg-[#1E293B]/60')
-                        : (isAppointmentToday ? 'bg-[#EFF6FF]/60' : isAppointmentPast && appointment.status === 'scheduled' ? 'bg-[#FEF2F2]/60' : 'hover:bg-[#F8FAFC]/50')
-                    }`}
+                    className={`hover:bg-[#F8FAFC]/50 transition-colors ${
+                      isAppointmentToday ? 'bg-[#EFF6FF]/60' : ''
+                    } ${isAppointmentPast && appointment.status === 'scheduled' ? 'bg-[#FEF2F2]/60' : ''}`}
                   >
-                    <td className={`px-4 py-4 font-bold cursor-pointer ${isDark ? 'text-slate-400' : 'text-[#64748B]'}`} onClick={() => openModal(appointment)}>
+                    <td className="px-4 py-4 text-[#64748B] font-bold cursor-pointer" onClick={() => openModal(appointment)}>
                       {(pagination.page - 1) * pagination.limit + index + 1}
                       {isAppointmentToday && (
-                        <span className="block text-[8px] font-black text-sky-400 uppercase mt-0.5">Today</span>
+                        <span className="block text-[8px] font-black text-blue-600 uppercase mt-0.5">Today</span>
                       )}
                     </td>
                     
                     <td className="px-4 py-4 cursor-pointer" onClick={() => openModal(appointment)}>
                       <div className="flex items-center gap-2.5">
-                        <div className={`w-8 h-8 rounded-full border flex items-center justify-center text-xs font-bold flex-shrink-0 ${
-                          isDark ? 'bg-sky-950 border-sky-800 text-sky-400' : 'bg-[#EFF6FF] border-[#BFDBFE]/20 text-[#1E3A8A]'
-                        }`}>
+                        <div className="w-8 h-8 rounded-full bg-[#EFF6FF] border border-[#BFDBFE]/20 flex items-center justify-center text-xs font-bold text-[#1E3A8A] flex-shrink-0">
                           {appointment.firstName?.charAt(0) || 'P'}
                         </div>
                         <div className="min-w-0">
-                          <div className={`font-bold ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{appointment.firstName} {appointment.lastName}</div>
-                          <div className={`text-[10px] font-medium ${isDark ? 'text-slate-400' : 'text-[#64748B]'}`}>{appointment.email}</div>
-                          <div className={`text-[10px] font-medium ${isDark ? 'text-slate-400' : 'text-[#64748B]'}`}>{appointment.cellPhone}</div>
+                          <div className="font-bold text-[#0F172A]">{appointment.firstName} {appointment.lastName}</div>
+                          <div className="text-[10px] text-[#64748B] font-medium">{appointment.email}</div>
+                          <div className="text-[10px] text-[#64748B] font-medium">{appointment.cellPhone}</div>
                         </div>
                       </div>
                     </td>
 
                     <td className="px-4 py-4 cursor-pointer" onClick={() => openModal(appointment)}>
-                      <div className={`font-bold ${isDark ? 'text-slate-200' : 'text-[#334155]'}`}>{formatDateString(appointmentDate)}</div>
-                      <div className={`text-[10px] font-semibold mt-0.5 ${isDark ? 'text-slate-400' : 'text-[#64748B]'}`}>{appointment.appointmentTime}</div>
+                      <div className="font-bold text-[#334155]">{formatDateString(appointmentDate)}</div>
+                      <div className="text-[10px] text-[#64748B] font-semibold mt-0.5">{appointment.appointmentTime}</div>
                     </td>
 
                     <td className="px-4 py-4">
@@ -448,9 +422,7 @@ export default function AppointmentsTab({ theme }) {
                         <AppointmentStatusDropdown appointment={appointment} onStatusChange={handleStatusUpdate} />
                         <button
                           onClick={() => openModal(appointment)}
-                          className={`px-2.5 py-1 border text-[10px] font-bold rounded-lg transition ${
-                            isDark ? 'bg-[#1E293B] border-[#334155] text-slate-200 hover:bg-[#334155]' : 'bg-white border-[#E2E8F0] text-[#334155] hover:bg-[#F8FAFC]'
-                          }`}
+                          className="px-2.5 py-1 bg-white border border-[#E2E8F0] hover:bg-[#F8FAFC] text-[10px] font-bold text-[#334155] rounded-lg transition"
                         >
                           View
                         </button>
@@ -466,20 +438,16 @@ export default function AppointmentsTab({ theme }) {
 
       {/* Pagination Controls */}
       {!loading && pagination.pages > 1 && (
-        <div className={`flex flex-col sm:flex-row items-center justify-between pt-4 border-t gap-4 text-xs font-medium ${
-          isDark ? 'border-[#334155] text-slate-400' : 'border-[#F1F5F9] text-[#64748B]'
-        }`}>
+        <div className="flex flex-col sm:flex-row items-center justify-between pt-4 border-t border-[#F1F5F9] gap-4 text-xs text-[#64748B] font-medium">
           <div>
-            Page <span className={`font-bold ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{pagination.page}</span> of <span className={`font-bold ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{pagination.pages}</span> · <span className={`font-bold ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{pagination.total}</span> total entries
+            Page <span className="text-[#0F172A] font-bold">{pagination.page}</span> of <span className="text-[#0F172A] font-bold">{pagination.pages}</span> · <span className="text-[#0F172A] font-bold">{pagination.total}</span> total entries
           </div>
 
           <div className="flex items-center gap-1.5">
             <button
               onClick={() => handlePageChange(pagination.page - 1)}
               disabled={pagination.page <= 1}
-              className={`p-1.5 border rounded-lg transition disabled:opacity-50 ${
-                isDark ? 'border-[#334155] text-slate-300 hover:bg-[#334155]' : 'border-[#E2E8F0] hover:bg-[#F8FAFC]'
-              }`}
+              className="p-1.5 border border-[#E2E8F0] hover:bg-[#F8FAFC] rounded-lg transition disabled:opacity-50"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -492,9 +460,7 @@ export default function AppointmentsTab({ theme }) {
                   key={p}
                   onClick={() => handlePageChange(p)}
                   className={`w-7 h-7 flex items-center justify-center rounded-lg text-xs font-bold transition ${
-                    isCurrent 
-                      ? 'bg-sky-600 text-white shadow-xs' 
-                      : isDark ? 'border border-[#334155] text-slate-300 hover:bg-[#334155]' : 'border border-[#E2E8F0] hover:bg-[#F8FAFC]'
+                    isCurrent ? 'bg-sky-600 text-white shadow-xs' : 'border border-[#E2E8F0] hover:bg-[#F8FAFC]'
                   }`}
                 >
                   {p}
@@ -505,9 +471,7 @@ export default function AppointmentsTab({ theme }) {
             <button
               onClick={() => handlePageChange(pagination.page + 1)}
               disabled={pagination.page >= pagination.pages}
-              className={`p-1.5 border rounded-lg transition disabled:opacity-50 ${
-                isDark ? 'border-[#334155] text-slate-300 hover:bg-[#334155]' : 'border-[#E2E8F0] hover:bg-[#F8FAFC]'
-              }`}
+              className="p-1.5 border border-[#E2E8F0] hover:bg-[#F8FAFC] rounded-lg transition disabled:opacity-50"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -517,7 +481,7 @@ export default function AppointmentsTab({ theme }) {
 
       {/* Detail Modal Component */}
       {isModalOpen && selectedAppointment && (
-        <AppointmentDetailModal appointment={selectedAppointment} onClose={closeModal} onStatusChange={handleStatusUpdate} theme={theme} />
+        <AppointmentDetailModal appointment={selectedAppointment} onClose={closeModal} onStatusChange={handleStatusUpdate} />
       )}
     </div>
   );

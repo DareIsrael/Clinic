@@ -458,10 +458,8 @@
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import Announcements from "@/components/Announcements";
-import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Home() {
-  const { t } = useLanguage();
   // Testimonial slider state
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
@@ -749,14 +747,14 @@ export default function Home() {
           {/* Header */}
           <div className="mb-4">
             <h1 className="hero-heading text-3xl lg:text-3xl font-bold text-sky-800 mb-2 leading-tight">
-              {t('hero_title')}
+              Family Doctor & Walk-In Clinic in Downtown Ottawa
             </h1>
             <div
               className="hero-heading w-16 h-1 bg-sky-800 rounded-full mb-3"
               style={{ animationDelay: "0.25s" }}
             ></div>
             <p className="hero-sub text-gray-600 text-sm lg:text-base">
-              {t('hero_subtitle')}
+              Same-day visits. Online booking. No phone wait.
             </p>
           </div>
 
@@ -766,7 +764,7 @@ export default function Home() {
               href="/appointment"
               className="btn-breathe bg-gradient-to-r from-sky-600 to-sky-700 text-white px-4 py-3 rounded-lg font-semibold text-center transition-all duration-200 hover:bg-sky-900 hover:shadow-lg flex items-center justify-center gap-2 whitespace-nowrap"
             >
-              {t('nav_book')}
+              Book Appointment
               <svg
                 className="w-4 h-4"
                 fill="none"
@@ -785,7 +783,7 @@ export default function Home() {
               href="tel:+13438873470"
               className="bg-white border border-gray-300 text-sky-800 px-4 py-3 rounded-lg font-semibold text-center transition-all duration-200 hover:bg-gray-100 hover:shadow-md flex items-center justify-center gap-2 whitespace-nowrap"
             >
-              {t('call_now')}
+              Call Now
               <svg
                 className="w-4 h-4 text-sky-800"
                 fill="none"
@@ -805,7 +803,7 @@ export default function Home() {
           {/* Accepting New Patients Notice */}
           <div className="mt-5">
             <p className="text-sky-700 font-semibold text-sm">
-              {t('hero_accepting_patients')}
+              Accepting new patients.
             </p>
           </div>
         </div>
@@ -813,7 +811,7 @@ export default function Home() {
         {/* Scroll Indicator */}
         <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2">
           <div className="flex flex-col items-center text-sky-200/70">
-            <span className="text-xs mb-1">{t('scroll_down')}</span>
+            <span className="text-xs mb-1">Scroll</span>
             <div className="w-5 h-8 border border-sky-300/40 rounded-full flex justify-center">
               <div className="w-0.5 h-2 bg-sky-300/60 rounded-full mt-2 animate-bounce"></div>
             </div>
@@ -826,11 +824,14 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-2xl font-bold text-sky-900 mb-3">
-              {t('services_title')}
+              Our Medical Services
             </h2>
             <div className="w-12 h-0.5 bg-sky-500 rounded-full mx-auto mb-4"></div>
             <p className="text-sky-700 max-w-3xl mx-auto text-sm sm:text-base leading-relaxed">
-              {t('services_subtitle')}
+              At St Mary Rideau Family Clinic, we know how important it is to
+              get the care you need quickly. We are pleased to offer
+              comprehensive family medicine services to better serve you and
+              your family.
             </p>
           </div>
 
@@ -852,8 +853,9 @@ export default function Home() {
                     />
                   </svg>
                 ),
-                title: t('service_family_med'),
-                description: t('service_family_med_desc'),
+                title: "Family Medicine",
+                description:
+                  "Primary care for all ages from infants to seniors",
               },
               {
                 icon: (
@@ -871,8 +873,9 @@ export default function Home() {
                     />
                   </svg>
                 ),
-                title: t('service_chronic_care'),
-                description: t('service_chronic_care_desc'),
+                title: "Chronic Care",
+                description:
+                  "Diabetes, hypertension and heart condition management",
               },
               {
                 icon: (
@@ -890,8 +893,9 @@ export default function Home() {
                     />
                   </svg>
                 ),
-                title: t('service_preventive'),
-                description: t('service_preventive_desc'),
+                title: "Preventive Health",
+                description:
+                  "Regular check-ups, vaccinations and health screenings",
               },
               {
                 icon: (
@@ -909,8 +913,8 @@ export default function Home() {
                     />
                   </svg>
                 ),
-                title: t('service_sick_notes'),
-                description: t('service_sick_notes_desc'),
+                title: "Sick Notes",
+                description: "Same-day school, university and work sick notes",
               },
               {
                 icon: (
@@ -928,8 +932,9 @@ export default function Home() {
                     />
                   </svg>
                 ),
-                title: t('service_sti'),
-                description: t('service_sti_desc'),
+                title: "STI Screening",
+                description:
+                  "Confidential and accurate testing for sexually transmitted infections.",
               },
               {
                 icon: (
@@ -947,8 +952,9 @@ export default function Home() {
                     />
                   </svg>
                 ),
-                title: t('service_wsib'),
-                description: t('service_wsib_desc'),
+                title: "WSIB Medical Forms",
+                description:
+                  "WSIB medical assessments (FAF) and form 8 completion",
               },
               {
                 icon: (
@@ -966,8 +972,9 @@ export default function Home() {
                     />
                   </svg>
                 ),
-                title: t('service_drivers'),
-                description: t('service_drivers_desc'),
+                title: `Driver's Medical Exams`,
+                description:
+                  "Same-day MTO drivers medical exam and form filling",
               },
               {
                 icon: (
@@ -985,8 +992,9 @@ export default function Home() {
                     />
                   </svg>
                 ),
-                title: t('service_counselling'),
-                description: t('service_counselling_desc'),
+                title: "Counselling",
+                description:
+                  "Professional health counselling to support your physical and emotional wellbeing.",
               },
               {
                 icon: (
@@ -1004,8 +1012,9 @@ export default function Home() {
                     />
                   </svg>
                 ),
-                title: t('service_treatments'),
-                description: t('service_treatments_desc'),
+                title: "Treatments",
+                description:
+                  "Comprehensive medical treatments tailored to your health needs.",
               },
             ].map((service, index) => (
               <div
@@ -1034,7 +1043,7 @@ export default function Home() {
             {/* Clinic Policy */}
             <div>
               <h2 className="text-2xl font-bold text-sky-900 mb-6">
-                {t('policy_title')}
+                Clinic Policy
               </h2>
               <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 border border-sky-200">
                 <div className="space-y-6">
@@ -1056,10 +1065,11 @@ export default function Home() {
                     </div>
                     <div>
                       <h3 className="font-semibold text-sky-900 mb-1">
-                        {t('policy_appointment_title')}
+                        Appointment Policy
                       </h3>
                       <p className="text-sky-700 text-sm">
-                        {t('policy_appointment_desc')}
+                        Please arrive 10 minutes early for your appointment.
+                        Late arrivals may be asked to reschedule.
                       </p>
                     </div>
                   </div>
@@ -1082,10 +1092,12 @@ export default function Home() {
                     </div>
                     <div>
                       <h3 className="font-semibold text-sky-900 mb-1">
-                        {t('policy_cancellation_title')}
+                        Cancellation Policy
                       </h3>
                       <p className="text-sky-700 text-sm">
-                        {t('policy_cancellation_desc')}
+                        24-hour notice required for appointment cancellations.
+                        Multiple no-shows may result in discharge from the
+                        clinic.
                       </p>
                     </div>
                   </div>
@@ -1108,10 +1120,11 @@ export default function Home() {
                     </div>
                     <div>
                       <h3 className="font-semibold text-sky-900 mb-1">
-                        {t('policy_doc_fees_title')}
+                        Document Fees
                       </h3>
                       <p className="text-sky-700 text-sm">
-                        {t('policy_doc_fees_desc')}
+                        Medical forms and documents not covered by OHIP may
+                        incur fees. Please inquire at reception.
                       </p>
                     </div>
                   </div>
@@ -1134,10 +1147,11 @@ export default function Home() {
                     </div>
                     <div>
                       <h3 className="font-semibold text-sky-900 mb-1">
-                        {t('policy_new_patients_title')}
+                        New Patients
                       </h3>
                       <p className="text-sky-700 text-sm">
-                        {t('policy_new_patients_desc')}
+                        New patients are welcome! Please bring your health card
+                        and any relevant medical records.
                       </p>
                     </div>
                   </div>
@@ -1148,31 +1162,31 @@ export default function Home() {
             {/* Hours of Operation */}
             <div>
               <h2 className="text-2xl font-bold text-sky-900 mb-6">
-                {t('hours_op_title')}
+                Hours of Operation
               </h2>
               <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 border border-sky-200">
                 <div className="space-y-4 mb-6">
                   {[
-                    { day: t('day_monday'), hours: t('hours_mon_thu') },
-                    { day: t('day_tuesday'), hours: t('hours_mon_thu') },
-                    { day: t('day_wednesday'), hours: t('hours_mon_thu') },
-                    { day: t('day_thursday'), hours: t('hours_mon_thu') },
-                    { day: t('day_friday'), hours: t('hours_fri') },
-                    { day: t('day_saturday'), hours: t('hours_sat') },
-                    { day: t('day_sunday'), hours: t('hours_closed') },
+                    { day: "Monday", hours: "10:00 AM - 7:00 PM" },
+                    { day: "Tuesday", hours: "10:00 AM - 7:00 PM" },
+                    { day: "Wednesday", hours: "10:00 AM - 7:00 PM" },
+                    { day: "Thursday", hours: "10:00 AM - 7:00 PM" },
+                    { day: "Friday", hours: "10:00 AM - 5:00 PM" },
+                    { day: "Saturday", hours: "10:00 AM - 3:00 PM" },
+                    { day: "Sunday", hours: "Closed" },
                   ].map((schedule, index) => (
                     <div
                       key={index}
                       className="flex justify-between items-center py-2 border-b border-sky-100 last:border-b-0"
                     >
                       <span
-                        className={`font-medium ${schedule.day === t('day_sunday') ? "text-red-500" : "text-sky-800"}`}
+                        className={`font-medium ${schedule.day === "Sunday" ? "text-red-500" : "text-sky-800"}`}
                       >
                         {schedule.day}
                       </span>
                       <span
                         className={
-                          schedule.hours === t('hours_closed')
+                          schedule.hours === "Closed"
                             ? "text-red-500 font-medium"
                             : "text-sky-700"
                         }
@@ -1201,10 +1215,11 @@ export default function Home() {
                     </svg>
                     <div>
                       <h4 className="font-semibold text-red-800 text-sm mb-1">
-                        {t('emergency_title')}
+                        Emergency Care
                       </h4>
                       <p className="text-red-700 text-xs">
-                        {t('emergency_text')}
+                        For medical emergencies, please call 911 or visit your
+                        nearest hospital emergency department.
                       </p>
                     </div>
                   </div>
@@ -1220,7 +1235,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-2xl font-bold text-sky-900 mb-3">
-              {t('why_choose_title')}
+              Why Choose Our Clinic
             </h2>
             <div className="w-12 h-0.5 bg-sky-500 rounded-full mx-auto mb-4"></div>
           </div>
@@ -1243,8 +1258,9 @@ export default function Home() {
                     />
                   </svg>
                 ),
-                title: t('feat_sameday'),
-                description: t('feat_sameday_desc'),
+                title: "Same-Day Appointments",
+                description:
+                  "Urgent care needs addressed promptly with flexible scheduling",
               },
               {
                 icon: (
@@ -1262,8 +1278,9 @@ export default function Home() {
                     />
                   </svg>
                 ),
-                title: t('why_exp_doc_title'),
-                description: t('why_exp_doc_desc'),
+                title: "Experienced Physician",
+                description:
+                  "Board-certified with extensive family medicine experience",
               },
               {
                 icon: (
@@ -1281,8 +1298,9 @@ export default function Home() {
                     />
                   </svg>
                 ),
-                title: t('feat_ohip'),
-                description: t('feat_ohip_desc'),
+                title: "OHIP Billed Services",
+                description:
+                  "Most medical services covered by Ontario Health Insurance",
               },
               {
                 icon: (
@@ -1300,8 +1318,9 @@ export default function Home() {
                     />
                   </svg>
                 ),
-                title: t('why_personalized_title'),
-                description: t('why_personalized_desc'),
+                title: "Personalized Care",
+                description:
+                  "Continuity of care with your dedicated family physician",
               },
             ].map((feature, index) => (
               <div key={index} className="flex items-start space-x-4">
@@ -1324,13 +1343,13 @@ export default function Home() {
       <section className="py-16 bg-sky-50">
         <div className="max-w-2xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-sky-800 mb-4">
-            {t('start_health_journey')}
+            Start Your Health Journey
           </h2>
           <Link
             href="/appointment"
             className="inline-block bg-white text-sky-600 px-8 py-3 rounded-lg font-semibold hover:bg-sky-50 transition-all duration-200 hover:shadow-lg"
           >
-            {t('nav_book')}
+            Book Appointment
           </Link>
         </div>
       </section>
