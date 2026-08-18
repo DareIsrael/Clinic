@@ -1,7 +1,9 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import { useLanguage } from '@/components/LanguageProvider';
 
 export default function AppointmentBooking() {
+  const { language } = useLanguage();
   // State management
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -77,7 +79,8 @@ export default function AppointmentBooking() {
         day: 'numeric', 
         year: 'numeric' 
       };
-      return dateObj.toLocaleDateString('en-US', options);
+      const locale = { en: 'en-CA', fr: 'fr-CA', de: 'de-DE', es: 'es-ES' }[language];
+      return dateObj.toLocaleDateString(locale, options);
     }
     
     return dateString;

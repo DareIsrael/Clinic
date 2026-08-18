@@ -432,7 +432,7 @@ export default function AboutPage() {
           </p>
           <div className="p-3 bg-sky-600/60 rounded-lg border-l-2 border-sky-300">
             <p className="text-sm text-white font-light italic">
-              "Building healthier families through dedicated, personalized medical care."
+              &ldquo;Building healthier families through dedicated, personalized medical care.&rdquo;
             </p>
           </div>
         </div>
@@ -653,7 +653,7 @@ export default function AboutPage() {
               </p>
               <div className="border-l-4 border-sky-500 pl-6">
                 <p className="text-lg italic text-sky-800 text-sm sm:text-base md:text-lg leading-relaxed">
-                  "Building healthier families through dedicated, personalized medical care."
+                  &ldquo;Building healthier families through dedicated, personalized medical care.&rdquo;
                 </p>
               </div>
             </div>

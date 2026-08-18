@@ -25,6 +25,128 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Admin tabs predate the dashboard-level theme state. These scoped overrides
+   keep every existing admin view, dialog, table, and form in the selected
+   dark palette without affecting any public-facing route. */
+.admin-dashboard-dark {
+  color-scheme: dark;
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+}
+
+/* The admin dashboard is an older collection of independently styled tabs.
+   Apply one authoritative palette at the dashboard boundary so a light surface
+   cannot leak through from any tab, panel, header, table, or modal. */
+.admin-dashboard-dark,
+.admin-dashboard-dark * {
+  background-color: #0f172a !important;
+  border-color: #1d4ed8 !important;
+  color: #ffffff !important;
+}
+
+.admin-dashboard-dark .bg-white,
+.admin-dashboard-dark .bg-gray-50,
+.admin-dashboard-dark .bg-slate-50 {
+  background-color: #0f172a !important;
+}
+
+.admin-dashboard-dark .bg-gray-100,
+.admin-dashboard-dark .bg-slate-100 {
+  background-color: #0f172a !important;
+}
+
+.admin-dashboard-dark [class*="bg-[#1E293B]"],
+.admin-dashboard-dark [class*="bg-[#334155]"] {
+  background-color: #0f172a !important;
+}
+
+.admin-dashboard-dark [class*="bg-[#E"],
+.admin-dashboard-dark [class*="bg-[#F"],
+.admin-dashboard-dark [class*="bg-sky-50"],
+.admin-dashboard-dark [class*="bg-sky-100"],
+.admin-dashboard-dark [class*="bg-blue-50"],
+.admin-dashboard-dark [class*="bg-blue-100"],
+.admin-dashboard-dark [class*="bg-emerald-50"],
+.admin-dashboard-dark [class*="bg-emerald-100"],
+.admin-dashboard-dark [class*="bg-amber-50"],
+.admin-dashboard-dark [class*="bg-amber-100"],
+.admin-dashboard-dark [class*="bg-red-50"],
+.admin-dashboard-dark [class*="bg-red-100"],
+.admin-dashboard-dark [class*="bg-rose-50"],
+.admin-dashboard-dark [class*="bg-rose-100"] {
+  background-color: #0f172a !important;
+}
+
+.admin-dashboard-dark .border-gray-100,
+.admin-dashboard-dark .border-gray-200,
+.admin-dashboard-dark .border-slate-100,
+.admin-dashboard-dark .border-slate-200 {
+  border-color: #1d4ed8 !important;
+}
+
+.admin-dashboard-dark .text-gray-900,
+.admin-dashboard-dark .text-gray-800,
+.admin-dashboard-dark .text-slate-900,
+.admin-dashboard-dark .text-slate-800 {
+  color: #ffffff !important;
+}
+
+.admin-dashboard-dark .text-gray-700,
+.admin-dashboard-dark .text-gray-600,
+.admin-dashboard-dark .text-gray-500,
+.admin-dashboard-dark .text-gray-400,
+.admin-dashboard-dark .text-slate-700,
+.admin-dashboard-dark .text-slate-600,
+.admin-dashboard-dark .text-slate-500 {
+  color: #ffffff !important;
+}
+
+.admin-dashboard-dark [class*="text-[#"] {
+  color: #ffffff !important;
+}
+
+/* Some older admin components set text colors inline with Tailwind utilities.
+   In dark mode, all readable UI copy must take precedence over those classes. */
+.admin-dashboard-dark :is(
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  span,
+  label,
+  legend,
+  th,
+  td,
+  li,
+  a,
+  button,
+  option
+) {
+  color: #ffffff !important;
+}
+
+.admin-dashboard-dark input,
+.admin-dashboard-dark select,
+.admin-dashboard-dark textarea {
+  background-color: #0f172a !important;
+  border-color: #1d4ed8 !important;
+  color: #ffffff !important;
+}
+
+.admin-navigation-dark,
+.admin-navigation-dark [class*="bg-white"],
+.admin-navigation-dark [class*="bg-sky-50"] {
+  background-color: #0f172a !important;
+  border-color: #1d4ed8 !important;
+}
+
+.admin-navigation-dark :is(a, button, span, address, select) {
+  color: #ffffff !important;
+}
+
 /* ── Hero section animations ─────────────────────── */
 @keyframes heroFadeUp {
   from {

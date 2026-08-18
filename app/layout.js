@@ -97,6 +97,7 @@ import Navbar from '@/components/Navbar';
 // import { AuthProvider } from '@/contexts/AuthContext';
 import { Poppins } from 'next/font/google';
 import SessionProvider from '@/components/SessionProvider';
+import { LanguageProvider } from '@/components/LanguageProvider';
 import AdminInactivityTracker from '@/components/AdminInactivityTracker';
 import { Phone, Mail, Calendar, MapPin, Clock, Heart, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 import Link from 'next/link';
@@ -156,13 +157,14 @@ export default function RootLayout({ children }) {
 {/* <!-- End Google Tag Manager (noscript) --> */}
 
         <SessionProvider>
-          <AdminInactivityTracker />
+          <LanguageProvider>
+            <AdminInactivityTracker />
 
-          <Navbar />
-          <main className="min-h-screen">{children}</main>
+            <Navbar />
+            <main className="min-h-screen">{children}</main>
           
           {/* Modern Footer */}
-          <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+            <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
             {/* Main Footer Content */}
             <div className="max-w-7xl mx-auto px-4 py-12">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
@@ -360,7 +362,8 @@ export default function RootLayout({ children }) {
                 </p>
               </div>
             </div>
-          </footer>
+            </footer>
+          </LanguageProvider>
         </SessionProvider>
       </body>
     </html>
