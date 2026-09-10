@@ -1,33 +1,33 @@
-'use client';
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
   const [loading, setLoading] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState('');
+  const [submitStatus, setSubmitStatus] = useState("");
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setSubmitStatus('');
+    setSubmitStatus("");
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
+      const response = await fetch("/api/contact", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -35,19 +35,19 @@ export default function ContactPage() {
       const result = await response.json();
 
       if (result.success) {
-        setSubmitStatus('success');
+        setSubmitStatus("success");
         setFormData({
-          name: '',
-          email: '',
-          subject: '',
-          message: ''
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
         });
       } else {
-        setSubmitStatus('error');
+        setSubmitStatus("error");
       }
     } catch (error) {
-      console.error('Contact form error:', error);
-      setSubmitStatus('error');
+      console.error("Contact form error:", error);
+      setSubmitStatus("error");
     } finally {
       setLoading(false);
     }
@@ -56,44 +56,97 @@ export default function ContactPage() {
   const contactInfo = [
     {
       icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+          />
         </svg>
       ),
-      title: 'Visit Our Clinic',
-      details: ['St Mary Rideau Family Clinic', '158 Rideau Street', 'Ottawa, K1N5X6'],
+      title: "Visit Our Clinic",
+      details: [
+        "St Mary Rideau Family Clinic",
+        "158 Rideau Street",
+        "Ottawa, K1N5X6",
+      ],
     },
     {
       icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+          />
         </svg>
       ),
-      title: 'Call Us',
-      details: ['Main: (343) 887-3470', 'Fax: (888)-615-1221'],
-      description: 'Same-day appointments available'
+      title: "Call Us",
+      details: ["Main: (343) 887-3470", "Fax: (343) 362-3021"],
+      description: "Same-day appointments available",
     },
     {
       icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+          />
         </svg>
       ),
-      title: 'Email Us',
-      details: ['contact@stmaryrideauclinic.com'],
-      description: 'We respond within 24 hours'
+      title: "Email Us",
+      details: ["contact@stmaryrideauclinic.com"],
+      description: "We respond within 24 hours",
     },
     {
       icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <svg
+          className="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
         </svg>
       ),
-      title: 'Opening Hours',
-      details: ['Monday to Thursday: 10am-7pm', 'Friday: 10am-5pm', 'Saturday: 10am-3pm'],
-      description: 'Extended hours by appointment'
-    }
+      title: "Opening Hours",
+      details: [
+        "Monday to Thursday: 10am-7pm",
+        "Friday: 10am-5pm",
+        "Saturday: 10am-3pm",
+      ],
+      description: "Extended hours by appointment",
+    },
   ];
 
   return (
@@ -101,10 +154,11 @@ export default function ContactPage() {
       {/* Hero Section with Background Image */}
       <section className="relative min-h-[50vh] flex items-center justify-start bg-sky-900 overflow-hidden">
         {/* Background Image */}
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url("https://res.cloudinary.com/dveill0ji/image/upload/v1776832712/St.BackgroundContact_uf5vwf.jpg")',
+            backgroundImage:
+              'url("https://res.cloudinary.com/dveill0ji/image/upload/v1776832712/St.BackgroundContact_uf5vwf.jpg")',
           }}
         >
           <div className="absolute inset-0 bg-sky-900/70"></div>
@@ -116,9 +170,10 @@ export default function ContactPage() {
             Contact St Mary Rideau Clinic
           </h1>
           <div className="w-12 h-0.5 bg-sky-300 rounded-full mb-4"></div>
-          
+
           <p className="text-sm text-white leading-relaxed">
-            We're here to help you with all your healthcare needs. Get in touch with us today for appointments, inquiries, or medical concerns.
+            We're here to help you with all your healthcare needs. Get in touch
+            with us today for appointments, inquiries, or medical concerns.
           </p>
         </div>
       </section>
@@ -129,17 +184,26 @@ export default function ContactPage() {
           {/* Contact Information Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {contactInfo.map((info, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 text-center border border-sky-100">
+              <div
+                key={index}
+                className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 text-center border border-sky-100"
+              >
                 <div className="text-sky-600 mb-4 flex justify-center">
                   {info.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-sky-900 mb-4">{info.title}</h3>
+                <h3 className="text-lg font-semibold text-sky-900 mb-4">
+                  {info.title}
+                </h3>
                 <div className="space-y-2 mb-4">
                   {info.details.map((detail, idx) => (
-                    <p key={idx} className="text-sky-700 text-sm">{detail}</p>
+                    <p key={idx} className="text-sky-700 text-sm">
+                      {detail}
+                    </p>
                   ))}
                 </div>
-                <p className="text-xs text-sky-600 font-medium">{info.description}</p>
+                <p className="text-xs text-sky-600 font-medium">
+                  {info.description}
+                </p>
               </div>
             ))}
           </div>
@@ -147,24 +211,31 @@ export default function ContactPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-sky-200">
-              <h2 className="text-2xl font-bold text-sky-900 mb-2">Send Us a Message</h2>
+              <h2 className="text-2xl font-bold text-sky-900 mb-2">
+                Send Us a Message
+              </h2>
               <div className="w-12 h-1 bg-sky-500 mb-6"></div>
-              
-              {submitStatus === 'success' && (
+
+              {submitStatus === "success" && (
                 <div className="bg-emerald-100 border border-emerald-400 text-emerald-700 px-4 py-3 rounded-lg mb-6">
-                  Thank you for your message! We'll get back to you within 24 hours.
+                  Thank you for your message! We'll get back to you within 24
+                  hours.
                 </div>
               )}
 
-              {submitStatus === 'error' && (
+              {submitStatus === "error" && (
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
-                  There was an error sending your message. Please try again or contact us directly.
+                  There was an error sending your message. Please try again or
+                  contact us directly.
                 </div>
               )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-sky-800 mb-2">
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium text-sky-800 mb-2"
+                  >
                     Full Name *
                   </label>
                   <input
@@ -180,7 +251,10 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-sky-800 mb-2">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-sky-800 mb-2"
+                  >
                     Email Address *
                   </label>
                   <input
@@ -196,7 +270,10 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-sky-800 mb-2">
+                  <label
+                    htmlFor="subject"
+                    className="block text-sm font-medium text-sky-800 mb-2"
+                  >
                     Subject *
                   </label>
                   <select
@@ -218,7 +295,10 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-sky-800 mb-2">
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-medium text-sky-800 mb-2"
+                  >
                     Message *
                   </label>
                   <textarea
@@ -240,14 +320,30 @@ export default function ContactPage() {
                 >
                   {loading ? (
                     <span className="flex items-center justify-center">
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      <svg
+                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
                       </svg>
                       Sending Message...
                     </span>
                   ) : (
-                    'Send Message'
+                    "Send Message"
                   )}
                 </button>
               </form>
@@ -257,15 +353,17 @@ export default function ContactPage() {
             <div className="space-y-8">
               {/* Google Map - Embedded */}
               <div className="bg-white rounded-2xl p-8 shadow-sm border border-sky-200">
-                <h3 className="text-xl font-semibold text-sky-900 mb-4">Our Location</h3>
+                <h3 className="text-xl font-semibold text-sky-900 mb-4">
+                  Our Location
+                </h3>
                 <div className="rounded-lg overflow-hidden">
-                  <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d65330892.70839294!2d-121.6671295229436!3d1.9611855444281743!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cce0541295cb737%3A0x3131f3ac0865135a!2sSt%20Mary%20Rideau%20Family%20Clinic!5e0!3m2!1sen!2sng!4v1776965870377!5m2!1sen!2sng" 
-                    width="100%" 
-                    height="350" 
-                    style={{ border: 0 }} 
-                    allowFullScreen 
-                    loading="lazy" 
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d65330892.70839294!2d-121.6671295229436!3d1.9611855444281743!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cce0541295cb737%3A0x3131f3ac0865135a!2sSt%20Mary%20Rideau%20Family%20Clinic!5e0!3m2!1sen!2sng!4v1776965870377!5m2!1sen!2sng"
+                    width="100%"
+                    height="350"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     title="St Mary Rideau Clinic Location"
                     className="w-full"
@@ -299,34 +397,60 @@ export default function ContactPage() {
               {/* Emergency Info */}
               <div className="bg-red-50 border border-red-200 rounded-2xl p-6">
                 <div className="flex items-start space-x-3">
-                  <svg className="w-6 h-6 text-red-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                  <svg
+                    className="w-6 h-6 text-red-600 mt-1 flex-shrink-0"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"
+                    />
                   </svg>
                   <div>
-                    <h3 className="text-lg font-semibold text-red-800 mb-2">Medical Emergency</h3>
+                    <h3 className="text-lg font-semibold text-red-800 mb-2">
+                      Medical Emergency
+                    </h3>
                     <p className="text-red-700 text-sm mb-3">
-                      For urgent medical concerns that require immediate attention, please call 911 or visit your nearest emergency department.
+                      For urgent medical concerns that require immediate
+                      attention, please call 911 or visit your nearest emergency
+                      department.
                     </p>
-                    <div className="text-lg font-bold text-red-800">Call 911 for Emergencies</div>
+                    <div className="text-lg font-bold text-red-800">
+                      Call 911 for Emergencies
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Quick Contact */}
               <div className="bg-sky-100 rounded-2xl p-6 border border-sky-200">
-                <h3 className="text-lg font-semibold text-sky-900 mb-3">Quick Contact</h3>
+                <h3 className="text-lg font-semibold text-sky-900 mb-3">
+                  Quick Contact
+                </h3>
                 <div className="space-y-2 text-sm text-sky-700">
                   <p className="flex items-center">
                     <span className="w-6">📞</span>
-                    <span><span className="font-medium">Appointments:</span> (343) 887-3470</span>
+                    <span>
+                      <span className="font-medium">Appointments:</span> (343)
+                      887-3470
+                    </span>
                   </p>
                   <p className="flex items-center">
                     <span className="w-6">📠</span>
-                    <span><span className="font-medium">Fax:</span> (888)-615-1221</span>
+                    <span>
+                      <span className="font-medium">Fax:</span> (343) 362-3021
+                    </span>
                   </p>
                   <p className="flex items-center">
                     <span className="w-6">📧</span>
-                    <span><span className="font-medium">Email:</span> contact@stmaryrideauclinic.com</span>
+                    <span>
+                      <span className="font-medium">Email:</span>{" "}
+                      contact@stmaryrideauclinic.com
+                    </span>
                   </p>
                 </div>
               </div>
