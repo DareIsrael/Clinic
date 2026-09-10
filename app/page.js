@@ -802,7 +802,7 @@ export default function Home() {
 
           {/* Accepting New Patients Notice */}
           <div className="mt-5">
-            <p className="text-sky-700 font-semibold text-sm">
+            <p className="text-sky-700 font-semibold text-2xl">
               Accepting new patients.
             </p>
           </div>
