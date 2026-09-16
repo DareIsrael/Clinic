@@ -528,8 +528,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-start bg-gray-900 overflow-hidden">
+      {/* Mobile Hero Section (Background Image View - Fits screen) */}
+      <section className="relative min-h-[calc(100vh-4.5rem)] flex flex-col justify-between bg-gray-900 overflow-hidden lg:hidden">
         {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -541,280 +541,155 @@ export default function Home() {
           <div className="absolute inset-0 bg-sky-800/70"></div>
         </div>
 
-        {/* Announcements Section - Top Left */}
-        {/* <div className="absolute top-2 left-4 right-auto z-20">
-          <Announcements />
-        </div> */}
+        {/* All content in normal document flow */}
+        <div className="relative z-10 flex flex-col px-4 py-3 flex-1 justify-center max-w-md mx-auto w-full">
+          {/* Announcements - in flow, pushes content down when expanded */}
+          <div className="w-full mb-3">
+            <Announcements />
+          </div>
 
-        {/* Announcements Section - Centered on Mobile, Top Left on Desktop */}
-        <div className="absolute top-2 left-1/2 -translate-x-1/2 md:left-4 md:right-auto md:translate-x-0 z-20 w-[calc(100%-2rem)] md:w-auto">
-          <Announcements />
+          {/* Main Content Box on Mobile - Clean White Card Background */}
+          <div className="w-full bg-white rounded-2xl p-4 sm:p-5 border border-gray-200 shadow-xl my-auto">
+            {/* Badge */}
+            <div className="inline-block px-3 py-1 rounded-lg bg-sky-50 border border-sky-100 text-sky-700 text-sm sm:text-base font-bold mb-2.5 shadow-sm">
+              Accepting New Patients
+            </div>
+
+            {/* Header */}
+            <div className="mb-2.5">
+              <h1 className="hero-heading text-xl sm:text-2xl font-extrabold text-slate-900 mb-1.5 leading-tight">
+                Family Doctor & Walk-In Clinic in Downtown Ottawa
+              </h1>
+              <div className="w-12 h-1 bg-sky-600 rounded-full mb-2"></div>
+              <p className="hero-sub text-slate-600 text-xs sm:text-sm font-medium">
+                Same day visits. Online booking. No phone wait.
+              </p>
+            </div>
+
+            {/* Call-to-Action Buttons */}
+            <div className="hero-cta flex flex-col sm:flex-row gap-2.5 mt-3">
+              {/* Book Appointment Button */}
+              <Link
+                href="/appointment"
+                className="btn-breathe bg-sky-600 hover:bg-sky-700 text-white px-4 py-3 rounded-xl font-bold text-sm sm:text-base text-center transition-all duration-200 hover:shadow-lg flex items-center justify-center gap-2 whitespace-nowrap"
+              >
+                Book Appointment
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+
+              {/* Call Now Button */}
+              <a
+                href="tel:+13438873470"
+                className="bg-white border border-gray-300 text-slate-700 hover:text-sky-600 px-4 py-3 rounded-xl font-bold text-xs sm:text-sm text-center transition-all duration-200 hover:shadow-md flex items-center justify-center gap-2 whitespace-nowrap"
+              >
+                Call Now
+                <svg className="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+              </a>
+            </div>
+
+            {/* Sub-notice */}
+            <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-sky-700">
+              <svg className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span>Walk-Ins & Roster Appointments Available Today</span>
+            </div>
+          </div>
         </div>
+      </section>
 
-        {/* New Doctor Announcement - Full Screen on Mobile
-              {showNewDoctorAnnouncement && (
-          <>
-            {/* Mobile Full Screen Overlay */}
-            {/* <div className="fixed inset-0 z-50 md:hidden">
-              <div
-                className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-                onClick={() => setShowNewDoctorAnnouncement(false)}
-              ></div>
-              <div className="relative h-full flex items-center justify-center p-6">
-                <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh] w-full">
-                  <div className="p-6">
-                    <div className="flex items-start justify-between gap-3 mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="bg-emerald-100 rounded-full p-2">
-                          <svg
-                            className="w-6 h-6 text-emerald-600"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-                            />
-                          </svg>
-                        </div>
-                        <h3 className="text-[11px] sm:text-xs md:text-lg font-bold text-emerald-800 uppercase tracking-wide">
-  Welcome New Physician!
-</h3>
-                      </div>
-                      <button
-                        onClick={() => setShowNewDoctorAnnouncement(false)}
-                        className="flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors bg-white/50 rounded-full p-1"
-                        aria-label="Close announcement"
-                      >
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M6 18L18 6M6 6l12 12"
-                          />
-                        </svg>
-                      </button>
-                    </div>
+      {/* Desktop Hero Section (Content Left, Video Right with Diagonal Cut - Fits screen) */}
+      <section className="relative min-h-[calc(100vh-4.5rem)] h-[calc(100vh-4.5rem)] w-full hidden lg:flex flex-row overflow-hidden bg-slate-50 font-sans">
+        {/* Left Side - Hero Content Section (z-0 sits behind video clip - No white card background) */}
+        <div className="flex-1 flex flex-col justify-center items-center p-6 xl:p-12 z-0 -mr-12 relative bg-gradient-to-br from-slate-50 via-sky-50/20 to-slate-100">
+          <div className="w-full max-w-lg my-auto pr-6 xl:pr-10">
+            {/* Badge */}
+            <div className="inline-block px-3.5 py-1.5 rounded-xl bg-sky-100/90 border border-sky-200/80 text-sky-800 text-lg xl:text-xl font-bold mb-3 shadow-xs">
+              Accepting New Patients
+            </div>
 
-                    <div className="space-y-4 ">
-                      <p className="text-base text-sm text-gray-700 leading-relaxed">
-                        We're pleased to welcome{" "}
-                        <span className="font-semibold text-emerald-700">
-                          Dr. Babundo Okwechime
-                        </span>{" "}
-                        to the team at St. Mary Rideau Family Clinic!
-                      </p>
-
-                      <p className="text-base text-sm text-gray-600">
-                        Beginning{" "}
-                        <span className="font-semibold">April 27, 2026</span>,
-                        Dr. Okwechime will start seeing patients for initial
-                        "meet and greet" appointments.
-                      </p>
-
-                      <p className="text-base text-sm text-gray-600">
-                        Patients interested in joining his practice are
-                        encouraged to sign up on our waitlist for a chance to be
-                        rostered.
-                      </p>
-
-                      <p className="text-base text-sm text-emerald-700 italic">
-                        We look forward to introducing you to a dedicated and
-                        compassionate new member of our clinic.
-                      </p>
-                    </div>
-
-                    <div className="mt-6">
-                      <Link
-                        href="/appointment"
-                        className="block w-full text-center bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all duration-200 shadow-md"
-                      >
-                        Book Appointment
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-
-            {/* Desktop Version - Top Right Corner */}
-            {/* <div className="hidden md:block absolute top-2 right-4 z-20 max-w-sm lg:max-w-md xl:max-w-lg animate-slide-in-right">
-              <div className="bg-gradient-to-br from-emerald-50 to-teal-50 border-l-4 border-emerald-500 rounded-lg shadow-xl overflow-hidden">
-                <div className="p-3 sm:p-4">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="bg-emerald-100 rounded-full p-1">
-                          <svg
-                            className="w-4 h-4 text-emerald-600"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-                            />
-                          </svg>
-                        </div>
-                        <h3 className="text-xs sm:text-sm font-bold text-emerald-800 uppercase tracking-wide">
-                          Welcome New Physician!
-                        </h3>
-                      </div>
-                      <p className="text-xs sm:text-sm text-gray-700 leading-relaxed mb-3">
-                        We're pleased to welcome{" "}
-                        <span className="font-semibold text-emerald-700">
-                          Dr. Babundo Okwechime
-                        </span>{" "}
-                        to the team at St. Mary Rideau Family Clinic!
-                      </p>
-                      <p className="text-xs text-gray-600 mb-3">
-                        Beginning{" "}
-                        <span className="font-semibold">April 27, 2026</span>,
-                        Dr. Okwechime will start seeing patients for initial
-                        "meet and greet" appointments.
-                      </p>
-                      <p className="text-xs text-gray-600 mb-3">
-                        Patients interested in joining his practice are
-                        encouraged to sign up on our waitlist for a chance to be
-                        rostered.
-                      </p>
-                      <p className="text-xs text-emerald-700 italic">
-                        We look forward to introducing you to a dedicated and
-                        compassionate new member of our clinic.
-                      </p>
-                      <div className="mt-3">
-                        <Link
-                          href="/appointment"
-                          className="text-xs font-medium text-emerald-600 hover:text-emerald-700 transition-colors flex items-center gap-1"
-                        >
-                          Book Appointment
-                          <svg
-                            className="w-3 h-3"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 5l7 7-7 7"
-                            />
-                          </svg>
-                        </Link>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => setShowNewDoctorAnnouncement(false)}
-                      className="flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors"
-                      aria-label="Close announcement"
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-          {/* </> */}
-        
-
-        {/* Main Content Box - Pushed down to avoid overlap */}
-        <div className="relative z-10 max-w-md mx-4 mb-16 lg:mx-16 xl:mx-24 bg-white rounded-2xl p-6 lg:p-8 border border-gray-200 shadow-xl mt-40 lg:mt-44 xl:mt-48">
-          {/* Header */}
-          <div className="mb-4">
-            <h1 className="hero-heading text-3xl lg:text-3xl font-bold text-sky-800 mb-2 leading-tight">
+            {/* Header */}
+            <h1 className="text-3xl xl:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-2.5">
               Family Doctor & Walk-In Clinic in Downtown Ottawa
             </h1>
-            <div
-              className="hero-heading w-16 h-1 bg-sky-800 rounded-full mb-3"
-              style={{ animationDelay: "0.25s" }}
-            ></div>
-            <p className="hero-sub text-gray-600 text-sm lg:text-base">
-              Same-day visits. Online booking. No phone wait.
-            </p>
-          </div>
 
-          {/* Call-to-Action Buttons */}
-          <div className="hero-cta flex flex-col sm:flex-row gap-3 mt-6">
-            <Link
-              href="/appointment"
-              className="btn-breathe bg-gradient-to-r from-sky-600 to-sky-700 text-white px-4 py-3 rounded-lg font-semibold text-center transition-all duration-200 hover:bg-sky-900 hover:shadow-lg flex items-center justify-center gap-2 whitespace-nowrap"
-            >
-              Book Appointment
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </Link>
-            <a
-              href="tel:+13438873470"
-              className="bg-white border border-gray-300 text-sky-800 px-4 py-3 rounded-lg font-semibold text-center transition-all duration-200 hover:bg-gray-100 hover:shadow-md flex items-center justify-center gap-2 whitespace-nowrap"
-            >
-              Call Now
-              <svg
-                className="w-4 h-4 text-sky-800"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </a>
-          </div>
+            <div className="w-14 h-1 bg-sky-600 rounded-full mb-3"></div>
 
-          {/* Accepting New Patients Notice */}
-          <div className="mt-5">
-            <p className="text-sky-700 font-semibold text-2xl">
-              Accepting new patients.
+            <p className="text-slate-600 text-sm xl:text-base leading-relaxed mb-5 font-medium">
+              Same day visits. Online booking. No phone wait.
             </p>
+
+            {/* Call-to-Action Buttons */}
+            <div className="flex flex-row gap-3">
+              {/* Book Appointment Button */}
+              <Link
+                href="/appointment"
+                className="btn-breathe flex-1 bg-sky-600 hover:bg-sky-700 text-white px-4 py-3.5 rounded-xl font-bold text-base xl:text-lg text-center shadow-lg shadow-sky-600/25 hover:shadow-sky-600/35 transition-all duration-200 flex items-center justify-center gap-2"
+              >
+                Book Appointment
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+
+              {/* Call Now Button */}
+              <a
+                href="tel:+13438873470"
+                className="flex-1 bg-white border border-slate-300 text-slate-700 hover:text-sky-600 hover:border-sky-400 px-4 py-3.5 rounded-xl font-bold text-sm xl:text-base text-center transition-all duration-200 hover:shadow-md flex items-center justify-center gap-2"
+              >
+                Call Now
+                <svg className="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+              </a>
+            </div>
+
+            {/* Sub-notice */}
+            <div className="mt-5 pt-4 border-t border-slate-200/60 flex items-center gap-2 text-xs font-semibold text-sky-800">
+              <svg className="w-4 h-4 text-emerald-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span>Walk-Ins & Roster Appointments Available Today</span>
+            </div>
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2">
-          <div className="flex flex-col items-center text-sky-200/70">
-            <span className="text-xs mb-1">Scroll</span>
-            <div className="w-5 h-8 border border-sky-300/40 rounded-full flex justify-center">
-              <div className="w-0.5 h-2 bg-sky-300/60 rounded-full mt-2 animate-bounce"></div>
+        {/* Right Side - Animated Video Section with Diagonal Cut (z-10 overlays left side) */}
+        <div className="relative w-[56%] h-full flex-shrink-0 overflow-hidden [clip-path:polygon(16%_0,100%_0,100%_100%,0_100%)] z-10 bg-slate-900">
+          {/* Background Video */}
+          <video
+            src="https://res.cloudinary.com/dveill0ji/video/upload/v1789562225/StmaryBackvid_ew7noz.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+
+          {/* Subtle Overlay for contrast & legibility */}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/30 to-slate-900/40" />
+
+          {/* Announcements Section - Top Right on Video */}
+          <div className="absolute top-6 right-6 z-20 max-w-md">
+            <Announcements />
+          </div>
+
+          {/* Video Hero Caption */}
+          <div className="flex absolute bottom-10 right-10 left-24 z-20 flex-col text-white max-w-lg">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/20 backdrop-blur-md border border-sky-400/30 text-sky-200 text-xs font-semibold tracking-wide w-fit mb-3">
+              <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+              St. Mary Rideau Family Clinic
             </div>
+            <h2 className="text-2xl xl:text-3xl font-extrabold tracking-tight text-white mb-2 drop-shadow-sm leading-tight">
+              Compassionate Care,<br />Modern Healthcare.
+            </h2>
+            <p className="text-sky-100/80 text-xs xl:text-sm leading-relaxed">
+              Providing exceptional primary care and walk-in medical services in downtown Ottawa.
+            </p>
           </div>
         </div>
       </section>
