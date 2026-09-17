@@ -161,7 +161,7 @@ export default function LoginPage() {
               </svg>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Welcome Back</h1>
-            <p className="text-slate-500 text-sm mt-1.5">Sign in to access your portal</p>
+            <p className="text-slate-500 text-sm mt-1.5">Sign in to the Dashboard</p>
           </div>
 
           {error && (
