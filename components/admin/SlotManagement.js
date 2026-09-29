@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Clock, Calendar, Plus, Trash2, CheckCircle2, XCircle, Filter, RefreshCw, Info } from 'lucide-react';
+import { Clock, Calendar, Plus, Trash2, CheckCircle2, XCircle, Filter, RefreshCw, Info, History, ArrowRight } from 'lucide-react';
 
 export default function SlotManagement() {
   const [date, setDate] = useState('');
@@ -13,6 +13,8 @@ export default function SlotManagement() {
   const [viewLoading, setViewLoading] = useState(false);
   const [allSlots, setAllSlots] = useState([]);
   const [allSlotsLoading, setAllSlotsLoading] = useState(true);
+  const [statusFilter, setStatusFilter] = useState('all'); // 'all' | 'available' | 'booked'
+  const [activeQuickRange, setActiveQuickRange] = useState('next30');
   const [dateRange, setDateRange] = useState({
     start: '',
     end: ''
@@ -41,15 +43,18 @@ export default function SlotManagement() {
     return `${year}-${month}-${day}`;
   };
 
-  // SIMPLE: Get future date as YYYY-MM-DD
-  const getFutureDate = (daysToAdd) => {
-    const future = new Date();
-    future.setDate(future.getDate() + daysToAdd);
-    const year = future.getFullYear();
-    const month = String(future.getMonth() + 1).padStart(2, '0');
-    const day = String(future.getDate()).padStart(2, '0');
+  // SIMPLE: Get offset date as YYYY-MM-DD (positive = future, negative = past)
+  const getOffsetDate = (daysToAdd) => {
+    const d = new Date();
+    d.setDate(d.getDate() + daysToAdd);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
+
+  // Keep backward compat alias
+  const getFutureDate = getOffsetDate;
 
   // SIMPLE: Format date for display
   const formatDisplayDate = (dateString) => {
@@ -74,18 +79,20 @@ export default function SlotManagement() {
     fetchAllSlots();
   }, []);
 
-  const fetchAllSlots = async () => {
+  const fetchAllSlots = async (rangeOverride) => {
     try {
       setAllSlotsLoading(true);
       const today = getTodayDate();
       const futureDate = getFutureDate(30);
       
-      setDateRange({
-        start: today,
-        end: futureDate
-      });
+      const range = rangeOverride || { start: today, end: futureDate };
       
-      const response = await fetch(`/api/slots/admin?startDate=${today}&endDate=${futureDate}`);
+      setDateRange(range);
+      if (!rangeOverride) {
+        setActiveQuickRange('next30');
+      }
+      
+      const response = await fetch(`/api/slots/admin?startDate=${range.start}&endDate=${range.end}`);
       const data = await response.json();
       
       if (data.success) {
@@ -109,6 +116,7 @@ export default function SlotManagement() {
 
     try {
       setAllSlotsLoading(true);
+      setActiveQuickRange('custom');
       const response = await fetch(`/api/slots/admin?startDate=${dateRange.start}&endDate=${dateRange.end}`);
       const data = await response.json();
       
@@ -124,6 +132,24 @@ export default function SlotManagement() {
     } finally {
       setAllSlotsLoading(false);
     }
+  };
+
+  // Quick range helpers
+  const quickRanges = [
+    { id: 'past90', label: 'Past 90d', start: getOffsetDate(-90), end: getTodayDate() },
+    { id: 'past30', label: 'Past 30d', start: getOffsetDate(-30), end: getTodayDate() },
+    { id: 'past7', label: 'Past 7d', start: getOffsetDate(-7), end: getTodayDate() },
+    { id: 'today', label: 'Today', start: getTodayDate(), end: getTodayDate() },
+    { id: 'next7', label: 'Next 7d', start: getTodayDate(), end: getOffsetDate(7) },
+    { id: 'next30', label: 'Next 30d', start: getTodayDate(), end: getOffsetDate(30) },
+    { id: 'all', label: 'All Time', start: '2020-01-01', end: getOffsetDate(365) },
+  ];
+
+  const applyQuickRange = (range) => {
+    setActiveQuickRange(range.id);
+    const newRange = { start: range.start, end: range.end };
+    setDateRange(newRange);
+    fetchAllSlots(newRange);
   };
 
   const addTime = () => {
@@ -278,7 +304,14 @@ export default function SlotManagement() {
     }
   };
 
-  const groupedSlots = allSlots.reduce((groups, slot) => {
+  // Apply status filter
+  const filteredSlots = statusFilter === 'all'
+    ? allSlots
+    : statusFilter === 'available'
+      ? allSlots.filter(s => s.isAvailable)
+      : allSlots.filter(s => !s.isAvailable);
+
+  const groupedSlots = filteredSlots.reduce((groups, slot) => {
     const dateKey = slot.canadaDate || slot.date;
     if (!groups[dateKey]) {
       groups[dateKey] = [];
@@ -403,41 +436,88 @@ export default function SlotManagement() {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pb-3 border-b border-[#F1F5F9]">
             <div>
               <h3 className="text-xs font-bold text-[#0F172A] uppercase tracking-wider">All Created Slots</h3>
-              <p className="text-[10px] text-[#64748B] font-semibold mt-0.5">Filter slots by specific date boundaries</p>
+              <p className="text-[10px] text-[#64748B] font-semibold mt-0.5">Filter slots by date range and status — including past slots</p>
             </div>
           </div>
 
-          {/* Date range filters */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-[#F8FAFC] p-3 border border-[#E2E8F0] rounded-xl">
-            <input
-              type="date"
-              value={dateRange.start}
-              onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
-              min={todayDate}
-              className="px-2.5 py-1.5 bg-white border border-[#E2E8F0] rounded-lg text-xs text-[#334155] focus:outline-none"
-            />
-            <input
-              type="date"
-              value={dateRange.end}
-              onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
-              min={dateRange.start || todayDate}
-              className="px-2.5 py-1.5 bg-white border border-[#E2E8F0] rounded-lg text-xs text-[#334155] focus:outline-none"
-            />
-            <div className="flex gap-1.5">
+          {/* Quick range buttons */}
+          <div className="flex flex-wrap gap-1.5">
+            {quickRanges.map(range => (
               <button
-                onClick={fetchSlotsByDateRange}
-                disabled={allSlotsLoading || !dateRange.start || !dateRange.end}
-                className="flex-1 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-lg text-xs transition disabled:opacity-50 py-1.5"
+                key={range.id}
+                onClick={() => applyQuickRange(range)}
+                className={`px-2.5 py-1 text-[10px] font-bold rounded-lg transition border ${
+                  activeQuickRange === range.id
+                    ? 'bg-sky-600 text-white border-sky-600 shadow-sm'
+                    : 'bg-white border-[#E2E8F0] text-[#475569] hover:bg-sky-50 hover:border-sky-300'
+                }`}
               >
-                Filter
+                {range.id.startsWith('past') && <History className="w-3 h-3 inline mr-1 -mt-px" />}
+                {range.label}
               </button>
-              <button
-                onClick={fetchAllSlots}
-                disabled={allSlotsLoading}
-                className="p-1.5 bg-white border border-[#E2E8F0] hover:bg-[#F8FAFC] text-[#64748B] rounded-lg transition"
-              >
-                <RefreshCw className="w-3.5 h-3.5" />
-              </button>
+            ))}
+          </div>
+
+          {/* Date range filters + status filter */}
+          <div className="bg-[#F8FAFC] p-3 border border-[#E2E8F0] rounded-xl space-y-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <div className="flex items-center gap-1.5">
+                <label className="text-[9px] font-bold text-[#64748B] uppercase whitespace-nowrap">From</label>
+                <input
+                  type="date"
+                  value={dateRange.start}
+                  onChange={(e) => { setDateRange({ ...dateRange, start: e.target.value }); setActiveQuickRange('custom'); }}
+                  className="flex-1 px-2.5 py-1.5 bg-white border border-[#E2E8F0] rounded-lg text-xs text-[#334155] focus:outline-none focus:ring-1 focus:ring-sky-300"
+                />
+              </div>
+              <div className="flex items-center gap-1.5">
+                <label className="text-[9px] font-bold text-[#64748B] uppercase whitespace-nowrap">To</label>
+                <input
+                  type="date"
+                  value={dateRange.end}
+                  onChange={(e) => { setDateRange({ ...dateRange, end: e.target.value }); setActiveQuickRange('custom'); }}
+                  className="flex-1 px-2.5 py-1.5 bg-white border border-[#E2E8F0] rounded-lg text-xs text-[#334155] focus:outline-none focus:ring-1 focus:ring-sky-300"
+                />
+              </div>
+              <div className="flex gap-1.5">
+                <button
+                  onClick={fetchSlotsByDateRange}
+                  disabled={allSlotsLoading || !dateRange.start || !dateRange.end}
+                  className="flex-1 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-lg text-xs transition disabled:opacity-50 py-1.5 flex items-center justify-center gap-1"
+                >
+                  <Filter className="w-3 h-3" /> Filter
+                </button>
+                <button
+                  onClick={() => fetchAllSlots()}
+                  disabled={allSlotsLoading}
+                  className="p-1.5 bg-white border border-[#E2E8F0] hover:bg-[#F8FAFC] text-[#64748B] rounded-lg transition"
+                  title="Reset to default (next 30 days)"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Status filter row */}
+            <div className="flex items-center gap-2 pt-1 border-t border-[#E2E8F0]">
+              <span className="text-[9px] font-bold text-[#64748B] uppercase">Status:</span>
+              {[
+                { id: 'all', label: 'All Slots', count: allSlots.length },
+                { id: 'available', label: 'Available', count: allSlots.filter(s => s.isAvailable).length },
+                { id: 'booked', label: 'Booked', count: allSlots.filter(s => !s.isAvailable).length },
+              ].map(opt => (
+                <button
+                  key={opt.id}
+                  onClick={() => setStatusFilter(opt.id)}
+                  className={`px-2 py-0.5 text-[10px] font-bold rounded-lg transition border ${
+                    statusFilter === opt.id
+                      ? opt.id === 'booked' ? 'bg-rose-600 text-white border-rose-600' : opt.id === 'available' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-sky-600 text-white border-sky-600'
+                      : 'bg-white border-[#E2E8F0] text-[#475569] hover:bg-gray-50'
+                  }`}
+                >
+                  {opt.label} ({opt.count})
+                </button>
+              ))}
             </div>
           </div>
 
