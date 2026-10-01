@@ -96,6 +96,7 @@ import { Poppins } from "next/font/google";
 import SessionProvider from "@/components/SessionProvider";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import AdminInactivityTracker from "@/components/AdminInactivityTracker";
+import ScrollMotionProvider from "@/components/ScrollMotionProvider";
 import {
   Phone,
   Mail,
@@ -161,10 +162,12 @@ export default function RootLayout({ children }) {
 
         <SessionProvider>
           <LanguageProvider>
-            <AdminInactivityTracker />
+            <ScrollMotionProvider>
+              <AdminInactivityTracker />
 
-            <Navbar />
-            <main className="min-h-screen">{children}</main>
+              <Navbar />
+              <main className="min-h-screen">{children}</main>
+            </ScrollMotionProvider>
 
             {/* Modern Footer */}
             <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
