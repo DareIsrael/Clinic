@@ -14,7 +14,6 @@ const waitlistSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, 'Email is required'],
-    unique: true,
     lowercase: true,
     trim: true
   },
@@ -71,7 +70,7 @@ const waitlistSchema = new mongoose.Schema({
 // Add index for better query performance
 waitlistSchema.index({ createdAt: 1 });
 waitlistSchema.index({ status: 1 });
-// waitlistSchema.index({ email: 1 });
+waitlistSchema.index({ email: 1, firstName: 1, lastName: 1 });
 
 
 

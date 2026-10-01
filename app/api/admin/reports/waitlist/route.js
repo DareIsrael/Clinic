@@ -65,7 +65,7 @@ export async function POST(request) {
     // Handle duplicate email error
     if (error.code === 11000) {
       return NextResponse.json(
-        { success: false, message: 'This email is already on our waitlist!' },
+        { success: false, message: 'This person is already on our waitlist with this email address.' },
         { status: 400 }
       );
     }

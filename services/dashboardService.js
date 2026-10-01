@@ -177,6 +177,12 @@ export const dashboardService = {
     return response.data;
   },
 
+  // Delete waitlist entry (doctor only)
+  deleteWaitlistEntry: async (waitlistId) => {
+    const response = await api.delete(`/admin/waitlist?id=${waitlistId}`);
+    return response.data;
+  },
+
   // Get monthly reports
   getMonthlyReports: async (year, month) => {
     const response = await api.get('/admin/reports/monthly', {

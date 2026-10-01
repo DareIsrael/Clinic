@@ -463,9 +463,6 @@ export default function Home() {
   // Testimonial slider state
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
-  // New doctor announcement state
-  const [showNewDoctorAnnouncement, setShowNewDoctorAnnouncement] =
-    useState(true);
 
   const testimonials = [
     {
@@ -1215,16 +1212,16 @@ export default function Home() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-16 bg-sky-50">
+      <section className="py-16 bg-sky-600">
         <div className="max-w-2xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-sky-800 mb-4">
+          <h2 className="text-2xl font-bold text-white mb-4">
             Start Your Health Journey
           </h2>
           <Link
-            href="/appointment"
+            href="/waitlist"
             className="inline-block bg-white text-sky-600 px-8 py-3 rounded-lg font-semibold hover:bg-sky-50 transition-all duration-200 hover:shadow-lg"
           >
-            Book Appointment
+            Join the waitlist
           </Link>
         </div>
       </section>

@@ -147,3 +147,49 @@ export async function PATCH(request) {
     );
   }
 }
+
+export async function DELETE(request) {
+  try {
+    const session = await getServerSession(authOptions);
+    
+    if (!session || session.user.role !== 'doctor') {
+      return NextResponse.json(
+        { success: false, message: 'Doctor access required' },
+        { status: 403 }
+      );
+    }
+
+    await dbConnect();
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, message: 'Waitlist entry ID is required' },
+        { status: 400 }
+      );
+    }
+
+    const deletedEntry = await Waitlist.findByIdAndDelete(id);
+
+    if (!deletedEntry) {
+      return NextResponse.json(
+        { success: false, message: 'Waitlist entry not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: `${deletedEntry.firstName} ${deletedEntry.lastName} has been removed from the waitlist.`
+    });
+
+  } catch (error) {
+    console.error('Error deleting waitlist entry:', error);
+    return NextResponse.json(
+      { success: false, message: 'Failed to delete waitlist entry' },
+      { status: 500 }
+    );
+  }
+}

@@ -1,14 +1,8 @@
 "use client";
 
-import { useState } from 'react';
 import Link from 'next/link';
 
 export default function BookAppointment() {
-  const [expanded, setExpanded] = useState(null);
-
-  const toggle = (id) => {
-    setExpanded(expanded === id ? null : id);
-  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -46,7 +40,6 @@ export default function BookAppointment() {
       <main className="max-w-5xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
 
-          {/* Card 1: New Patient - Find a Family Doctor */}
           <div 
             className="bg-white border-2 border-sky-200 rounded-xl p-8 transition-all duration-200 hover:border-sky-300 hover:shadow-md relative overflow-hidden"
           >
@@ -74,49 +67,16 @@ export default function BookAppointment() {
               Looking for a family doctor?
             </p>
             <p className="text-gray-600 mb-6 text-sm leading-relaxed">
-              We're expanding and currently accepting new patients. Book a Meet & Greet appointment directly with one of our family physicians.
+              We're expanding and currently accepting new patients. Join our waitlist to become a patient at our clinic.
             </p>
 
-            {/* Toggle Button */}
-            <button
-              onClick={() => toggle('new')}
+            {/* Join Waitlist Button */}
+            <Link
+              href="/waitlist"
               className="block w-full text-center py-4 px-6 rounded-lg font-medium text-base bg-gradient-to-r from-sky-600 to-sky-700 text-white hover:from-sky-700 hover:to-sky-800 transition-all duration-200"
             >
-              Book as a New Patient
-            </button>
-
-            {/* Expanded: Physician Selection */}
-            {expanded === 'new' && (
-              <div className="mt-6 pt-6 border-t border-sky-100 space-y-4">
-                <p className="text-sm font-medium text-gray-700 mb-4">Choose your family physician:</p>
-                
-                {/* Dr. Fagbolagun */}
-                <div className="bg-sky-50 rounded-lg p-4">
-                  <p className="font-medium text-gray-900 mb-2">Dr. Fagbolagun</p>
-                  <a
-                    href="https://ocean.cognisantmd.com/online-booking/99384945-bcd8-488a-b8b3-df900083d940"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-center py-3 px-4 rounded-lg text-sm font-medium bg-white border border-sky-300 text-sky-700 hover:bg-sky-100 transition-colors"
-                  >
-                    Book Meet & Greet
-                  </a>
-                </div>
-
-                {/* Dr. Okwechime */}
-                <div className="bg-sky-50 rounded-lg p-4">
-                  <p className="font-medium text-gray-900 mb-2">Dr. Okwechime</p>
-                  <a
-                    href="https://ocean.cognisantmd.com/online-booking/70262f3f-89d8-4426-9166-4a002360c21b"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-center py-3 px-4 rounded-lg text-sm font-medium bg-white border border-sky-300 text-sky-700 hover:bg-sky-100 transition-colors"
-                  >
-                    Book Meet & Greet
-                  </a>
-                </div>
-              </div>
-            )}
+              Join the Waitlist
+            </Link>
           </div>
 
           {/* Card 2: Existing Patient */}
@@ -145,44 +105,15 @@ export default function BookAppointment() {
               Book your next appointment directly with your family doctor.
             </p>
 
-            {/* Toggle Button */}
-            <button
-              onClick={() => toggle('existing')}
+            {/* Direct Booking Link */}
+            <a
+              href="https://ocean.cognisantmd.com/online-booking/7b15e604-ee55-4d68-909f-a6b8d6039554"
+              target="_blank"
+              rel="noopener noreferrer"
               className="block w-full text-center py-4 px-6 rounded-lg font-medium text-base bg-gradient-to-r from-sky-600 to-sky-700 text-white hover:from-sky-700 hover:to-sky-800 transition-all duration-200"
             >
-              Book as an Existing Patient
-            </button>
-
-            {/* Expanded: Physician Selection */}
-            {expanded === 'existing' && (
-              <div className="mt-6 pt-6 border-t border-sky-100 space-y-4">
-                {/* Dr. Fagbolagun */}
-                <div className="bg-sky-50 rounded-lg p-4">
-                  <p className="font-medium text-gray-900 mb-2">Dr. Fagbolagun</p>
-                  <a
-                    href="https://ocean.cognisantmd.com/online-booking/7b15e604-ee55-4d68-909f-a6b8d6039554"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-center py-3 px-4 rounded-lg text-sm font-medium bg-white border border-sky-300 text-sky-700 hover:bg-sky-100 transition-colors"
-                  >
-                    Book Appointment
-                  </a>
-                </div>
-
-                {/* Dr. Okwechime */}
-                <div className="bg-sky-50 rounded-lg p-4">
-                  <p className="font-medium text-gray-900 mb-2">Dr. Okwechime</p>
-                  <a
-                    href="https://ocean.cognisantmd.com/online-booking/5b641f80-4b63-4511-a6c9-5f04c97199c6"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-center py-3 px-4 rounded-lg text-sm font-medium bg-white border border-sky-300 text-sky-700 hover:bg-sky-100 transition-colors"
-                  >
-                    Book Appointment
-                  </a>
-                </div>
-              </div>
-            )}
+              Book Appointment with Dr. Fagbolagun
+            </a>
           </div>
 
           {/* Card 3: Urgent / Same-Day & Walk-In Care */}

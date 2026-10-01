@@ -6,7 +6,7 @@ import WaitlistStatusDropdown from './WaitlistStatusDropdown';
 import WaitlistDetailModal from './WaitlistDetailModal';
 import { useAuth } from '@/hooks/useAuth';
 import { exportWaitlistToExcel } from '@/utils/excelExport';
-import { Search, RefreshCw, X, ChevronLeft, ChevronRight, Download } from 'lucide-react';
+import { Search, RefreshCw, X, ChevronLeft, ChevronRight, Download, Trash2 } from 'lucide-react';
 
 export default function WaitlistTab() {
   const { user } = useAuth();
@@ -14,6 +14,7 @@ export default function WaitlistTab() {
   const [waitlist, setWaitlist] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isExporting, setIsExporting] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
   const [error, setError] = useState('');
   const [selectedWaitlistEntry, setSelectedWaitlistEntry] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -109,6 +110,29 @@ export default function WaitlistTab() {
     } catch (error) {
       console.error('Error updating waitlist status:', error);
       alert(error.response?.data?.message || 'Error updating waitlist status');
+    }
+  };
+
+  const handleDelete = async (entry) => {
+    const confirmed = window.confirm(
+      `Are you sure you want to remove ${entry.firstName} ${entry.lastName} from the waitlist? This action cannot be undone.`
+    );
+    if (!confirmed) return;
+
+    try {
+      setDeletingId(entry._id);
+      const response = await dashboardService.deleteWaitlistEntry(entry._id);
+      if (response.success) {
+        setWaitlist(prev => prev.filter(e => e._id !== entry._id));
+        setPagination(prev => ({ ...prev, total: prev.total - 1 }));
+      } else {
+        alert(response.message || 'Failed to delete waitlist entry');
+      }
+    } catch (error) {
+      console.error('Error deleting waitlist entry:', error);
+      alert(error.response?.data?.message || 'Error deleting waitlist entry');
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -270,6 +294,9 @@ export default function WaitlistTab() {
                 <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">Phone Number</th>
                 <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">Status Badge</th>
                 <th className="px-4 py-3 text-left font-bold text-[#475569] uppercase tracking-wider">Joined Date</th>
+                {isDoctor && (
+                  <th className="px-4 py-3 text-center font-bold text-[#475569] uppercase tracking-wider">Actions</th>
+                )}
               </tr>
             </thead>
             
@@ -327,12 +354,24 @@ export default function WaitlistTab() {
                   >
                     {entry.createdAt ? new Date(entry.createdAt).toLocaleDateString() : 'N/A'}
                   </td>
+                  {isDoctor && (
+                    <td className="px-4 py-4 text-center">
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleDelete(entry); }}
+                        disabled={deletingId === entry._id}
+                        className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition disabled:opacity-50 cursor-pointer"
+                        title={`Remove ${entry.firstName} ${entry.lastName}`}
+                      >
+                        <Trash2 className={`w-4 h-4 ${deletingId === entry._id ? 'animate-spin' : ''}`} />
+                      </button>
+                    </td>
+                  )}
                 </tr>
               ))}
               
               {waitlist.length === 0 && (
                 <tr>
-                  <td colSpan="6" className="px-4 py-16 text-center text-xs text-[#94A3B8]">
+                  <td colSpan={isDoctor ? 7 : 6} className="px-4 py-16 text-center text-xs text-[#94A3B8]">
                     No entries found matching filters.
                   </td>
                 </tr>

@@ -285,6 +285,12 @@ import { sendEmail } from '@/utils/emailService';
 export async function POST(request) {
   try {
     await dbConnect();
+    // Drop legacy unique email index if it exists in MongoDB to allow family members to share email addresses
+    try {
+      await Waitlist.collection.dropIndex('email_1');
+    } catch (indexErr) {
+      // Ignore if index doesn't exist
+    }
 
     const body = await request.json();
     const {
@@ -311,27 +317,32 @@ export async function POST(request) {
 
     const userEmail = email.toLowerCase().trim();
 
-    // Check if email already exists in waitlist
-    const existingWaitlist = await Waitlist.findOne({ email: userEmail })
-      .sort({ createdAt: -1 }); // Get most recent entry
+    // Check if the same person (same first name + last name + email) already exists
+    // This allows multiple family members to use the same email address
+    const trimmedFirstName = firstName.trim().toLowerCase();
+    const trimmedLastName = lastName.trim().toLowerCase();
 
-    if (existingWaitlist) {
-      // Calculate if 30 days have passed since last join
-      const lastJoinDate = new Date(existingWaitlist.createdAt);
-      const currentDate = new Date();
-      const daysSinceLastJoin = Math.floor((currentDate - lastJoinDate) / (1000 * 60 * 60 * 24));
-      
-      if (daysSinceLastJoin < 30) {
-        const daysLeft = 30 - daysSinceLastJoin;
-        return NextResponse.json(
-          { 
-            success: false, 
-            message: `You can only join the waitlist once per month. Please try again in ${daysLeft} day${daysLeft !== 1 ? 's' : ''}.` 
-          },
-          { status: 400 }
-        );
-      }
+    // Escape regex special characters in names to prevent injection
+    const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    const existingEntry = await Waitlist.findOne({
+      email: userEmail,
+      firstName: { $regex: new RegExp(`^${escapeRegex(trimmedFirstName)}$`, 'i') },
+      lastName: { $regex: new RegExp(`^${escapeRegex(trimmedLastName)}$`, 'i') },
+    });
+
+    if (existingEntry) {
+      return NextResponse.json(
+        { 
+          success: false, 
+          message: `${firstName.trim()} ${lastName.trim()} is already on our waitlist with this email address.` 
+        },
+        { status: 400 }
+      );
     }
+
+    // Check if this email has been used before (for the returning-user welcome message)
+    const existingEmailEntry = await Waitlist.findOne({ email: userEmail });
 
     // Get total count of people in waitlist (for informational purposes)
     const totalWaitlistCount = await Waitlist.countDocuments({ status: 'Active' });
@@ -353,7 +364,7 @@ export async function POST(request) {
       // No position field - removed
     });
 
-    const isReturningUser = !!existingWaitlist;
+    const isReturningUser = !!existingEmailEntry;
 
     // ✅ FIXED: Send welcome email with proper await and error handling
     try {
@@ -380,10 +391,10 @@ export async function POST(request) {
   } catch (error) {
     console.error('Waitlist join error:', error);
     
-    // Handle duplicate email error (shouldn't happen with our logic, but just in case)
+    // Handle duplicate error (if compound index triggers)
     if (error.code === 11000) {
       return NextResponse.json(
-        { success: false, message: 'This email is already on our waitlist!' },
+        { success: false, message: 'This person is already on our waitlist with this email address.' },
         { status: 400 }
       );
     }
@@ -431,11 +442,7 @@ async function sendWaitlistWelcomeEmail(waitlistEntry, isReturningUser = false) 
           
           <p>${mainMessage}</p>
           
-          ${isReturningUser ? `
-          <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 15px; margin: 20px 0;">
-            <p style="margin: 0; color: #856404;"><strong>Note:</strong> You can join our waitlist once every 30 days. This helps us manage our queue fairly for all patients.</p>
-          </div>
-          ` : ''}
+
           
           <p><strong>What happens next?</strong></p>
           <ul>
