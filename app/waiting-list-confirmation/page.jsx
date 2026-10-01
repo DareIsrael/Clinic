@@ -15,7 +15,7 @@ export default function WaitingListConfirmation() {
           </div>
           <div className="text-center space-y-3 mb-4">
             <p className="text-sm font-semibold text-gray-800 leading-tight">
-              Thank you for joining our waiting list! 🎉
+              Thank you for joining our waiting list!
             </p>
             <p className="text-xs text-gray-600 leading-relaxed">
               Our team will contact you shortly to schedule your appointment.
