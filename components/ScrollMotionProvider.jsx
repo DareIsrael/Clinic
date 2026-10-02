@@ -134,9 +134,9 @@ export default function ScrollMotionProvider({ children }) {
           {/* Book Appointment Button */}
           <Link
             href="/appointment"
-            className="bg-gradient-to-r from-sky-600 via-sky-700 to-blue-700 hover:from-sky-500 hover:to-blue-600 text-white font-semibold text-xs sm:text-sm px-4 py-3 rounded-full shadow-2xl border border-sky-300/30 flex items-center gap-2 transition-all duration-300 hover:scale-105 active:scale-95 group whitespace-nowrap"
+            className="bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 text-white font-semibold text-xs sm:text-sm px-4 py-3 rounded-full shadow-lg border border-sky-400/30 flex items-center gap-2 transition-all duration-300 hover:scale-105 active:scale-95 group whitespace-nowrap"
           >
-            <Calendar className="w-4 h-4 text-sky-200 group-hover:rotate-12 transition-transform duration-200" />
+            <Calendar className="w-4 h-4 text-sky-100 group-hover:rotate-12 transition-transform duration-200" />
             <span>Book Appointment</span>
           </Link>
 
@@ -145,7 +145,7 @@ export default function ScrollMotionProvider({ children }) {
             type="button"
             onClick={scrollToTop}
             aria-label="Scroll to top"
-            className="p-3 bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white rounded-full shadow-2xl border border-sky-300/30 transition-all duration-300 transform hover:scale-110 active:scale-95 group flex items-center justify-center"
+            className="p-3 bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 text-white rounded-full shadow-lg border border-sky-400/30 transition-all duration-300 transform hover:scale-110 active:scale-95 group flex items-center justify-center"
           >
             <ArrowUp className="w-5 h-5 group-hover:-translate-y-1 transition-transform duration-200" />
           </button>
