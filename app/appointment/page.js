@@ -199,6 +199,64 @@ export default function BookAppointment() {
           </p>
         </div>
 
+        {/* Important Information – Walk-In Appointments */}
+        <section className="max-w-4xl mx-auto mb-12 bg-white border border-sky-200 rounded-xl p-5 sm:p-8">
+          <div className="flex items-center mb-3">
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-sky-50 mr-3 flex-shrink-0">
+              <svg className="w-5 h-5 text-sky-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
+              Important Information – Walk-In Appointments
+            </h2>
+          </div>
+          <p className="text-gray-600 text-sm mb-6">
+            To help us provide safe and appropriate care, please note the following before booking:
+          </p>
+
+          <ul className="space-y-4">
+            {[
+              {
+                title: "Medical forms, certificates and benefit applications",
+                text: "Walk-in physicians cannot guarantee completion of disability, chronic illness, terminal illness, end-of-life care, insurance or benefit-related forms. These requests may require an established physician-patient relationship, supporting medical records and a comprehensive assessment.",
+              },
+              {
+                title: "Controlled medications",
+                text: "Walk-in appointments are not intended for routine prescribing or renewal of controlled medications, including opioids, stimulants and certain sedatives. Any prescribing decision is at the physician's clinical discretion following an appropriate assessment.",
+              },
+              {
+                title: "Chronic and ongoing medical conditions",
+                text: "Walk-in appointments are primarily for new or time-sensitive, non-emergency concerns. Ongoing management of complex or chronic conditions may require follow-up with your regular family physician or an appropriate specialist.",
+              },
+              {
+                title: "Annual examinations and complex assessments",
+                text: "Routine annual examinations, comprehensive medical assessments and ongoing mental health follow-ups may not be accommodated through walk-in appointments.",
+              },
+              {
+                title: "Appointment availability",
+                text: "Walk-in appointments are subject to physician availability and clinic capacity. Booking an appointment does not guarantee a particular treatment, prescription, referral or document.",
+              },
+            ].map((item) => (
+              <li key={item.title} className="flex items-start">
+                <span className="mt-2 mr-3 w-1.5 h-1.5 rounded-full bg-sky-600 flex-shrink-0"></span>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  <span className="font-semibold text-gray-900">{item.title}:</span> {item.text}
+                </p>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-6 pt-5 border-t border-sky-100 space-y-2">
+            <p className="text-sm text-gray-700">
+              Please contact the clinic before booking if you are unsure whether your concern can be addressed through a walk-in appointment.
+            </p>
+            <p className="text-sm font-medium text-red-600">
+              For medical emergencies, please call 911 or attend the nearest emergency department.
+            </p>
+          </div>
+        </section>
+
         {/* Help Note - Responsive with Call Button */}
 <div className="text-center mb-12">
   <div className="inline-flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full">
