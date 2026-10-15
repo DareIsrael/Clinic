@@ -259,4 +259,27 @@ export const dashboardService = {
     });
     return response.data;
   },
+
+  // Emergency Teaser functions
+  getEmergencyTeasers: async (isAdmin = false) => {
+    const response = await api.get('/emergency-teaser', {
+      params: { admin: isAdmin }
+    });
+    return response.data;
+  },
+
+  createEmergencyTeaser: async (teaserData) => {
+    const response = await api.post('/emergency-teaser', teaserData);
+    return response.data;
+  },
+
+  updateEmergencyTeaser: async (id, teaserData) => {
+    const response = await api.put(`/emergency-teaser/${id}`, teaserData);
+    return response.data;
+  },
+
+  deleteEmergencyTeaser: async (id) => {
+    const response = await api.delete(`/emergency-teaser/${id}`);
+    return response.data;
+  },
 };

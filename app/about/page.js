@@ -441,27 +441,28 @@ export default function AboutPage() {
       {/* Physician Profiles - Side by Side on Desktop, Stacked on Mobile */}
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="max-w-xl mx-auto">
-            {/* Dr. Oluwaseun Fagbolagun */}
-            <div className="bg-white rounded-2xl border border-sky-200 shadow-lg overflow-hidden">
-              <div className="p-6 md:p-8">
-                <div className="mb-6">
-                  <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-4">Your Family Physician</h2>
-                  <div className="w-16 h-1 bg-sky-500 mb-6"></div>
-                </div>
-                
-                <div className="mb-8">
-                  <h3 className="text-xl font-bold text-sky-900 mb-4">Dr. Oluwaseun FAGBOLAGUN</h3>
-                  <p className="text-lg text-sky-600 font-medium mb-6">Family Physician</p>
-                  <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-6">
-                    Dr. Fagbolagun brings over a decade experience of medical practice. He is certified
-                    in family medicine by both Canadian and UK medical boards. With a commitment to excellence
-                    and a compassionate approach to patient care, Dr. Fagbolagun provides comprehensive medical
-                    services for patients of all ages.
-                  </p>
-                </div>
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-4">Our Physicians</h2>
+            <div className="w-16 h-1 bg-sky-500 mx-auto mb-4"></div>
+            <p className="text-sky-700 max-w-2xl mx-auto text-sm sm:text-base">Meet the experienced and compassionate physicians dedicated to your care at St Mary Rideau Family Clinic.</p>
+          </div>
 
-                <div className="space-y-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Dr. Oluwaseun Fagbolagun */}
+            <div className="bg-white rounded-2xl border border-sky-200 shadow-lg overflow-hidden flex flex-col">
+              <div className="bg-gradient-to-r from-sky-600 to-sky-700 px-6 py-4">
+                <h3 className="text-xl font-bold text-white">Dr. Oluwaseun FAGBOLAGUN</h3>
+                <p className="text-sky-200 text-sm mt-1">Family Physician</p>
+              </div>
+              <div className="p-6 md:p-8 flex flex-col flex-1">
+                <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-8">
+                  Dr. Fagbolagun brings over a decade of medical practice experience. He is certified
+                  in family medicine by both Canadian and UK medical boards. With a commitment to excellence
+                  and a compassionate approach to patient care, Dr. Fagbolagun provides comprehensive medical
+                  services for patients of all ages.
+                </p>
+
+                <div className="space-y-4 mt-auto">
                   {credentials.map((credential, index) => (
                     <div key={index} className="flex items-start space-x-4">
                       <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
@@ -477,7 +478,61 @@ export default function AboutPage() {
               </div>
             </div>
 
+            {/* Dr. Reginald Chinna Agukwendu */}
+            <div className="bg-white rounded-2xl border border-sky-200 shadow-lg overflow-hidden flex flex-col">
+              <div className="bg-gradient-to-r from-sky-700 to-sky-800 px-6 py-4">
+                <h3 className="text-xl font-bold text-white">Dr. Reginald Chinna AGUKWENDU</h3>
+                <p className="text-sky-200 text-sm mt-1">Family Physician</p>
+              </div>
+              <div className="p-6 md:p-8 flex flex-col flex-1">
+                <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-6">
+                  Dr. Agukwendu is a family physician with broad clinical experience across Canada, the United Kingdom, Saudi Arabia, and Nigeria. He completed his postgraduate training in General Practice in the West Midlands, United Kingdom, and holds a Certificate of Completion of Training (CCT) in General Practice.
+                </p>
+                <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-6">
+                  Throughout his career, Dr. Agukwendu has cared for patients across all stages of life in a variety of clinical settings — including family medicine, emergency medicine, pediatrics, older adult psychiatry, internal medicine, surgery, and women&apos;s health.
+                </p>
+                <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-8">
+                  He is committed to providing compassionate, respectful, and evidence-informed care, with an emphasis on preventive care, routine health screening, health education, and helping patients make informed decisions about their health.
+                </p>
 
+                <div className="space-y-4 mt-auto">
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14v6l9-5-9-5-9 5 9 5z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">UK Training</h4>
+                      <p className="text-sky-700 text-sm sm:text-base leading-relaxed">CCT in General Practice — West Midlands, United Kingdom</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">Areas of Practice</h4>
+                      <p className="text-sky-700 text-sm sm:text-base leading-relaxed">Family Medicine · Emergency Medicine · Pediatrics · Women&apos;s Health · Internal Medicine</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">International Experience</h4>
+                      <p className="text-sky-700 text-sm sm:text-base leading-relaxed">Canada · United Kingdom · Saudi Arabia · Nigeria</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Practice Philosophy Section - Full Width Below Both Doctors */}

@@ -11,6 +11,7 @@ import WaitlistBroadcastTab from "@/components/admin/WaitlistBroadcastTab";
 import AppointmentBroadcastTab from "@/components/admin/AppointmentBroadcastTab";
 import BroadcastHistoryTab from "@/components/admin/BroadcastHistoryTab";
 import SettingsTab from "@/components/admin/SettingsTab";
+import EmergencyTeaserTab from "@/components/admin/EmergencyTeaserTab";
 import {
   LayoutGrid,
   ClipboardList,
@@ -30,6 +31,7 @@ import {
   Settings,
   Sun,
   Moon,
+  AlertTriangle,
 } from "lucide-react";
 
 export default function AdminDashboard() {
@@ -162,6 +164,12 @@ export default function AdminDashboard() {
       label: "Announcements",
       icon: Megaphone,
       target: "announcements",
+    },
+    {
+      id: "emergency-teaser",
+      label: "Emergency Teaser",
+      icon: AlertTriangle,
+      target: "emergency-teaser",
     },
   ];
 
@@ -766,6 +774,7 @@ export default function AdminDashboard() {
               {activeTab === "waitlist" && <WaitlistTab />}
               {activeTab === "reports" && <ReportsTab />}
               {activeTab === "announcements" && <AnnouncementsTab />}
+              {activeTab === "emergency-teaser" && <EmergencyTeaserTab />}
               {activeTab === "appointments" && <AppointmentsTab />}
               {activeTab === "slots" && <SlotManagement />}
               {activeTab === "waitlist-broadcast" && <WaitlistBroadcastTab />}

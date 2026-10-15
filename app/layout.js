@@ -98,6 +98,7 @@ import { LanguageProvider } from "@/components/LanguageProvider";
 import AdminInactivityTracker from "@/components/AdminInactivityTracker";
 import ScrollMotionProvider from "@/components/ScrollMotionProvider";
 import Footer from "@/components/Footer";
+import EmergencyBanner from "@/components/EmergencyBanner";
 import {
   Phone,
   Mail,
@@ -167,6 +168,7 @@ export default function RootLayout({ children }) {
               <AdminInactivityTracker />
 
               <Navbar />
+              <EmergencyBanner />
               <main className="min-h-screen">{children}</main>
             </ScrollMotionProvider>
 
