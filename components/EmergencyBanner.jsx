@@ -159,7 +159,7 @@ export default function EmergencyBanner() {
       className={`w-full ${config.bg} ${config.text} ${config.border} border-b shadow-md`}
       style={{ zIndex: 45 }}
     >
-      <div className="max-w-7xl mx-auto px-4 py-2.5">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-3">
         <div className="flex items-start gap-3">
 
           {/* Pulsing dot for emergency type */}
