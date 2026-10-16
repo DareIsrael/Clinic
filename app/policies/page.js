@@ -88,7 +88,7 @@ export default function PoliciesPage() {
         },
         {
           title: 'No-Shows',
-          content: 'Missed appointments WILL result in fees (30 cad) and no further appointments unless PAID. Three no shows results in a warning. Four no shows results in an automatic de-rostering.'
+          content: 'Missed appointments WILL result in fees ($60) and no further appointments unless PAID. Three no shows results in a warning. Four no shows results in an automatic de-rostering.'
         }
       ]
     },
