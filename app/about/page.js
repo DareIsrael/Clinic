@@ -292,6 +292,354 @@
 
 
 
+// import Image from 'next/image';
+// import Link from 'next/link';
+
+// export default function AboutPage() {
+//   const credentials = [
+//     { 
+//       title: 'Medical Degree', 
+//       value: 'MD - Doctor of Medicine',
+//       icon: (
+//         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
+//           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
+//           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14v6l9-5-9-5-9 5 9 5z" />
+//         </svg>
+//       )
+//     },
+//     { 
+//       title: 'Canadian Certification', 
+//       value: 'CCFP - Canadian College of Family Physicians',
+//       icon: (
+//         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+//         </svg>
+//       )
+//     },
+//     { 
+//       title: 'UK Certification', 
+//       value: 'MRCGP - Member of Royal College of General Practitioners',
+//       icon: (
+//         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+//         </svg>
+//       )
+//     },
+//   ];
+
+//   const values = [
+//     {
+//       icon: (
+//         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+//         </svg>
+//       ),
+//       title: 'Patient-Centered Care',
+//       description: 'Every treatment plan is tailored to your unique health needs and lifestyle'
+//     },
+//     {
+//       icon: (
+//         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+//         </svg>
+//       ),
+//       title: 'Continuity of Care',
+//       description: 'Build a long-term relationship with your dedicated family physician'
+//     },
+//     {
+//       icon: (
+//         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+//         </svg>
+//       ),
+//       title: 'Evidence-Based Medicine',
+//       description: 'Treatment decisions based on the latest medical research and guidelines'
+//     },
+//     {
+//       icon: (
+//         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+//         </svg>
+//       ),
+//       title: 'Compassionate Approach',
+//       description: 'Healthcare delivered with empathy, respect, and understanding'
+//     }
+//   ];
+
+//   const practiceFeatures = [
+//     {
+//       icon: (
+//         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+//         </svg>
+//       ),
+//       title: 'Same-Day Appointments',
+//       description: 'Urgent care needs addressed promptly'
+//     },
+//     {
+//       icon: (
+//         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+//         </svg>
+//       ),
+//       title: 'OHIP Billed Services',
+//       description: 'Most medical services covered by Ontario Health Insurance'
+//     },
+//     {
+//       icon: (
+//         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+//         </svg>
+//       ),
+//       title: 'Comprehensive Care',
+//       description: 'Full-spectrum family medicine for all ages'
+//     },
+//     {
+//       icon: (
+//         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+//         </svg>
+//       ),
+//       title: 'Welcoming Environment',
+//       description: 'Comfortable clinic designed for patient relaxation'
+//     }
+//   ];
+
+//   return (
+//     <div className="min-h-screen bg-white">
+//       {/* Hero Section with Background Image */}
+//       <section className="relative min-h-[60vh] flex items-center justify-start bg-sky-900 overflow-hidden">
+//         {/* Background Image */}
+//        <div 
+//   className="absolute inset-0 bg-cover bg-top bg-no-repeat"
+//   style={{
+//     backgroundImage: 'url("https://res.cloudinary.com/dveill0ji/image/upload/v1776831814/St.MaryBackgroundA_pqfkaw.jpg")',
+//   }}
+// >
+//   <div className="absolute inset-0 bg-sky-900/70"></div>
+// </div>
+
+//         {/* Sky Blue Text Box */}
+//         <div className="relative z-10 max-w-md mx-4 lg:mx-16 xl:mx-24 bg-white-700/90 backdrop-blur-sm rounded-2xl p-6 lg:p-8 border border-sky-400/40 shadow-xl">
+//           <h1 className="text-2xl lg:text-3xl font-bold text-white mb-4">
+//             About St Mary Rideau Family Clinic
+//           </h1>
+//           <div className="w-12 h-0.5 bg-sky-300 rounded-full mb-4"></div>
+          
+//           <p className="text-sm text-white leading-relaxed mb-4">
+//             Providing compassionate, comprehensive family medicine to the Ottawa community with personalized care from experienced physicians.
+//           </p>
+//           <div className="p-3 bg-sky-600/60 rounded-lg border-l-2 border-sky-300">
+//             <p className="text-sm text-white font-light italic">
+//               &ldquo;Building healthier families through dedicated, personalized medical care.&rdquo;
+//             </p>
+//           </div>
+//         </div>
+//       </section>
+
+//       {/* Physician Profiles - Side by Side on Desktop, Stacked on Mobile */}
+//       <section className="py-16 bg-white">
+//         <div className="max-w-6xl mx-auto px-4">
+//           <div className="text-center mb-12">
+//             <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-4">Our Physicians</h2>
+//             <div className="w-16 h-1 bg-sky-500 mx-auto mb-4"></div>
+//             <p className="text-sky-700 max-w-2xl mx-auto text-sm sm:text-base">Meet the experienced and compassionate physicians dedicated to your care at St Mary Rideau Family Clinic.</p>
+//           </div>
+
+//           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+//             {/* Dr. Oluwaseun Fagbolagun */}
+//             <div className="bg-white rounded-2xl border border-sky-200 shadow-lg overflow-hidden flex flex-col">
+//               <div className="bg-gradient-to-r from-sky-600 to-sky-700 px-6 py-4">
+//                 <h3 className="text-xl font-bold text-white">Dr. Oluwaseun FAGBOLAGUN</h3>
+//                 <p className="text-sky-200 text-sm mt-1">Family Physician</p>
+//               </div>
+//               <div className="p-6 md:p-8 flex flex-col flex-1">
+//                 <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-8">
+//                   Dr. Fagbolagun brings over a decade of medical practice experience. He is certified
+//                   in family medicine by both Canadian and UK medical boards. With a commitment to excellence
+//                   and a compassionate approach to patient care, Dr. Fagbolagun provides comprehensive medical
+//                   services for patients of all ages.
+//                 </p>
+
+//                 <div className="space-y-4">
+//                   {credentials.map((credential, index) => (
+//                     <div key={index} className="flex items-start space-x-4">
+//                       <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
+//                         {credential.icon}
+//                       </div>
+//                       <div>
+//                         <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">{credential.title}</h4>
+//                         <p className="text-sky-700 text-sm sm:text-base leading-relaxed">{credential.value}</p>
+//                       </div>
+//                     </div>
+//                   ))}
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Dr. Reginald Chinna Agukwendu */}
+//             <div className="bg-white rounded-2xl border border-sky-200 shadow-lg overflow-hidden flex flex-col">
+//               <div className="bg-gradient-to-r from-sky-700 to-sky-800 px-6 py-4">
+//                 <h3 className="text-xl font-bold text-white">Dr. Reginald Chinna AGUKWENDU</h3>
+//                 <p className="text-sky-200 text-sm mt-1">Family Physician</p>
+//               </div>
+//               <div className="p-6 md:p-8 flex flex-col flex-1">
+//                 <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-6">
+//                   Dr. Agukwendu is a family physician with broad clinical experience across Canada, the United Kingdom, Saudi Arabia, and Nigeria. He completed his postgraduate training in General Practice in the West Midlands, United Kingdom, and holds a Certificate of Completion of Training (CCT) in General Practice.
+//                 </p>
+//                 <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-6">
+//                   Throughout his career, Dr. Agukwendu has cared for patients across all stages of life in a variety of clinical settings — including family medicine, emergency medicine, pediatrics, older adult psychiatry, internal medicine, surgery, and women&apos;s health.
+//                 </p>
+//                 <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-8">
+//                   He is committed to providing compassionate, respectful, and evidence-informed care, with an emphasis on preventive care, routine health screening, health education, and helping patients make informed decisions about their health.
+//                 </p>
+
+//                 <div className="space-y-4 mt-auto">
+//                   <div className="flex items-start space-x-4">
+//                     <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
+//                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
+//                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14v6l9-5-9-5-9 5 9 5z" />
+//                       </svg>
+//                     </div>
+//                     <div>
+//                       <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">UK Training</h4>
+//                       <p className="text-sky-700 text-sm sm:text-base leading-relaxed">CCT in General Practice — West Midlands, United Kingdom</p>
+//                     </div>
+//                   </div>
+//                   <div className="flex items-start space-x-4">
+//                     <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
+//                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+//                       </svg>
+//                     </div>
+//                     <div>
+//                       <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">Areas of Practice</h4>
+//                       <p className="text-sky-700 text-sm sm:text-base leading-relaxed">Family Medicine · Emergency Medicine · Pediatrics · Women&apos;s Health · Internal Medicine</p>
+//                     </div>
+//                   </div>
+//                   <div className="flex items-start space-x-4">
+//                     <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
+//                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+//                       </svg>
+//                     </div>
+//                     <div>
+//                       <h4 className="font-semibold text-sky-900 text-sm uppercase tracking-wide">International Experience</h4>
+//                       <p className="text-sky-700 text-sm sm:text-base leading-relaxed">Canada · United Kingdom · Saudi Arabia · Nigeria</p>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+
+//           {/* Practice Philosophy Section - Full Width Below Both Doctors */}
+//           <div className="mt-12 bg-white rounded-2xl p-8 border border-sky-200 shadow-lg">
+//             <h3 className="text-2xl font-bold text-sky-900 mb-6">Our Practice Philosophy</h3>
+//             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+//               {values.map((value, index) => (
+//                 <div key={index} className="flex items-start space-x-4">
+//                   <div className="flex-shrink-0 w-12 h-12 bg-sky-50 rounded-lg flex items-center justify-center text-sky-600 border border-sky-200">
+//                     {value.icon}
+//                   </div>
+//                   <div>
+//                     <h4 className="text-lg font-semibold text-sky-900 mb-2">{value.title}</h4>
+//                     <p className="text-sky-700 text-sm sm:text-base leading-relaxed">{value.description}</p>
+//                   </div>
+//                 </div>
+//               ))}
+//             </div>
+//           </div>
+//         </div>
+//       </section>
+
+//       {/* Practice Features */}
+//       <section className="py-16 bg-white">
+//         <div className="max-w-6xl mx-auto px-4">
+//           <div className="text-center mb-12">
+//             <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-4">Our Practice Features</h2>
+//             <div className="w-16 h-1 bg-sky-500 mx-auto mb-6"></div>
+//             <p className="text-sky-700 max-w-2xl mx-auto">
+//               Designed with your comfort and convenience in mind
+//             </p>
+//           </div>
+
+//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+//             {practiceFeatures.map((feature, index) => (
+//               <div key={index} className="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow duration-200 border border-sky-100">
+//                 <div className="text-sky-600 mb-4 flex justify-center">
+//                   {feature.icon}
+//                 </div>
+//                 <h3 className="text-lg font-semibold text-sky-900 mb-2">{feature.title}</h3>
+//                 <p className="text-sky-700 text-sm">{feature.description}</p>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       </section>
+
+//       {/* Mission & Vision */}
+//       <section className="py-16 bg-white">
+//         <div className="max-w-6xl mx-auto px-4">
+//           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+//             <div>
+//               <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-6">Our Mission</h2>
+//               <div className="w-16 h-1 bg-sky-500 mb-6"></div>
+//               <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-6">
+//                 To serve our patients, team, and community with excellence - grounded in integrity,
+//                 guided by professionalism, and driven by patient-centred innovation. We are committed
+//                 to delivering accessible, comprehensive healthcare that evolves with the needs of the families we serve.
+//               </p>
+//               <div className="bg-sky-100 rounded-lg p-6 border border-sky-200">
+//                 <h3 className="font-semibold text-sky-800 mb-3">Our Commitment</h3>
+//                 <ul className="space-y-2 text-sky-700 text-sm sm:text-base leading-relaxed">
+//                   <li className="flex items-center">
+//                     <svg className="w-4 h-4 mr-3 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
+//                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+//                     </svg>
+//                     Personalized care for every patient
+//                   </li>
+//                   <li className="flex items-center">
+//                     <svg className="w-4 h-4 mr-3 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
+//                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+//                     </svg>
+//                     Evidence-based medical practice
+//                   </li>
+//                   <li className="flex items-center">
+//                     <svg className="w-4 h-4 mr-3 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
+//                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+//                     </svg>
+//                     Continuity of care through long-term relationships
+//                   </li>
+//                 </ul>
+//               </div>
+//             </div>
+
+//             <div>
+//               <h2 className="text-2xl md:text-3xl font-bold text-sky-900 mb-6">Our Vision</h2>
+//               <div className="w-16 h-1 bg-sky-500 mb-6"></div>
+//               <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-6">
+//                 To provide compassionate, efficient, and high-quality family medical care in Ottawa- blending
+//                 modern technology, premium service, and accessible care. We believe every family deserves care
+//                 they can trust - care that grows with them and supports their health at every stage of life.
+//               </p>
+//               <div className="border-l-4 border-sky-500 pl-6">
+//                 <p className="text-lg italic text-sky-800 text-sm sm:text-base md:text-lg leading-relaxed">
+//                   &ldquo;Building healthier families through dedicated, personalized medical care.&rdquo;
+//                 </p>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </section>
+//     </div>
+//   );
+// }
+
+
+
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -447,14 +795,14 @@ export default function AboutPage() {
             <p className="text-sky-700 max-w-2xl mx-auto text-sm sm:text-base">Meet the experienced and compassionate physicians dedicated to your care at St Mary Rideau Family Clinic.</p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
             {/* Dr. Oluwaseun Fagbolagun */}
-            <div className="bg-white rounded-2xl border border-sky-200 shadow-lg overflow-hidden flex flex-col">
+            <div className="bg-white rounded-2xl border border-sky-200 shadow-lg overflow-hidden">
               <div className="bg-gradient-to-r from-sky-600 to-sky-700 px-6 py-4">
                 <h3 className="text-xl font-bold text-white">Dr. Oluwaseun FAGBOLAGUN</h3>
                 <p className="text-sky-200 text-sm mt-1">Family Physician</p>
               </div>
-              <div className="p-6 md:p-8 flex flex-col flex-1">
+              <div className="p-6 md:p-8">
                 <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-8">
                   Dr. Fagbolagun brings over a decade of medical practice experience. He is certified
                   in family medicine by both Canadian and UK medical boards. With a commitment to excellence
@@ -462,7 +810,7 @@ export default function AboutPage() {
                   services for patients of all ages.
                 </p>
 
-                <div className="space-y-4 mt-auto">
+                <div className="space-y-4">
                   {credentials.map((credential, index) => (
                     <div key={index} className="flex items-start space-x-4">
                       <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
@@ -479,12 +827,12 @@ export default function AboutPage() {
             </div>
 
             {/* Dr. Reginald Chinna Agukwendu */}
-            <div className="bg-white rounded-2xl border border-sky-200 shadow-lg overflow-hidden flex flex-col">
+            <div className="bg-white rounded-2xl border border-sky-200 shadow-lg overflow-hidden">
               <div className="bg-gradient-to-r from-sky-700 to-sky-800 px-6 py-4">
                 <h3 className="text-xl font-bold text-white">Dr. Reginald Chinna AGUKWENDU</h3>
                 <p className="text-sky-200 text-sm mt-1">Family Physician</p>
               </div>
-              <div className="p-6 md:p-8 flex flex-col flex-1">
+              <div className="p-6 md:p-8">
                 <p className="text-sky-700 text-sm sm:text-base leading-relaxed mb-6">
                   Dr. Agukwendu is a family physician with broad clinical experience across Canada, the United Kingdom, Saudi Arabia, and Nigeria. He completed his postgraduate training in General Practice in the West Midlands, United Kingdom, and holds a Certificate of Completion of Training (CCT) in General Practice.
                 </p>
@@ -495,7 +843,7 @@ export default function AboutPage() {
                   He is committed to providing compassionate, respectful, and evidence-informed care, with an emphasis on preventive care, routine health screening, health education, and helping patients make informed decisions about their health.
                 </p>
 
-                <div className="space-y-4 mt-auto">
+                <div className="space-y-4">
                   <div className="flex items-start space-x-4">
                     <div className="flex-shrink-0 w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center text-sky-600">
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
