@@ -147,7 +147,7 @@ export default function AboutPage() {
                   className="inline-block mt-3 text-xs rounded-full px-2.5 py-1"
                   style={{ background: '#f0f8ff', border: '1px solid #d7ecfb', color: '#28618b' }}
                 >
-                  For existing patients
+                  Not accepting New Patients
                 </span>
               </div>
             </div>
@@ -178,9 +178,7 @@ export default function AboutPage() {
               >
                 Existing Patients: Book Appointment →
               </Link>
-              <span className="text-[11px] flex-1" style={{ color: '#71849b' }}>
-                Dr.&nbsp;Fagbolagun is currently seeing existing patients only and is not accepting new patients at this time.
-              </span>
+              
             </div>
           </article>
 
@@ -254,7 +252,7 @@ export default function AboutPage() {
           <div className="flex-1 min-w-[200px]">
             <h3 className="text-[19px] font-bold mb-1" style={{ color: '#071d46' }}>Our team is growing</h3>
             <p className="text-[13px] leading-[1.65]" style={{ color: '#4f6a83' }}>
-              We look forward to welcoming another family physician in spring 2027. More information about the new physician and appointment availability will be shared closer to their start date.
+              We look forward to welcoming another family physician in early 2027. More information about the new physician and appointment availability will be shared closer to their start date.
             </p>
           </div>
           <span

@@ -504,7 +504,7 @@ export default function BookAppointmentPage() {
           {[
             {
               q: 'Is Dr.\u00a0Fagbolagun accepting new patients?',
-              a: 'Dr.\u00a0Fagbolagun is currently booking appointments for patients already under his care. New patients can use Dr.\u00a0Reginald\u2019s new-patient appointment option.',
+              a: 'No, Dr. Fagbolagun is not accepting new patients. New patients can use Dr. Reginald’s new appointment option.',
             },
             {
               q: 'What happens at a new-patient appointment?',
