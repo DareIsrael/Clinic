@@ -1,0 +1,96 @@
+Hi Damilare,
+
+I hope you're doing well.
+
+We're looking to refresh the About Us page of our website while maintaining the clinic's existing branding and colour scheme.
+
+The goal is to create a page that feels welcoming, credible and well-organised, highlighting our physicians, our approach to patient care and the team behind the clinic.
+
+I'll send an HTML prototype to illustrate the proposed design and layout on whatsapp.
+
+Please see the requested updates below:
+
+1. Overall page design
+
+Use the attached prototype as the design reference.
+
+Retain our existing navy blue, light blue and white colour scheme, logo and general branding.
+
+Improve the spacing, typography and layout to make the page visually appealing, easy to navigate and comfortable to read.
+
+Ensure the design is fully responsive on desktop, tablet and mobile.
+
+2. Meet Our Physicians section
+
+We'd like this to be one of the main highlights of the page.
+
+Create prominent, well-designed individual profiles for Dr. Oluwaseun Fagbolagun and Dr. Reginald Agukwendu.
+
+Present their professional backgrounds, qualifications and approach to patient care in a clear, concise and engaging format.
+
+Retain the relevant information from their existing biographies, but improve the presentation so it is easier for patients to read.
+
+Include a booking button on each physician's profile.
+
+Clearly indicate that Dr. Fagbolagun is seeing existing patients only (Not accepting new patients), while Dr. Reginald is accepting new patients.
+
+Use the imagery and profile layout illustrated in the prototype.
+
+3. Upcoming physician – Spring 2027
+
+We're expecting another family physician to join the clinic in March 2027.
+
+For now, we'd like to introduce a subtle "Our Team Is Growing" section without revealing the physician's name or adding a booking link.
+
+Suggested wording:
+
+We're looking forward to welcoming another family physician in early 2027. More details about our growing team and appointment availability will be shared closer to the time.
+
+We can update this section with the physician's name, profile and booking information closer to her start date.
+
+4. Our Team section
+
+We'd like to begin highlighting the wider team supporting patient care.
+
+Add an "Our Support Team" section explaining the roles of our clinical assistants and administrative/patient services team.
+
+Keep this section general for now, with a layout that allows us to add individual staff profiles and photographs in the future.
+
+The aim is to show patients that our clinic operates with a coordinated team supporting our physicians.
+
+5. Learning & Opportunities section
+
+Please include a small section for future internship, clinical learning and volunteer opportunities.
+
+This should be presented as an introduction to our interest in supporting healthcare learning and development, rather than as an advertisement for current vacancies. The inquiry tag will be to the email on the website.
+
+We may expand this into a dedicated page later.
+
+6. Our Approach to Care
+
+Please reorganise our existing mission, vision and approach to patient care into a more concise and visually engaging section.
+
+We want visitors to understand that we provide patient-centred, evidence-informed care, supported by modern systems and a commitment to continuity of care.
+
+7. Booking and contact links
+
+Please ensure that all booking and contact buttons direct visitors to the appropriate pages.
+
+8. Updated clinic operating hours
+
+Please update our operating hours across the website as follows:
+
+Monday – Thursday: 9:00 AM – 7:00 PM
+
+Friday: 9:00 AM – 5:00 PM
+
+Saturday: 9:00 AM – 3:00 PM
+
+Sunday: Closed
+
+This should be reflected wherever our hours appear, including the homepage, contact page, footer and any other relevant sections.
+
+Overall, we want the About Us page to communicate professionalism, warmth and confidence, while giving visitors a clear understanding of who we are and how our clinic operates.
+
+The prototype on whatsapp should serve as the main visual reference, although we're happy for you to make any technical adjustments necessary to achieve the same overall result.
+

@@ -1,299 +1,550 @@
-"use client";
-
 import Link from 'next/link';
+import Image from 'next/image';
 
-export default function BookAppointment() {
+export const metadata = {
+  title: 'Book an Appointment | St Mary Rideau Family Clinic',
+  description:
+    'Choose the right appointment at St Mary Rideau Family Clinic: new-patient appointments, ongoing care and same-day visits in downtown Ottawa.',
+};
 
+/* ── Ocean booking URLs ──────────────────────────────────────── */
+const URLS = {
+  newPatientReginald:
+    'https://ocean.cognisantmd.com/online-booking/f8636adb-8784-413e-bd3c-61400e190dfd',
+  existingFagbolagun:
+    'https://ocean.cognisantmd.com/online-booking/7b15e604-ee55-4d68-909f-a6b8d6039554',
+  existingReginald:
+    'https://ocean.cognisantmd.com/online-booking/2dc1ef2c-1b4d-4e8d-bd93-152648852dbd',
+  continuingCare:
+    'https://ocean.cognisantmd.com/online-booking/ad2f73f2-beb4-43ed-857a-e08ac46042a4',
+  meetReginald:
+    'https://ocean.cognisantmd.com/online-booking/f8636adb-8784-413e-bd3c-61400e190dfd',
+  sameDayWalkIn: '/book-appointment',
+};
+
+/* ── shared styles ───────────────────────────────────────────── */
+const font =
+  "Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif";
+
+const btnPrimary =
+  'inline-flex items-center justify-center gap-3 rounded-[10px] text-[13.5px] font-bold px-3 py-3 text-white w-full text-center leading-snug';
+const btnPrimaryBg =
+  'linear-gradient(110deg,#0579c4,#0064ac)';
+const btnPrimaryShadow =
+  '0 4px 12px rgba(0,102,169,0.10)';
+
+const btnSecondary =
+  'inline-flex items-center justify-center gap-3 rounded-[10px] text-[13.5px] font-bold px-3 py-3 w-full text-center leading-snug';
+const btnSecondaryStyle = {
+  color: '#0068ad',
+  background: '#fff',
+  border: '1.5px solid #259cf0',
+  boxShadow: '0 2px 8px rgba(0,113,196,0.06)',
+};
+
+const btnPale =
+  'inline-flex items-center justify-center gap-3 rounded-[10px] text-[13.5px] font-bold px-3 py-3 w-full text-center leading-snug';
+const btnPaleStyle = {
+  color: '#0068ad',
+  background: '#e7f7ff',
+  border: '1.5px solid #b6e5ff',
+};
+
+const Arrow = () => (
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" className="shrink-0">
+    <path d="M4 12h16M13 5l7 7-7 7" />
+  </svg>
+);
+
+/* ── Page ─────────────────────────────────────────────────────── */
+export default function BookAppointmentPage() {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Clean Header */}
-      <header className="bg-white">
-        <div className="max-w-6xl mx-auto px-4 py-10">
-          <div className="flex items-center justify-between mb-10">
-            <Link 
-              href="/" 
-              className="flex items-center text-gray-600 hover:text-gray-900 text-sm"
-            >
-              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-              Back to Home
-            </Link>
-          </div>
-          
-          <div className="text-center mb-12">
-            <h1 className="text-3xl font-light text-gray-900 mb-4">
-              Book an Appointment
-            </h1>
-            <div className="h-px w-20 bg-sky-900 mx-auto mb-5"></div>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto mb-2">
-              How can we help you today?
-            </p>
-            <p className="text-gray-500 text-base max-w-2xl mx-auto">
-              Choose the option that best describes what you need.
-            </p>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-white" style={{ fontFamily: font, color: '#111f3c', fontSize: 15 }}>
 
-      {/* Main Content - Four Booking Options */}
-      <main className="max-w-5xl mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-10">
-
-          {/* Card 1: New Patient */}
-          <div 
-            className="bg-white border-2 border-sky-200 rounded-xl p-5 sm:p-6 transition-all duration-200 hover:border-sky-300 hover:shadow-md relative overflow-hidden flex flex-col justify-between"
-          >
-            <div>
-              {/* Accent badge */}
-              <div className="absolute top-0 right-0 bg-sky-600 text-white text-[10px] font-semibold px-2.5 py-0.5 rounded-bl-lg">
-                Now Accepting
-              </div>
-
-              {/* Icon */}
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4 bg-sky-50">
-                <div className="text-sky-900">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Title */}
-              <h3 className="text-base font-semibold text-gray-900 mb-2">
-                New Patient – Find a Family Doctor
-              </h3>
-
-              {/* Description */}
-              <p className="text-gray-600 mb-4 text-xs sm:text-sm leading-relaxed">
-                Looking for a family doctor? We're expanding and accepting new patients. Join our waitlist.
-              </p>
-            </div>
-
-            {/* Join Waitlist Button */}
-            <Link
-              href="/waitlist"
-              className="block w-full text-center py-2.5 px-4 rounded-lg font-medium text-xs sm:text-sm bg-gradient-to-r from-sky-600 to-sky-700 text-white hover:from-sky-700 hover:to-sky-800 transition-all duration-200"
-            >
-              Join the Waitlist
-            </Link>
-          </div>
-
-          {/* Card 2: Existing Patient */}
-          <div 
-            className="bg-white border border-gray-200 rounded-xl p-5 sm:p-6 transition-all duration-200 hover:border-gray-300 hover:shadow-sm flex flex-col justify-between"
-          >
-            <div>
-              {/* Icon */}
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4 bg-sky-50">
-                <div className="text-sky-900">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Title */}
-              <h3 className="text-base font-semibold text-gray-900 mb-2">
-                Existing Patient
-              </h3>
-
-              {/* Description */}
-              <p className="text-gray-600 mb-4 text-xs sm:text-sm leading-relaxed">
-                Already a patient of St Mary Rideau Family Clinic? Book directly with your family doctor.
-              </p>
-            </div>
-
-            {/* Direct Booking Link */}
-            <a
-              href="https://ocean.cognisantmd.com/online-booking/7b15e604-ee55-4d68-909f-a6b8d6039554"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full text-center py-2.5 px-4 rounded-lg font-medium text-xs sm:text-sm bg-gradient-to-r from-sky-600 to-sky-700 text-white hover:from-sky-700 hover:to-sky-800 transition-all duration-200"
-            >
-              Book with Dr. Fagbolagun
-            </a>
-          </div>
-
-          {/* Card 3: Dr. Okwechime Patients – Continuing Care */}
-          <div 
-            className="bg-white border border-gray-200 rounded-xl p-5 sm:p-6 transition-all duration-200 hover:border-gray-300 hover:shadow-sm flex flex-col justify-between"
-          >
-            <div>
-              {/* Icon */}
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4 bg-sky-50">
-                <div className="text-sky-900">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Title */}
-              <h3 className="text-base font-semibold text-gray-900 mb-2">
-                Dr. Okwechime Patients – Continuing Care
-              </h3>
-
-              {/* Description */}
-              <p className="text-gray-600 mb-4 text-xs sm:text-sm leading-relaxed">
-                For existing St Mary patients previously under the care of Dr. Okwechime to book continuing care appointments with Dr. Fagbolagun.
-              </p>
-            </div>
-
-            {/* Direct Booking Link */}
-            <a
-              href="https://ocean.cognisantmd.com/online-booking/ad2f73f2-beb4-43ed-857a-e08ac46042a4"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full text-center py-2.5 px-4 rounded-lg font-medium text-xs sm:text-sm bg-gradient-to-r from-sky-600 to-sky-700 text-white hover:from-sky-700 hover:to-sky-800 transition-all duration-200"
-            >
-              Dr. Okwechime Patients – Continuing Care
-            </a>
-          </div>
-
-          {/* Card 4: Urgent / Same-Day & Walk-In Care */}
-          <div 
-            className="bg-white border-2 border-sky-200 rounded-xl p-5 sm:p-6 transition-all duration-200 hover:border-sky-300 hover:shadow-md flex flex-col justify-between"
-          >
-            <div>
-              {/* Icon */}
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4 bg-sky-50">
-                <div className="text-sky-900">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Title */}
-              <h3 className="text-base font-semibold text-gray-900 mb-2">
-                Urgent / Same-Day Care
-              </h3>
-
-              {/* Description */}
-              <p className="text-gray-600 mb-4 text-xs sm:text-sm leading-relaxed">
-                Need to see a doctor today? For urgent, non-emergency concerns and same-day care.
-              </p>
-            </div>
-
-            <div>
-              {/* Button */}
-              <Link
-                href="/book-appointment"
-                className="block text-center py-2.5 px-4 rounded-lg font-medium text-xs sm:text-sm bg-gradient-to-r from-sky-600 to-sky-700 text-white hover:from-sky-700 hover:to-sky-800 transition-all duration-200"
-              >
-                Book Same-Day / Walk-In
-              </Link>
-            </div>
-          </div>
-
+      {/* ── Hero ───────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden" id="booking">
+        {/* decorative blobs */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <div
+            className="absolute hidden md:block"
+            style={{
+              background: 'linear-gradient(125deg,rgba(232,247,255,0.8),rgba(219,242,253,0.28))',
+              height: 220, top: 28, width: '48%', left: '-5%',
+              borderRadius: '43% 60% 40% 55%',
+              transform: 'rotate(8deg) skewY(-7deg)',
+            }}
+          />
+          <div
+            className="absolute hidden md:block"
+            style={{
+              background: 'linear-gradient(125deg,rgba(232,247,255,0.8),rgba(219,242,253,0.28))',
+              height: 220, top: 28, width: '48%', right: '-8%',
+              borderRadius: '43% 60% 40% 55%',
+              transform: 'rotate(-6deg) skewY(9deg)',
+            }}
+          />
         </div>
 
-        {/* Emergency Notice */}
-        <div className="text-center mb-8">
-          <p className="inline-flex items-center text-xs sm:text-sm text-red-600 bg-red-50 border border-red-100 rounded-full px-4 py-2">
-            <svg className="w-4 h-4 mr-2 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
-            </svg>
-            For medical emergencies, please call 911 or go to the nearest Emergency Department.
+        <div className="relative z-[1] max-w-[1370px] mx-auto px-5 md:px-12 text-center pt-8 pb-6">
+          <h1
+            className="font-bold leading-[1.18] m-0"
+            style={{ fontSize: 'clamp(32px,3.2vw,43px)', letterSpacing: '-1.7px', color: '#081b40' }}
+          >
+            Book an Appointment
+          </h1>
+          <div className="w-[92px] h-[2px] mx-auto my-3.5" style={{ background: '#006fb8' }} />
+          <p className="text-[18px] leading-[1.55] m-0" style={{ color: '#3f516e' }}>
+            Choose the option that best fits your needs.
           </p>
         </div>
+      </section>
 
-        {/* Important Information – Walk-In Appointments */}
-        <section className="max-w-4xl mx-auto mb-12 bg-white border border-sky-200 rounded-xl p-5 sm:p-8">
-          <div className="flex items-center mb-3">
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-sky-50 mr-3 flex-shrink-0">
-              <svg className="w-5 h-5 text-sky-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      {/* ── 4 Cards ────────────────────────────────────────────── */}
+      <section
+        className="relative z-[1] max-w-[1370px] mx-auto px-5 md:px-12 pb-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+        aria-label="Choose an appointment type"
+      >
+        {/* ─ Card 1 — New Patient ─ */}
+        <article
+          className="relative flex flex-col rounded-2xl overflow-hidden p-5 md:p-6"
+          style={{
+            background: 'linear-gradient(150deg,#f1faff 0,#fff 82%)',
+            border: '2px solid #60bdff',
+            boxShadow: '0 7px 20px rgba(16,72,111,0.07)',
+            minHeight: 435,
+          }}
+        >
+          <span
+            className="absolute right-0 top-0 text-xs font-bold px-3 py-2 text-white"
+            style={{
+              background: 'linear-gradient(110deg,#0085db,#006caf)',
+              borderRadius: '0 13px 0 13px',
+            }}
+          >
+            Now Accepting
+          </span>
+
+          {/* illustration */}
+          <div className="flex justify-center items-center h-[131px] -mt-0.5 mb-1 w-full">
+            <Image
+              src="/appt-card-1.png"
+              alt="Illustration of a male family physician"
+              width={230}
+              height={126}
+              className="object-contain"
+              style={{ maxHeight: 126 }}
+            />
+          </div>
+
+          <h2
+            className="text-[20px] lg:text-[22px] font-extrabold leading-[1.29] mt-1.5 mb-2.5"
+            style={{ letterSpacing: '-0.62px', color: '#091b3a' }}
+          >
+            New Patient – Find a Family Doctor
+          </h2>
+          <p className="text-base font-bold mb-1.5" style={{ color: '#0076be' }}>
+            Dr.&nbsp;Reginald Agukwendu
+          </p>
+          <p className="text-[15px] leading-[1.58] m-0" style={{ color: '#50617d', letterSpacing: '-0.05px' }}>
+            Dr.&nbsp;Reginald is accepting new patients. Book a new-patient appointment to meet Dr.&nbsp;Reginald and discuss establishing care at St&nbsp;Mary.
+          </p>
+
+          <div className="mt-auto pt-4 grid gap-2">
+            <a
+              href={URLS.newPatientReginald}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={btnPrimary}
+              style={{ background: btnPrimaryBg, boxShadow: btnPrimaryShadow, border: '1px solid #057bc9' }}
+            >
+              Book with Dr.&nbsp;Reginald <Arrow />
+            </a>
+          </div>
+        </article>
+
+        {/* ─ Card 2 — Existing Patients ─ */}
+        <article
+          className="relative flex flex-col rounded-2xl overflow-hidden p-5 md:p-6"
+          style={{
+            background: '#fff',
+            border: '1px solid #d4e9f7',
+            boxShadow: '0 7px 20px rgba(16,72,111,0.07)',
+            minHeight: 435,
+          }}
+        >
+          {/* mini icon */}
+          <div
+            className="absolute top-6 left-5 w-[42px] h-[42px] rounded-[11px] flex items-center justify-center"
+            style={{ background: '#eaf7fe', color: '#005f9d' }}
+          >
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <circle cx="12" cy="6" r="3.4" />
+              <path d="M5 21v-3a7 7 0 0 1 14 0v3z" />
+            </svg>
+          </div>
+
+          {/* illustration */}
+          <div className="flex justify-center items-center h-[131px] -mt-0.5 mb-1 w-full">
+            <Image
+              src="/appt-card-2.png"
+              alt="Illustration of two physicians"
+              width={230}
+              height={108}
+              className="object-contain"
+              style={{ maxHeight: 108, width: 230 }}
+            />
+          </div>
+
+          <h2
+            className="text-[20px] lg:text-[22px] font-extrabold leading-[1.29] mt-1.5 mb-2.5"
+            style={{ letterSpacing: '-0.62px', color: '#091b3a' }}
+          >
+            Existing Patients
+          </h2>
+          <p className="text-[15px] leading-[1.58] m-0" style={{ color: '#50617d', letterSpacing: '-0.05px' }}>
+            Already a patient of St&nbsp;Mary Rideau Family Clinic? Book directly with your family doctor.
+          </p>
+
+          <div className="mt-auto pt-4 grid gap-2">
+            <a
+              href={URLS.existingFagbolagun}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={btnSecondary}
+              style={btnSecondaryStyle}
+            >
+              Book with Dr.&nbsp;Fagbolagun <Arrow />
+            </a>
+            <a
+              href={URLS.existingReginald}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={btnPale}
+              style={btnPaleStyle}
+            >
+              Book with Dr.&nbsp;Reginald <Arrow />
+            </a>
+          </div>
+          <p className="text-[11px] mt-2 leading-snug" style={{ color: '#71849b' }}>
+            Dr.&nbsp;Fagbolagun is not accepting new patients. This option is for existing patients only.
+          </p>
+        </article>
+
+        {/* ─ Card 3 — Previously with Dr. Okwechime ─ */}
+        <article
+          className="relative flex flex-col rounded-2xl overflow-hidden p-5 md:p-6"
+          style={{
+            background: '#fff',
+            border: '1px solid #d4e9f7',
+            boxShadow: '0 7px 20px rgba(16,72,111,0.07)',
+            minHeight: 435,
+          }}
+        >
+          {/* mini icon */}
+          <div
+            className="absolute top-6 left-5 w-[42px] h-[42px] rounded-[11px] flex items-center justify-center"
+            style={{ background: '#eaf7fe', color: '#005f9d' }}
+          >
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
+              <rect x="9" y="2" width="6" height="4" rx="1" />
+              <path d="M9 14h1M9 18h1M14 14h1M14 18h1" />
+            </svg>
+          </div>
+
+          {/* illustration */}
+          <div className="flex justify-center items-center h-[131px] -mt-0.5 mb-1 w-full">
+            <Image
+              src="/appt-card-3.png"
+              alt="Illustration of a physician with a clipboard"
+              width={230}
+              height={126}
+              className="object-contain"
+              style={{ maxHeight: 126 }}
+            />
+          </div>
+
+          <h2
+            className="text-[20px] lg:text-[22px] font-extrabold leading-[1.29] mt-1.5 mb-2.5"
+            style={{ letterSpacing: '-0.62px', color: '#091b3a' }}
+          >
+            Previously with Dr.&nbsp;Okwechime?
+          </h2>
+          <p className="text-[15px] leading-[1.58] m-0" style={{ color: '#50617d', letterSpacing: '-0.05px' }}>
+            You can continue to request care at St&nbsp;Mary during this transition. If you&rsquo;re interested in having Dr.&nbsp;Reginald as your family doctor, you can book a meet-and-greet appointment. The choice is yours.
+          </p>
+
+          <div className="mt-auto pt-4 grid gap-2">
+            <a
+              href={URLS.continuingCare}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={btnSecondary}
+              style={btnSecondaryStyle}
+            >
+              Book Continuing Care <Arrow />
+            </a>
+            <a
+              href={URLS.meetReginald}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={btnPale}
+              style={btnPaleStyle}
+            >
+              Meet Dr.&nbsp;Reginald <Arrow />
+            </a>
+          </div>
+        </article>
+
+        {/* ─ Card 4 — Urgent / Same-Day ─ */}
+        <article
+          className="relative flex flex-col rounded-2xl overflow-hidden p-5 md:p-6"
+          style={{
+            background: '#fff',
+            border: '1px solid #d4e9f7',
+            boxShadow: '0 7px 20px rgba(16,72,111,0.07)',
+            minHeight: 435,
+          }}
+        >
+          {/* mini icon */}
+          <div
+            className="absolute top-6 left-5 w-[42px] h-[42px] rounded-[11px] flex items-center justify-center"
+            style={{ background: '#eaf7fe', color: '#005f9d' }}
+          >
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7v5l3 3" />
+            </svg>
+          </div>
+
+          {/* illustration */}
+          <div className="flex justify-center items-center h-[131px] -mt-0.5 mb-1 w-full">
+            <Image
+              src="/appt-card-4.png"
+              alt="Illustration of urgent care"
+              width={230}
+              height={126}
+              className="object-contain"
+              style={{ maxHeight: 126 }}
+            />
+          </div>
+
+          <h2
+            className="text-[20px] lg:text-[22px] font-extrabold leading-[1.29] mt-1.5 mb-2.5"
+            style={{ letterSpacing: '-0.62px', color: '#091b3a' }}
+          >
+            Urgent / Same-Day Care
+          </h2>
+          <p className="text-[15px] leading-[1.58] m-0" style={{ color: '#50617d', letterSpacing: '-0.05px' }}>
+            Need to see a doctor today? Book a same-day appointment or walk-in visit for urgent, non-emergency concerns. Availability may vary.
+          </p>
+
+          <div className="mt-auto pt-4 grid gap-2">
+            <Link
+              href={URLS.sameDayWalkIn}
+              className={btnPrimary}
+              style={{ background: btnPrimaryBg, boxShadow: btnPrimaryShadow, border: '1px solid #057bc9' }}
+            >
+              Book Same-Day / Walk-In <Arrow />
+            </Link>
+          </div>
+        </article>
+      </section>
+
+      {/* ── Info Strip – Same-Day Care ─────────────────────────── */}
+      <section
+        className="relative z-[1] max-w-[1274px] mx-auto px-5 md:px-12 mt-1"
+      >
+        <div
+          className="rounded-[15px] p-5 md:p-6"
+          style={{
+            background: 'linear-gradient(100deg,#eef9ff,#f4fbff,#edf9ff)',
+            border: '1px solid #d0eaff',
+          }}
+        >
+          {/* header */}
+          <div className="flex items-center gap-3 mb-4">
+            <div
+              className="w-[49px] h-[49px] shrink-0 rounded-full grid place-items-center"
+              style={{ background: '#c9ecff', color: '#0070b9' }}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 8v4M12 16h.01" />
               </svg>
             </div>
-            <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
-              Important Information – Walk-In Appointments
+            <h2 className="text-[19px] font-bold m-0" style={{ color: '#101d3a', letterSpacing: '-0.45px' }}>
+              Important Information – Same-Day Care
             </h2>
           </div>
-          <p className="text-gray-600 text-sm mb-6">
-            To help us provide safe and appropriate care, please note the following before booking:
-          </p>
 
-          <ul className="space-y-4">
+          {/* 4-col info grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-3">
             {[
               {
-                title: "Medical forms, certificates and benefit applications",
-                text: "Walk-in physicians cannot guarantee completion of disability, chronic illness, terminal illness, end-of-life care, insurance or benefit-related forms. These requests may require an established physician-patient relationship, supporting medical records and a comprehensive assessment.",
+                icon: (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                  </svg>
+                ),
+                danger: true,
+                title: 'Not for medical emergencies',
+                desc: 'Please call 911 or go to the nearest emergency department.',
               },
               {
-                title: "Controlled medications",
-                text: "Walk-in appointments are not intended for routine prescribing or renewal of controlled medications, including opioids, stimulants and certain sedatives. Any prescribing decision is at the physician's clinical discretion following an appropriate assessment.",
+                icon: (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M9 12h6M12 9v6M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
+                  </svg>
+                ),
+                title: 'Controlled substances',
+                desc: 'Prescriptions or renewals are not guaranteed during same-day appointments.',
               },
               {
-                title: "Chronic and ongoing medical conditions",
-                text: "Walk-in appointments are primarily for new or time-sensitive, non-emergency concerns. Ongoing management of complex or chronic conditions may require follow-up with your regular family physician or an appropriate specialist.",
+                icon: (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
+                    <rect x="9" y="2" width="6" height="4" rx="1" />
+                  </svg>
+                ),
+                title: 'Forms and paperwork',
+                desc: 'Medical forms or benefit paperwork may require a separate appointment and records.',
               },
               {
-                title: "Annual examinations and complex assessments",
-                text: "Routine annual examinations, comprehensive medical assessments and ongoing mental health follow-ups may not be accommodated through walk-in appointments.",
-              },
-              {
-                title: "Appointment availability",
-                text: "Walk-in appointments are subject to physician availability and clinic capacity. Booking an appointment does not guarantee a particular treatment, prescription, referral or document.",
+                icon: (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M12 6v6l4 2" />
+                  </svg>
+                ),
+                title: 'Complex or ongoing issues',
+                desc: 'Ongoing care or detailed assessments may require a planned follow-up appointment.',
               },
             ].map((item) => (
-              <li key={item.title} className="flex items-start">
-                <span className="mt-2 mr-3 w-1.5 h-1.5 rounded-full bg-sky-600 flex-shrink-0"></span>
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  <span className="font-semibold text-gray-900">{item.title}:</span> {item.text}
-                </p>
-              </li>
+              <div key={item.title} className="flex items-start gap-3 min-w-0">
+                <div
+                  className="w-[34px] h-[34px] shrink-0 rounded-[11px] grid place-items-center"
+                  style={{
+                    background: item.danger ? '#fff0f0' : '#dff2ff',
+                    color: item.danger ? '#df2331' : '#0073b8',
+                  }}
+                >
+                  {item.icon}
+                </div>
+                <div>
+                  <h3 className="text-[12.5px] font-bold leading-snug mt-0.5 mb-1" style={{ color: '#101c35' }}>
+                    {item.title}
+                  </h3>
+                  <p className="text-[12.5px] leading-[1.5] m-0" style={{ color: '#5e6c86' }}>
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
+        </div>
+      </section>
 
-          <div className="mt-6 pt-5 border-t border-sky-100 space-y-2">
-            <p className="text-sm text-gray-700">
-              Please contact the clinic before booking if you are unsure whether your concern can be addressed through a walk-in appointment.
-            </p>
-            <p className="text-sm font-medium text-red-600">
-              For medical emergencies, please call 911 or attend the nearest emergency department.
+      {/* ── Help Strip ─────────────────────────────────────────── */}
+      <section className="relative z-[1] max-w-[1370px] mx-auto px-5 md:px-12 py-6">
+        <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 sm:gap-6">
+          <div className="text-center sm:mr-4">
+            <h2 className="text-[17px] font-bold m-0 mb-1" style={{ letterSpacing: '-0.35px' }}>
+              Need help choosing an appointment type?
+            </h2>
+            <p className="text-[12.5px] m-0" style={{ color: '#63708b' }}>
+              Our team can help you find the right option.
             </p>
           </div>
-        </section>
 
-        {/* Help Note - Responsive with Call Button */}
-<div className="text-center mb-12">
-  <div className="inline-flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full">
-    {/* Information Note */}
-    <div className="inline-flex items-center text-sm sm:text-base text-gray-600 bg-gray-50 rounded-full px-4 sm:px-6 py-3 sm:py-3 w-full sm:w-auto">
-      <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      <span className="text-center sm:text-left">Need help choosing?</span>
-    </div>
-    
-    {/* Call Button - White background with sky border */}
-    <a 
-      href="tel:+13438873470"
-      className="
-        inline-flex items-center justify-center 
-        text-sm sm:text-base text-sky-900 
-        bg-white border border-sky-300 
-        rounded-full px-5 sm:px-8 py-3 sm:py-3
-        hover:bg-sky-50 hover:border-sky-400 
-        transition-all duration-200
-        shadow-sm hover:shadow
-        w-full sm:w-auto
-      "
-    >
-      <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-sky-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-      </svg>
-      Call (343) 887-3470
-    </a>
-  </div>
-</div>
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center gap-2.5 rounded-full min-w-[220px] px-5 py-3 text-sm font-bold whitespace-nowrap"
+            style={{
+              color: '#0069b4',
+              border: '1px solid #72c8ff',
+              background: '#fff',
+              boxShadow: '0 4px 16px rgba(0,83,144,0.06)',
+            }}
+          >
+            Need help choosing?
+          </Link>
 
-        {/* Simple Footer */}
-        <div className="border-t border-gray-100 pt-10 mt-16">
+          <a
+            href="tel:+13438873470"
+            className="inline-flex items-center justify-center gap-2.5 rounded-full min-w-[220px] px-5 py-3 text-sm font-bold text-white whitespace-nowrap"
+            style={{
+              background: 'linear-gradient(110deg,#006ab8,#0288da)',
+              boxShadow: '0 7px 14px rgba(0,91,160,0.13)',
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M6.6 10.8a15 15 0 006.6 6.6l2.2-2.2a1 1 0 011.05-.24 11 11 0 003.47.56 1 1 0 011.08 1v3.48a1 1 0 01-1.1 1A18.9 18.9 0 013 4.08 1 1 0 014.07 3h3.5a1 1 0 011 1.1c0 1.18.2 2.35.57 3.47a1 1 0 01-.25 1.04z" />
+            </svg>
+            Call (343) 887-3470
+          </a>
         </div>
-      </main>
+      </section>
+
+      {/* ── FAQ section ────────────────────────────────────────── */}
+      <section className="relative z-[1] max-w-[1370px] mx-auto px-5 md:px-12 pt-7 pb-12">
+        <div className="text-center mb-6">
+          <p className="text-[11px] font-bold uppercase tracking-[2px] m-0" style={{ color: '#007cbf' }}>
+            Before you book
+          </p>
+          <h2 className="text-[25px] font-bold mt-2 mb-1.5" style={{ letterSpacing: '-0.6px' }}>
+            Your questions, answered
+          </h2>
+          <p className="text-sm m-0" style={{ color: '#60718a' }}>
+            A few helpful things to know so you can choose the right appointment.
+          </p>
+        </div>
+
+        <div className="max-w-[1030px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-3">
+          {[
+            {
+              q: 'Is Dr.\u00a0Fagbolagun accepting new patients?',
+              a: 'Dr.\u00a0Fagbolagun is currently booking appointments for patients already under his care. New patients can use Dr.\u00a0Reginald\u2019s new-patient appointment option.',
+            },
+            {
+              q: 'What happens at a new-patient appointment?',
+              a: 'You\u2019ll have an opportunity to meet Dr.\u00a0Reginald, discuss your health needs and learn about next steps for ongoing care. Booking this appointment does not automatically establish a family-physician relationship or guarantee enrolment.',
+            },
+            {
+              q: 'I was a patient of Dr.\u00a0Okwechime. What should I book?',
+              a: 'You can book a continuing-care appointment for a current medical need. You may also choose to meet Dr.\u00a0Reginald if you\u2019d like to explore having him as your family doctor. This is your choice; there is no automatic reassignment.',
+            },
+            {
+              q: 'Are same-day appointments guaranteed?',
+              a: 'No. Same-day appointments depend on available clinicians and clinic capacity. Walk-in visits are intended for time-sensitive, non-emergency concerns. If you\u2019re unsure, call reception for guidance.',
+            },
+            {
+              q: 'Can walk-in physicians complete forms or renew controlled medications?',
+              a: 'These services cannot be guaranteed. Complex forms may require your records, a full assessment and an ongoing physician-patient relationship. All prescription decisions are made by the physician following an appropriate assessment.',
+            },
+            {
+              q: 'What if I need emergency medical care?',
+              a: 'For a medical emergency, call 911 or go to the nearest emergency department. Online bookings and clinic telephone messages are not monitored for emergencies.',
+            },
+          ].map((faq) => (
+            <details
+              key={faq.q}
+              className="rounded-xl overflow-hidden"
+              style={{ border: '1px solid #e0edf4', background: '#fff' }}
+            >
+              <summary className="cursor-pointer flex items-center justify-between gap-3 list-none px-4 py-4 text-sm font-bold" style={{ color: '#111f3c' }}>
+                {faq.q}
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0 transition-transform duration-200">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </summary>
+              <p className="text-[13px] leading-[1.7] m-0 px-4 pb-4" style={{ color: '#536782' }}>
+                {faq.a}
+              </p>
+            </details>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

@@ -141,9 +141,9 @@ export default function ContactPage() {
       ),
       title: "Opening Hours",
       details: [
-        "Monday to Thursday: 10am-7pm",
-        "Friday: 10am-5pm",
-        "Saturday: 10am-3pm",
+        "Monday to Thursday: 9am-7pm",
+        "Friday: 9am-5pm",
+        "Saturday: 9am-3pm",
       ],
       description: "Extended hours by appointment",
     },
@@ -158,7 +158,7 @@ export default function ContactPage() {
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage:
-              'url("https://res.cloudinary.com/dveill0ji/image/upload/v1776832712/St.BackgroundContact_uf5vwf.jpg")',
+              'url("/St.MaryBackgroundA.png")',
           }}
         >
           <div className="absolute inset-0 bg-sky-900/70"></div>

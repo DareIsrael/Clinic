@@ -11,15 +11,15 @@ const quickLinks = [
 ];
 
 const hours = [
-  { day: "Mon – Thu", time: "10:00 AM – 7:00 PM" },
-  { day: "Friday", time: "10:00 AM – 5:00 PM" },
-  { day: "Saturday", time: "10:00 AM – 3:00 PM" },
+  { day: "Mon – Thu", time: "9:00 AM – 7:00 PM" },
+  { day: "Friday", time: "9:00 AM – 5:00 PM" },
+  { day: "Saturday", time: "9:00 AM – 3:00 PM" },
   { day: "Sunday", time: "Closed" },
 ];
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-900 text-slate-300">
+    <footer className="bg-[#0c2340] text-slate-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
@@ -100,3 +100,110 @@ export default function Footer() {
     </footer>
   );
 }
+
+
+
+// import Link from "next/link";
+
+// const quickLinks = [
+//   { href: "/", label: "Home" },
+//   { href: "/about", label: "About us" },
+//   { href: "/appointment", label: "Appointments" },
+//   { href: "/contact", label: "Contact us" },
+// ];
+
+// const hours = [
+//   { day: "Mon – Thu", time: "10 AM – 7 PM" },
+//   { day: "Friday", time: "10 AM – 5 PM" },
+//   { day: "Saturday", time: "10 AM – 3 PM" },
+//   { day: "Sunday", time: "Closed" },
+// ];
+
+// export default function Footer() {
+//   return (
+//     <footer className="bg-[#0c2340] text-slate-300">
+//       <div className="max-w-7xl mx-auto px-6 py-14">
+//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+          
+//           {/* Brand */}
+//           <div className="pr-4">
+//             <h2 className="text-[22px] font-bold text-white tracking-wide">
+//               St Mary Rideau
+//             </h2>
+//             <h3 className="text-[13px] font-bold text-sky-400 mt-1 mb-4">
+//               Family Clinic
+//             </h3>
+//             <p className="text-[15px] leading-relaxed text-slate-300 mb-6">
+//               Compassionate, comprehensive family medicine for the Ottawa community.
+//             </p>
+//             <Link
+//               href="/appointment"
+//               className="inline-flex items-center text-[15px] font-medium text-white hover:text-sky-300 transition-colors"
+//             >
+//               Book an appointment <span className="ml-1.5 text-lg leading-none">&rarr;</span>
+//             </Link>
+//           </div>
+
+//           {/* Quick Links */}
+//           <div>
+//             <h3 className="text-[17px] font-semibold text-white mb-5">Quick links</h3>
+//             <ul className="space-y-3.5">
+//               {quickLinks.map((l) => (
+//                 <li key={l.href}>
+//                   <Link
+//                     href={l.href}
+//                     className="text-[15px] text-slate-300 transition-colors hover:text-white"
+//                   >
+//                     {l.label}
+//                   </Link>
+//                 </li>
+//               ))}
+//             </ul>
+//           </div>
+
+//           {/* Contact */}
+//           <div>
+//             <h3 className="text-[17px] font-semibold text-white mb-5">Contact</h3>
+//             <ul className="space-y-3.5 text-[15px] text-slate-300">
+//               <li>158 Rideau Street</li>
+//               <li>Ottawa, ON K1N 5X6</li>
+//               <li>
+//                 <a href="tel:+13438873470" className="transition-colors hover:text-white">
+//                   (343) 887-3470
+//                 </a>
+//               </li>
+//               <li>
+//                 <a
+//                   href="mailto:contact@stmaryrideauclinic.com"
+//                   className="transition-colors hover:text-white"
+//                 >
+//                   contact@stmaryrideauclinic.com
+//                 </a>
+//               </li>
+//             </ul>
+//           </div>
+
+//           {/* Clinic Hours */}
+//           <div>
+//             <h3 className="text-[17px] font-semibold text-white mb-5">Clinic hours</h3>
+//             <ul className="space-y-3.5 text-[15px] text-slate-300">
+//               {hours.map((h) => (
+//                 <li key={h.day}>
+//                   {h.day}: {h.time}
+//                 </li>
+//               ))}
+//             </ul>
+//           </div>
+//         </div>
+
+//         {/* Bottom bar */}
+//         <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-slate-700/60 pt-6 text-[13px] text-slate-400 sm:flex-row sm:items-center">
+//           <p>&copy; 2026 St Mary Rideau Family Clinic. All rights reserved.</p>
+//           <p>
+//             For medical emergencies, call 911.
+//           </p>
+//         </div>
+//       </div>
+//     </footer>
+//   );
+// }
