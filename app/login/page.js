@@ -114,7 +114,7 @@ export default function LoginPage() {
       <div className="relative w-full lg:w-[56%] h-[26vh] sm:h-[36vh] lg:h-screen flex-shrink-0 overflow-hidden [clip-path:polygon(0_0,100%_0,100%_80%,0_100%)] lg:[clip-path:polygon(0_0,100%_0,84%_100%,0_100%)] z-10 bg-slate-900">
         {/* Background Video */}
         <video
-          src="https://res.cloudinary.com/dveill0ji/video/upload/v1789562225/StmaryBackvid_ew7noz.mp4"
+          src="/StmaryBackvid.mp4"
           autoPlay
           loop
           muted
