@@ -1265,7 +1265,7 @@ export default function Home() {
 
       {/* ==================== FINAL CTA ==================== */}
       {/* ==================== FINAL CTA ==================== */}
-<section className="py-20 md:py-24">
+{/* <section className="py-20 md:py-24">
   <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
     <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
       Start Your Health Journey
@@ -1285,7 +1285,7 @@ export default function Home() {
       </svg>
     </Link>
   </div>
-</section>
+</section> */}
 
       {/* Entrance animation */}
       <style jsx>{`
