@@ -989,7 +989,11 @@ export default function Home() {
           </div>
 
           <div className="w-full bg-white rounded-2xl p-5 border border-white/40 shadow-2xl">
-            <div className="inline-block px-3 py-1 rounded-lg bg-sky-50 border border-sky-100 text-sky-700 text-sm font-bold mb-3">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-sky-50/90 border border-sky-200/90 text-sky-800 text-xs sm:text-sm font-semibold tracking-wide mb-3 shadow-sm shadow-sky-500/5">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500" />
+              </span>
               Accepting New Patients
             </div>
 
@@ -1039,8 +1043,14 @@ export default function Home() {
   <div className="flex-1 flex items-center p-8 xl:p-16">
     <div className="w-full max-w-xl ml-auto animate-fade-in-up">
       {/* Badge */}
-      <div className="inline-block px-4 py-1.5 rounded-xl bg-sky-100/90 border border-sky-200/80 text-sky-800 text-lg xl:text-xl font-bold mb-4 shadow-sm">
-        Accepting New Patients
+      <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-sky-50/90 border border-sky-200/90 shadow-sm shadow-sky-500/5 mb-5 transition-all hover:bg-sky-100/70">
+        <span className="relative flex h-2.5 w-2.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75" />
+          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-sky-500" />
+        </span>
+        <span className="text-xs xl:text-sm font-semibold tracking-wide text-sky-800">
+          Accepting New Patients
+        </span>
       </div>
 
       {/* Heading */}
@@ -1259,6 +1269,121 @@ export default function Home() {
                 </p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== AI NOTICE ==================== */}
+      <section className="py-20 md:py-28 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
+              Important Patient Notice
+            </h2>
+            <div className="w-12 h-1 bg-sky-500 rounded-full mx-auto mb-4" />
+            <p className="text-slate-600 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
+              Use of Artificial Intelligence (AI) During Consultations
+            </p>
+          </div>
+
+          <div className="bg-slate-50/70 rounded-2xl p-7 md:p-10 border border-slate-200/60">
+            {/* Intro */}
+            <p className="text-slate-700 text-sm md:text-base leading-relaxed mb-8">
+              We may use AI-assisted documentation during medical consultations to help
+              our physicians prepare clinical notes.
+            </p>
+
+            {/* Why We Use AI */}
+            <div className="mb-8">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-base font-bold text-slate-900">Why Do We Use AI?</h3>
+              </div>
+              <p className="text-slate-600 text-sm leading-relaxed ml-12">
+                This technology helps reduce time spent typing notes so your physician can
+                focus more fully on listening to you, understanding your concerns and providing care.
+              </p>
+            </div>
+
+            {/* Your Choice Matters */}
+            <div className="mb-8">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-base font-bold text-slate-900">Your Choice Matters</h3>
+              </div>
+              <div className="ml-12 space-y-3">
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  Your participation is voluntary, and you have the right to decline the use of AI
+                  during your consultation.
+                </p>
+                <div className="bg-amber-50 border border-amber-200/70 rounded-xl p-4">
+                  <p className="text-amber-800 text-sm font-semibold leading-relaxed">
+                    If you do not want AI used during your consultation, please tell
+                    your physician before the consultation begins.
+                  </p>
+                </div>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  You may also withdraw your consent at any time during your consultation. Your
+                  decision will be respected and will not affect the quality of care you receive.
+                </p>
+              </div>
+            </div>
+
+            {/* Your Privacy and Care */}
+            <div className="mb-6">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
+                <h3 className="text-base font-bold text-slate-900">Your Privacy and Care</h3>
+              </div>
+              <ul className="ml-12 space-y-2.5">
+                <li className="flex items-start gap-2.5 text-slate-600 text-sm leading-relaxed">
+                  <svg className="w-4 h-4 text-sky-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>AI supports documentation; it does not replace your physician&apos;s professional judgment.</span>
+                </li>
+                <li className="flex items-start gap-2.5 text-slate-600 text-sm leading-relaxed">
+                  <svg className="w-4 h-4 text-sky-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>Your physician reviews and verifies AI-generated clinical notes and remains responsible for your care.</span>
+                </li>
+                <li className="flex items-start gap-2.5 text-slate-600 text-sm leading-relaxed">
+                  <svg className="w-4 h-4 text-sky-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>Your personal health information must be managed in accordance with Ontario&apos;s privacy law (PHIPA).</span>
+                </li>
+                <li className="flex items-start gap-2.5 text-slate-600 text-sm leading-relaxed">
+                  <svg className="w-4 h-4 text-sky-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>You may ask how the AI tool processes, stores or shares information before consenting.</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Thank you & tagline */}
+            <div className="border-t border-slate-200/70 pt-6 text-center">
+              <p className="text-slate-700 text-sm leading-relaxed mb-4">
+                Thank you for helping us provide thoughtful, efficient and patient-centred care.
+              </p>
+              <p className="text-sky-700 text-xs font-bold tracking-wider uppercase">
+                Your Care &bull; Your Choice &bull; Your Privacy
+              </p>
+            </div>
           </div>
         </div>
       </section>
