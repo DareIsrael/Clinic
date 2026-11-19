@@ -1,7 +1,18 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { dashboardService } from '@/services/dashboardService';
+
+// Shared promise cache so multiple Announcements instances on a page only make one network request
+let announcementsPromise = null;
+
+function fetchPublicAnnouncementsOnce() {
+  if (!announcementsPromise) {
+    announcementsPromise = fetch('/api/announcements?admin=false')
+      .then((res) => (res.ok ? res.json() : { success: false, announcements: [] }))
+      .catch(() => ({ success: false, announcements: [] }));
+  }
+  return announcementsPromise;
+}
 
 const Announcements = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -10,7 +21,17 @@ const Announcements = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
-    fetchAnnouncements();
+    let mounted = true;
+    fetchPublicAnnouncementsOnce().then((response) => {
+      if (!mounted) return;
+      if (response?.success) {
+        setAnnouncements(response.announcements || []);
+      }
+      setLoading(false);
+    });
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -21,20 +42,6 @@ const Announcements = () => {
       return () => clearInterval(interval);
     }
   }, [announcements.length]);
-
-  const fetchAnnouncements = async () => {
-    try {
-      setLoading(true);
-      const response = await dashboardService.getAnnouncements(false);
-      if (response.success) {
-        setAnnouncements(response.announcements || []);
-      }
-    } catch (error) {
-      console.error('Error fetching announcements:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const getTypeStyles = (type) => {
     switch (type) {
@@ -86,16 +93,7 @@ const Announcements = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="bg-sky-100 border border-sky-300 rounded-lg p-4 backdrop-blur-sm bg-opacity-90 animate-pulse">
-        <div className="h-4 bg-sky-200 rounded w-1/4 mb-2"></div>
-        <div className="h-3 bg-sky-200 rounded w-3/4"></div>
-      </div>
-    );
-  }
-
-  if (announcements.length === 0) {
+  if (loading || announcements.length === 0) {
     return null;
   }
 

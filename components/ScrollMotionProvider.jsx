@@ -10,8 +10,10 @@ export default function ScrollMotionProvider({ children }) {
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
-    // Enable smooth scroll to top on route change
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Scroll to top on route change only if user has scrolled down
+    if (window.scrollY > 0) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
     // Handle scroll position to toggle back-to-top button
     const handleScroll = () => {
@@ -24,10 +26,10 @@ export default function ScrollMotionProvider({ children }) {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
 
-    // Staggered reveal observer setup
+    // Staggered reveal observer setup for below-the-fold elements only
     const observerOptions = {
       root: null,
-      rootMargin: "0px 0px -60px 0px",
+      rootMargin: "0px 0px -40px 0px",
       threshold: 0.08,
     };
 
@@ -42,17 +44,31 @@ export default function ScrollMotionProvider({ children }) {
 
     const observer = new IntersectionObserver(handleIntersect, observerOptions);
 
+    // Helper: never hide above-the-fold or hero elements after hydration (protects LCP & CLS)
+    const isHeroOrAboveFold = (el) => {
+      if (el.closest("[data-hero]")) return true;
+      const rect = el.getBoundingClientRect();
+      return rect.top < window.innerHeight * 0.92;
+    };
+
     const attachMotionElements = () => {
       const explicitTargets = document.querySelectorAll(
         ".reveal-fade-up, .reveal-fade-in, .reveal-pop, .reveal-slide-right, .reveal-slide-left"
       );
-      explicitTargets.forEach((el) => observer.observe(el));
+      explicitTargets.forEach((el) => {
+        if (isHeroOrAboveFold(el)) {
+          el.classList.add("is-revealed");
+        } else {
+          observer.observe(el);
+        }
+      });
 
       const headings = document.querySelectorAll("main h2, main h3");
       headings.forEach((heading, idx) => {
+        if (isHeroOrAboveFold(heading)) return;
         if (!heading.classList.contains("reveal-fade-up") && !heading.classList.contains("is-revealed")) {
           heading.classList.add("reveal-fade-up");
-          heading.style.transitionDelay = `${(idx % 3) * 0.1}s`;
+          heading.style.transitionDelay = `${(idx % 3) * 0.08}s`;
           observer.observe(heading);
         }
       });
@@ -62,21 +78,14 @@ export default function ScrollMotionProvider({ children }) {
       );
 
       cardContainers.forEach((card) => {
-        if (card.closest("nav") || card.closest("footer") || card.closest(".modal")) return;
+        if (card.closest("nav") || card.closest("footer") || card.closest(".modal") || card.closest("[data-hero]")) return;
         card.classList.add("slick-card");
+
+        if (isHeroOrAboveFold(card)) return;
 
         if (!card.classList.contains("reveal-pop") && !card.classList.contains("reveal-fade-up") && !card.classList.contains("is-revealed")) {
           card.classList.add("reveal-pop");
           observer.observe(card);
-        }
-      });
-
-      const cardIcons = document.querySelectorAll(
-        "main section svg, main button svg, main a.btn svg"
-      );
-      cardIcons.forEach((svg) => {
-        if (!svg.classList.contains("icon-fun-bounce")) {
-          svg.classList.add("icon-fun-bounce");
         }
       });
     };

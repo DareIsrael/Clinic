@@ -147,7 +147,30 @@ body {
   color: #ffffff !important;
 }
 
-/* ── Hero section animations ─────────────────────── */
+/* ── Hero section animations & responsive background ── */
+@media (max-width: 1023px) {
+  .mobile-hero-bg {
+    background-image: url("/St.MaryBackground-mobile.webp");
+    background-image: image-set(
+      url("/St.MaryBackground-mobile.avif") type("image/avif"),
+      url("/St.MaryBackground-mobile.webp") type("image/webp")
+    );
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(12px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 @keyframes heroFadeUp {
   from {
     opacity: 0;
@@ -161,7 +184,7 @@ body {
 
 @keyframes btnBreathe {
   0%, 100% { transform: scale(1); }
-  50%      { transform: scale(1.08); }
+  50%      { transform: scale(1.04); }
 }
 
 .hero-heading {

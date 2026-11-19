@@ -91,7 +91,6 @@
 
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-// import { AuthProvider } from '@/contexts/AuthContext';
 import { Poppins } from "next/font/google";
 import SessionProvider from "@/components/SessionProvider";
 import { LanguageProvider } from "@/components/LanguageProvider";
@@ -99,22 +98,9 @@ import AdminInactivityTracker from "@/components/AdminInactivityTracker";
 import ScrollMotionProvider from "@/components/ScrollMotionProvider";
 import Footer from "@/components/Footer";
 import EmergencyBanner from "@/components/EmergencyBanner";
-import {
-  Phone,
-  Mail,
-  Calendar,
-  MapPin,
-  Clock,
-  Heart,
-  Facebook,
-  Twitter,
-  Instagram,
-  Linkedin,
-} from "lucide-react";
-import Link from "next/link";
 import Script from "next/script";
 
-// Import Poppins font
+// Import Poppins font (next/font/google defaults to font-display: swap)
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
@@ -130,11 +116,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* Favicon */}
-        <link rel="icon" href="/St.MaryLOGO.png" />
+        {/* Lightweight 64x64 Favicon (3.7 KB vs 40 KB 911x1416 PNG) */}
+        <link rel="icon" href="/favicon-64.png" type="image/png" />
 
-        {/* <!-- Google Tag Manager --> */}
-        <Script id="google-tag-manager" strategy="afterInteractive">
+        {/* Google Tag Manager — deferred to lazyOnload to prevent blocking mobile LCP & hydration */}
+        <Script id="google-tag-manager" strategy="lazyOnload">
           {`
     (function(w,d,s,l,i){w[l]=w[l]||[];
     w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
@@ -147,11 +133,9 @@ export default function RootLayout({ children }) {
     })(window,document,'script','dataLayer','GTM-KSQBJ9PK');
   `}
         </Script>
-        {/* <!-- End Google Tag Manager --> */}
       </head>
       <body className={poppins.className}>
-        {/* <!-- Google Tag Manager (noscript) --> */}
-
+        {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-KSQBJ9PK"
@@ -160,7 +144,6 @@ export default function RootLayout({ children }) {
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
-        {/* <!-- End Google Tag Manager (noscript) --> */}
 
         <SessionProvider>
           <LanguageProvider>

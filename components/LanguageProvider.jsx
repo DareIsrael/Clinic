@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { languages, translateText } from '@/lib/clientTranslations';
 
@@ -36,25 +36,33 @@ export function LanguageProvider({ children }) {
   const pathname = usePathname();
   const adminRoute = pathname.startsWith('/admin');
   const [language, setLanguageState] = useState('en');
+  const hasTranslatedRef = useRef(false);
 
   useEffect(() => {
     const saved = window.localStorage.getItem('clinic-language');
-    const timer = window.setTimeout(() => {
-      if (saved && languages[saved]) setLanguageState(saved);
-    }, 0);
-    return () => window.clearTimeout(timer);
+    if (saved && saved !== 'en' && languages[saved]) {
+      setLanguageState(saved);
+    }
   }, []);
 
   useEffect(() => {
-    document.documentElement.lang = adminRoute ? 'en' : language;
-    if (adminRoute) {
-      translateDocument('en');
+    const activeLang = adminRoute ? 'en' : language;
+    document.documentElement.lang = activeLang;
+
+    // Skip full-DOM TreeWalker and MutationObserver when page is already in default English
+    if (activeLang === 'en') {
+      if (hasTranslatedRef.current) {
+        translateDocument('en');
+        hasTranslatedRef.current = false;
+      }
       return undefined;
     }
-    translateDocument(language);
+
+    hasTranslatedRef.current = true;
+    translateDocument(activeLang);
     const observer = new MutationObserver((mutations) => {
       if (mutations.some((mutation) => mutation.type === 'childList' && mutation.addedNodes.length)) {
-        translateDocument(language);
+        translateDocument(activeLang);
       }
     });
     observer.observe(document.body, { childList: true, subtree: true });

@@ -794,10 +794,9 @@
 
 
 
-"use client";
-
 import Link from "next/link";
 import Announcements from "@/components/Announcements";
+import HeroVideo from "@/components/HeroVideo";
 
 const SERVICES = [
   {
@@ -975,16 +974,16 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white font-sans antialiased">
       {/* ==================== MOBILE HERO ==================== */}
-      <section className="relative min-h-[calc(100vh-4.5rem)] flex flex-col bg-gray-900 overflow-hidden lg:hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url("/St.MaryBackground.png")' }}
-        >
+      <section
+        data-hero="true"
+        className="relative min-h-[calc(100vh-4.5rem)] flex flex-col bg-gray-900 overflow-hidden lg:hidden"
+      >
+        <div className="mobile-hero-bg absolute inset-0 bg-cover bg-center bg-no-repeat">
           <div className="absolute inset-0 bg-gradient-to-b from-sky-900/85 via-sky-900/70 to-slate-900/85" />
         </div>
 
         <div className="relative z-10 flex flex-col px-4 py-4 flex-1 justify-center max-w-md mx-auto w-full">
-          <div className="w-full mb-3">
+          <div className="w-full mb-3 empty:hidden empty:mb-0">
             <Announcements />
           </div>
 
@@ -1037,8 +1036,10 @@ export default function Home() {
       </section>
 
       {/* ==================== DESKTOP HERO ==================== */}
-      {/* ==================== DESKTOP HERO ==================== */}
-<section className="relative min-h-[calc(100vh-4.5rem)] h-[calc(100vh-4.5rem)] w-full hidden lg:flex items-center overflow-hidden bg-gradient-to-br from-slate-50 via-sky-50/40 to-slate-100">
+<section
+  data-hero="true"
+  className="relative min-h-[calc(100vh-4.5rem)] h-[calc(100vh-4.5rem)] w-full hidden lg:flex items-center overflow-hidden bg-gradient-to-br from-slate-50 via-sky-50/40 to-slate-100"
+>
   {/* Left content */}
   <div className="flex-1 flex items-center p-8 xl:p-16">
     <div className="w-full max-w-xl ml-auto animate-fade-in-up">
@@ -1096,14 +1097,7 @@ export default function Home() {
 
   {/* Right video — floating rounded panel with reduced height */}
   <div className="relative w-[52%] h-[80%] xl:h-[82%] flex-shrink-0 overflow-hidden rounded-[2.5rem] xl:rounded-[3rem] mr-6 xl:mr-10 z-10 bg-slate-900 shadow-2xl shadow-slate-900/20 ring-1 ring-white/40">
-    <video
-      src="/StmaryBackvid.mp4"
-      autoPlay
-      loop
-      muted
-      playsInline
-      className="absolute inset-0 w-full h-full object-cover"
-    />
+    <HeroVideo />
 
     {/* Softer overlay */}
     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-900/20 to-slate-900/30" />
@@ -1412,22 +1406,6 @@ export default function Home() {
   </div>
 </section> */}
 
-      {/* Entrance animation */}
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(24px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fade-in-up {
-          animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
-        }
-      `}</style>
     </div>
   );
 }
